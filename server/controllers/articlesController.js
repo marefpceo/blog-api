@@ -10,19 +10,25 @@ const Comment = require('../models/comment');
 ///////////////////////////////////////////////////////////////
 
 // Display article listing
-exports.articles_get = asyncHandler(async (req, res, next) => {
-  res.json('Article List');
+exports.articles_list_get = asyncHandler(async (req, res, next) => {
+  const articles = await Article.find().sort({ timestamp: 1 })
+    .populate({ path: 'comments'});
+  res.json(articles);
 });
+
+// Display selected article
+exports.article_get = asyncHandler(async (req, res, next) => {
+  const selectedArticle = await Article.findById(req.params.id).populate({ path: 'comments' });
+  res.json(selectedArticle);
+});
+
+
 
 // Handle create new article
 exports.articles_post = asyncHandler(async (req, res, next) => {
   res.json('Create new article');
 });
 
-// Display selected article
-exports.article_get = asyncHandler(async (req, res, next) => {
-  res.json('Display selected article by id');
-});
 
 // Update selected article
 exports.update_article_put = asyncHandler(async (req, res, next) => {
@@ -41,15 +47,18 @@ exports.delete_article = asyncHandler(async (req, res, next) => {
 
 // Display Article comments
 exports.article_comments_get = asyncHandler(async (req, res, next) => {
-  res.json('All comments from article');
-});
-
-// Create a comment
-exports.article_comments_post = asyncHandler(async (req, res, next) => {
-  res.json('Post new comment');
+  const comments = await Comment.find({ comment_article: req.params.id }).sort({ timestamp: 1 });
+  res.json(comments);
 });
 
 // View single comment 
 exports.comment_get = asyncHandler(async (req, res, next) => {
-  res.json('Single comment from article');
+  const selectedComment = await Comment.findById(req.params.id);
+  res.json(selectedComment);
+});
+
+
+// Create a comment
+exports.article_comments_post = asyncHandler(async (req, res, next) => {
+  res.json('Post new comment');
 });

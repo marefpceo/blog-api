@@ -10,7 +10,7 @@ const articles_controller = require('../controllers/articlesController');
 ///////////////////////////////////////////////////////////////
 
 // GET article listing
-router.get('/', articles_controller.articles_get);
+router.get('/', articles_controller.articles_list_get);
 
 // Create a new article
 router.post('/', articles_controller.articles_post);
