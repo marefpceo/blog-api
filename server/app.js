@@ -39,6 +39,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: true }
 }));
+
 app.use(passport.authenticate('session'));
 
 app.use('/articles', [articlesRouter, commentsRouter]);
