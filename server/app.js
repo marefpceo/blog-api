@@ -6,9 +6,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const passport = require('passport');
+const session = require('express-session');
 
 const articlesRouter = require('./routes/articlesRoute');
 const commentsRouter = require('./routes/commentsRoute');
+const authRouter = require('./routes/authRoute');
 
 const app = express();
 
@@ -30,7 +33,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); 
 
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: true }
+}));
+app.use(passport.authenticate('session'));
+
 app.use('/articles', [articlesRouter, commentsRouter]);
+app.use('/auth', authRouter);
 
 // Catch 404 and forward to error handler 
 app.use((req, res, next) => {

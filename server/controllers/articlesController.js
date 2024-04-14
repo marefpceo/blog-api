@@ -8,12 +8,12 @@ const User = require('../models/userModel');
 
 // Display article listing
 exports.articles_list_get = asyncHandler(async (req, res, next) => {
-  const articles = await Article.find().sort({ timestamp: 1 });
+  const articles = await Article.find().sort({ timestamp: 1 }).exec();
   res.json(articles);
 });
 
 // Display selected article
 exports.article_get = asyncHandler(async (req, res, next) => {
-  const selectedArticle = await Article.findById(req.params.id).populate({ path: 'comments' });
+  const selectedArticle = await Article.findById(req.params.id).exec();
   res.json(selectedArticle);
 });

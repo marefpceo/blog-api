@@ -1,8 +1,12 @@
 #! /usr/bin/env node
 
+
 console.log(
   'This script populate your database for testing. Specified database as argument - e.g.: node populatedb "mongodb+srv://<username>:<password>@cluster0.lz91hw2.mongodb.net/blog_api?retryWrites=true&w=majority"'
 );
+
+// bcrypt to hash user passwords before saving to db
+const bcrypt = require('bcrypt');
 
 // Get arguments passed on command line
 const userArgs = process.argv.slice(2);
@@ -72,7 +76,7 @@ async function userCreate(index, firstName, lastName, email, username, password,
       last_name: lastName,
       email: email,
       username: username,
-      password: password, 
+      password: bcrypt.hashSync(password, 10), 
       role: role,
       isAdmin: isAdmin,
       status: status,
