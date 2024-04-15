@@ -42,7 +42,8 @@ app.use(session({
 
 app.use(passport.authenticate('session'));
 
-app.use('/articles', [articlesRouter, commentsRouter]);
+app.use('/articles', articlesRouter);
+app.use('/articles', commentsRouter);
 app.use('/auth', authRouter);
 
 // Catch 404 and forward to error handler 
