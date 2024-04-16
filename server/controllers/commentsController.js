@@ -1,4 +1,6 @@
+require('dotenv').config();
 const asyncHandler = require('express-async-handler');
+const jwt = require('jsonwebtoken');
 
 // Required models
 const Comment = require('../models/commentModel');
@@ -12,5 +14,13 @@ exports.article_comments_get = asyncHandler(async (req, res, next) => {
 // View single comment 
 exports.comment_get = asyncHandler(async (req, res, next) => {
   const selectedComment = await Comment.findById(req.params.id);
-  res.json(selectedComment);
+  const role = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.SECRET).role;
+  
+  if (role !== 'Admin') {
+    res.sendStatus(401);
+  } else {
+    res.json({
+      selectedComment
+    });
+  }
 });

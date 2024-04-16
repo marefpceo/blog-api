@@ -12,6 +12,7 @@ const session = require('express-session');
 const articlesRouter = require('./routes/articlesRoute');
 const commentsRouter = require('./routes/commentsRoute');
 const authRouter = require('./routes/authRoute');
+const adminRouter = require('./routes/adminRoute');
 
 const app = express();
 
@@ -45,6 +46,8 @@ app.use(passport.authenticate('session'));
 app.use('/articles', articlesRouter);
 app.use('/articles', commentsRouter);
 app.use('/auth', authRouter);
+app.use('/admin', passport.authenticate('jwt', { session: false }), adminRouter);
+
 
 // Catch 404 and forward to error handler 
 app.use((req, res, next) => {
