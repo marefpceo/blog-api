@@ -10,7 +10,6 @@ const AdminUserSchema = new Schema({
   role: { type: String, required: true, minLength: 3, maxLength: 120, default: 'user' },
   isAdmin: { type: Boolean, required: true, default: false },
   status: { type: String, required: true, default: 'ok' },
-  created: { type: Date, required: true },
 });
 
 

@@ -19,11 +19,11 @@ passport.use(
   new JWTstrategy(
     {
       secretOrKey: process.env.SECRET,
-      jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
     },
     async (token, done) => {
       try {
-        return done(null, token.user);
+        return done(null, token);
       } catch (error) {
         done(error);
       }
@@ -77,12 +77,12 @@ passport.deserializeUser(async (id, done) =>{
 });
 
 
-
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   res.json({
-    message: 'Secure Route '
+    message: 'AuthRoute'
   });
 });
+
 
 
 // Login 
@@ -90,9 +90,9 @@ router.post('/login', passport.authenticate('local', {
   failureRedirect: '/auth'}),
 
   function(req, res) {
-    jwt.sign({ _id: req.user.id, email: req.user.email}, process.env.SECRET, { expiresIn: '4h' }, (err, token) => {
-      if(err) {
-        return next(err);
+    jwt.sign({ _id: req.user.id, email: req.user.email}, `${process.env.SECRET}`, (err, token) => {
+      if (err) {
+        next(err);
       } else {
         res.json({
           token

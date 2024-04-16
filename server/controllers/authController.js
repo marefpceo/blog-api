@@ -44,11 +44,13 @@ exports.sign_up_post = [
 
     if(!errors.isEmpty()) {
       res.json({
-        user,
-        errors: errors.array(),
+        errors: errors.array()
       });
       return;
     } else {
       await user.save();
+      res.json({
+        message: `${user.username} was created`
+      })
     }
 })];

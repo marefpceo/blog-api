@@ -16,11 +16,11 @@ passport.use(
   new JWTstrategy(
     {
       secretOrKey: process.env.SECRET,
-      jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
     },
     async (token, done) => {
       try {
-        return done(null, token.user);
+        return done(null, token);
       } catch (error) {
         done(error);
       }
@@ -30,9 +30,9 @@ passport.use(
 
 
 // GET Article comments
-router.get('/:id/comments', passport.authenticate('jwt', { session: false }), comments_controller.article_comments_get);
+router.get('/:id/comments', comments_controller.article_comments_get);
 
 // GET single comment from article
-router.get('/:id/comments/:id', comments_controller.comment_get);
+router.get('/:id/comments/:id', passport.authenticate('jwt', { session: false }), comments_controller.comment_get);
 
 module.exports = router;
