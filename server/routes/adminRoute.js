@@ -39,7 +39,23 @@ function verifyRole(req, res, next) {
   }
 };
 
+
+// Admin dashboard
 router.get('/', verifyRole, admin_controller.admin_get);
 
+// Admin article list shows published and unpublished
+router.get('/articles', verifyRole, admin_controller.admin_articles_list_get);
+
+// Admin get article by ID
+router.get('/articles/:id', verifyRole, admin_controller.admin_articles_get);
+
+// Admin article create
+router.post('/articles', verifyRole, admin_controller.admin_articles_post);
+
+// Admin article update
+router.put('/articles/:id', verifyRole, admin_controller.admin_articles_put);
+
+// Admin article delete
+router.delete('/articles/:id', verifyRole, admin_controller.admin_articles_delete);
 
 module.exports = router;
