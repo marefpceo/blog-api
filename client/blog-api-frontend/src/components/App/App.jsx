@@ -20,9 +20,9 @@ function App() {
       {/* Test to verify that api data was property */}
       <div>
         {articles.map(article => (
-          <div>
+          <div key={article._id}>
             {/* <h2 key={article.article_title}>{article.article_title}</h2> */}
-            <p key={article.article_text}>{article.article_text}</p>
+            <p>{article.article_text}</p>
           </div>
         ))}
       </div>
@@ -30,4 +30,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
