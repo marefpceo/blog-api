@@ -1,4 +1,4 @@
-import '../Feature/Feature.css';
+import './Feature.css';
 import featureImg from '../../assets/images/passion-quote.jpg';
 
 function Feature({ articles }) {
