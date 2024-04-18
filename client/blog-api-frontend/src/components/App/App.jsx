@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -12,14 +12,14 @@ function App() {
       console.log(responseData);
     }
     getArticles();
-  },[]);
+  }, []);
 
   return (
     <div className='container'>
       <h1>Blog API</h1>
       {/* Test to verify that api data was property */}
       <div>
-        {articles.map(article => (
+        {articles.map((article) => (
           <div key={article._id}>
             {/* <h2 key={article.article_title}>{article.article_title}</h2> */}
             <p>{article.article_text}</p>
@@ -27,7 +27,7 @@ function App() {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default App;

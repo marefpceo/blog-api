@@ -4,8 +4,8 @@ import App from '../App/App';
 function Router() {
   const router = createBrowserRouter([
     {
-    path: '/',
-    element: <App />
+      path: '/',
+      element: <App />,
     },
   ]);
 
