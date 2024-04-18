@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import Header from '../Header/Header';
+import Feature from '../Feature/Feature';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -16,16 +18,11 @@ function App() {
 
   return (
     <div className='container'>
-      <h1>Blog API</h1>
-      {/* Test to verify that api data was property */}
-      <div>
-        {articles.map((article) => (
-          <div key={article._id}>
-            {/* <h2 key={article.article_title}>{article.article_title}</h2> */}
-            <p>{article.article_text}</p>
-          </div>
-        ))}
-      </div>
+      <Header />
+      <Feature 
+        articles={articles}
+      />
+      
     </div>
   );
 }
