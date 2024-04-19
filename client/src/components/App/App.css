@@ -11,5 +11,5 @@
 }
 
 .container {
-  margin: auto;
+  margin: calc(5rem + 70px) auto 0;
 }
