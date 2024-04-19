@@ -3,7 +3,7 @@ import featuredImg from '../../assets/images/passion-quote.jpg';
 
 function Featured({ articles }) {
   return (
-    <section>
+    <section className='rounded-lg shadow-md'>
       <img src={featuredImg} alt='' />
       <div>
         <h1>Blog API</h1>

@@ -2,7 +2,7 @@ import './Footer.css';
 
 function Footer() {
   return (
-    <footer>
+    <footer className='rounded-t-lg shadow-md'>
       <p>Footer</p>
     </footer>
   );
