@@ -1,5 +1,6 @@
 import Nav from '../Nav/Nav';
 import FollowNav from '../FollowNav/FollowNav';
+import UserAccess from '../UserAcess/UserAccess';
 import './Header.css';
 
 function Header() {
@@ -8,6 +9,7 @@ function Header() {
       <h1>BlogAPI</h1>
       <Nav />
       <FollowNav />
+      <UserAccess />
     </header>
   );
 }
