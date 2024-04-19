@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Header from '../Header/Header';
-import Feature from '../Feature/Feature';
+import Featured from '../Featured/Featured';
+import Subsection from '../Subsection/Subsection';
+import Footer from '../Footer/Footer';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -19,10 +21,10 @@ function App() {
   return (
     <div className='container'>
       <Header />
-      <Feature 
-        articles={articles}
-      />
-      
+      <Featured articles={articles} />
+      <Subsection className={'recent'} title={'Recent Articles'} />
+      <Subsection className={'top-picks'} title={'Top Picks'} />
+      <Footer />
     </div>
   );
 }

@@ -1,0 +1,14 @@
+.subsection {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffcda9;
+}
+
+.card-div {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.recent {
+  background-color: #ff9393;
+}

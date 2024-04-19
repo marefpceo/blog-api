@@ -1,11 +1,10 @@
-import './Feature.css';
-import featureImg from '../../assets/images/passion-quote.jpg';
+import './Featured.css';
+import featuredImg from '../../assets/images/passion-quote.jpg';
 
-function Feature({ articles }) {
-
+function Featured({ articles }) {
   return (
     <section>
-      <img src={ featureImg } alt="" />
+      <img src={featuredImg} alt='' />
       <div>
         <h1>Blog API</h1>
         {/* Test to verify that api data was property */}
@@ -19,7 +18,7 @@ function Feature({ articles }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default Feature;
+export default Featured;
