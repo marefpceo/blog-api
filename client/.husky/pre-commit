@@ -1,2 +1,2 @@
 cd client
-npm test
+npx lint-staged
