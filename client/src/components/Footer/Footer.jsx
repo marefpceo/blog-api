@@ -3,7 +3,7 @@ import './Footer.css';
 function Footer() {
   return (
     <footer className='rounded-t-lg shadow-md'>
-      <p>Footer</p>
+      <h2>Footer</h2>
     </footer>
   );
 }
