@@ -15,7 +15,7 @@ function Featured({ articles }) {
         {articles.map((article) => (
           <div className='feature-text py-4 px-8' key={article._id}>
             <h2 className='mb-8'>{article.article_title}</h2>
-            <p>{article.article_text}</p>
+            <p className='text-left'>{article.article_text}</p>
           </div>
         ))}
       </div>

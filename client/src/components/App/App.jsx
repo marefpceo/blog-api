@@ -4,6 +4,7 @@ import Header from '../Header/Header';
 import Featured from '../Featured/Featured';
 import Subsection from '../Subsection/Subsection';
 import Footer from '../Footer/Footer';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -21,9 +22,11 @@ function App() {
   return (
     <div className='container'>
       <Header />
-      <Featured articles={articles} />
-      <Subsection className={'bg-indigo-200'} title={'Recent Articles'} />
-      <Subsection className={'bg-emerald-200'} title={'Top Picks'} />
+      <Outlet
+        context={{
+          articles,
+        }}
+      />
       <Footer />
     </div>
   );
