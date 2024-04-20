@@ -1,9 +1,7 @@
-import '../Nav/Nav.css';
-
 function Nav() {
   return (
     <nav>
-      <ul>
+      <ul className='flex items-center gap-8'>
         <li>Articles</li>
         <li>About</li>
         <li>Subscribe</li>

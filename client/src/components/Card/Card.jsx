@@ -1,4 +1,3 @@
-import '../Card/Card.css';
 import blogImgPlaceholder from '../../assets/images/blog-img-placeholder.png';
 
 function Card() {

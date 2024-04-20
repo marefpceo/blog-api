@@ -1,5 +1,4 @@
 import Card from '../Card/Card';
-import './Subsection.css';
 
 function Subsection({ className, title }) {
   return (

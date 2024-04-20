@@ -22,8 +22,8 @@ function App() {
     <div className='container'>
       <Header />
       <Featured articles={articles} />
-      <Subsection className={'recent'} title={'Recent Articles'} />
-      <Subsection className={'top-picks'} title={'Top Picks'} />
+      <Subsection className={'bg-indigo-200'} title={'Recent Articles'} />
+      <Subsection className={'bg-emerald-200'} title={'Top Picks'} />
       <Footer />
     </div>
   );
