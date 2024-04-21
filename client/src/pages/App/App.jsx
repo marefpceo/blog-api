@@ -8,15 +8,17 @@ import { Outlet } from 'react-router-dom';
 
 function App() {
   const [articles, setArticles] = useState([]);
+  let featuredArticle;
 
   useEffect(() => {
     async function getArticles() {
       const response = await fetch('http://localhost:3000/articles');
       let responseData = await response.json();
       setArticles(responseData);
-      console.log(responseData);
+      console.log(articles);
     }
     getArticles();
+    console.log(featuredArticle);
   }, []);
 
   return (

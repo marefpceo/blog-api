@@ -12,12 +12,16 @@ function Featured({ articles }) {
       />
 
       <div className='feature-card flex items-center'>
-        {articles.map((article) => (
+        {/* {articles.map((article) => (
           <div className='feature-text py-4 px-8' key={article._id}>
             <h2 className='mb-8'>{article.article_title}</h2>
             <p className='text-left'>{article.article_text}</p>
           </div>
-        ))}
+        ))} */}
+        <div className='feature-text py-4 px-8'>
+          <h2 className='mb-8'>{}</h2>
+          <p className='text-left'>{}</p>
+        </div>
       </div>
     </section>
   );
