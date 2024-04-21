@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function Header() {
   return (
     <header
-      className='flex justify-between items-center h-20 p-2 rounded-b-lg shadow-md fixed 
+      className='flex justify-between items-center h-14 p-2 rounded-b-lg shadow-md fixed 
       left-0 top-0 right-0 px-20 bg-green-200'
     >
       <h1>

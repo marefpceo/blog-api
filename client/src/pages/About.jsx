@@ -2,7 +2,7 @@ import Subsection from '../features/Subsection';
 
 function About() {
   return (
-    <section>
+    <section className={'subsection about flex flex-col h-72 gap-8 mb-40 py-8'}>
       <h2>About Us</h2>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet rerum
