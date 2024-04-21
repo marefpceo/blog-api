@@ -1,7 +1,7 @@
 import { useOutletContext } from 'react-router-dom';
-import Subsection from '../Subsection/Subsection';
+import Subsection from '../features/Subsection';
 
-function Articles() {
+function ArticleList() {
   const { articles } = useOutletContext([]);
 
   return (
@@ -15,4 +15,4 @@ function Articles() {
   );
 }
 
-export default Articles;
+export default ArticleList;

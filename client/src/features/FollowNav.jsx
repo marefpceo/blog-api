@@ -1,7 +1,7 @@
-import facebookIcon from '../../assets/images/facebook.png';
-import githubIcon from '../../assets/images/github.png';
-import instagramIcon from '../../assets/images/instagram.png';
-import xTwitterIcon from '../../assets/images/x-twitter.png';
+import facebookIcon from '../assets/images/facebook.png';
+import githubIcon from '../assets/images/github.png';
+import instagramIcon from '../assets/images/instagram.png';
+import xTwitterIcon from '../assets/images/x-twitter.png';
 
 function FollowNav() {
   return (

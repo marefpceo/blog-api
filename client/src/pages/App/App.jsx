@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import Header from '../Header/Header';
-import Featured from '../Featured/Featured';
-import Subsection from '../Subsection/Subsection';
-import Footer from '../Footer/Footer';
+import Header from '../../components/Header';
+import Featured from '../../features/Featured';
+import Subsection from '../../features/Subsection';
+import Footer from '../../components/Footer';
 import { Outlet } from 'react-router-dom';
 
 function App() {

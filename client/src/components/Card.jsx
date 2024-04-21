@@ -1,4 +1,4 @@
-import blogImgPlaceholder from '../../assets/images/blog-img-placeholder.png';
+import blogImgPlaceholder from '../assets/images/blog-img-placeholder.png';
 
 function Card({ article }) {
   return (

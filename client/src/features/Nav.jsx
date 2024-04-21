@@ -5,7 +5,7 @@ function Nav() {
     <nav>
       <ul className='flex items-center gap-8'>
         <li>
-          <Link to={'/articleList'}>Articles</Link>
+          <Link to={'/articles'}>Articles</Link>
         </li>
         <li>About</li>
         <li>Subscribe</li>

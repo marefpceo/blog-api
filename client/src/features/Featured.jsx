@@ -1,4 +1,4 @@
-import featuredImg from '../../assets/images/passion-quote.jpg';
+import featuredImg from '../assets/images/passion-quote.jpg';
 
 function Featured({ articles }) {
   return (

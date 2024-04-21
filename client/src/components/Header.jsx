@@ -1,6 +1,6 @@
-import Nav from '../Nav/Nav';
-import FollowNav from '../FollowNav/FollowNav';
-import UserAccess from '../UserAcess/UserAccess';
+import Nav from '../features/Nav';
+import FollowNav from '../features/FollowNav';
+import UserAccess from '../features/UserAccess';
 import { Link } from 'react-router-dom';
 
 function Header() {

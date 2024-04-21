@@ -1,5 +1,5 @@
-import Featured from '../Featured/Featured';
-import Subsection from '../Subsection/Subsection';
+import Featured from '../features/Featured';
+import Subsection from '../features/Subsection';
 import { useOutletContext } from 'react-router-dom';
 
 function Home() {

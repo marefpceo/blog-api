@@ -1,4 +1,4 @@
-import Card from '../Card/Card';
+import Card from '../components/Card';
 
 function Subsection({ className, title, articles }) {
   return (
@@ -8,7 +8,7 @@ function Subsection({ className, title, articles }) {
       <h2>{title}</h2>
       <div className='card-div flex justify-evenly'>
         {articles.map((article) => (
-          <Card article={article} />
+          <Card key={article._id} article={article} />
         ))}
       </div>
     </section>
