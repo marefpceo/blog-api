@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from '../App/App';
 import Home from '../Home/Home';
-import Articles from '../Articles/Articles';
+import ArticleList from '../ArticleList/ArticleList';
 
 function Router() {
   const router = createBrowserRouter([
@@ -10,7 +10,7 @@ function Router() {
       element: <App />,
       children: [
         { path: '/', element: <Home /> },
-        { path: '/articles', element: <Articles /> },
+        { path: '/articles', element: <ArticleList /> },
       ],
     },
   ]);

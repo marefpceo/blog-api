@@ -6,7 +6,11 @@ function Articles() {
 
   return (
     <>
-      <Subsection className={'articles'} articles={articles} />
+      <Subsection
+        className={'articles'}
+        articles={articles}
+        title={'Articles'}
+      />
     </>
   );
 }
