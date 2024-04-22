@@ -1,10 +1,6 @@
 import featuredImg from '../assets/images/passion-quote.jpg';
-import { useOutletContext } from 'react-router-dom';
 
-function Featured() {
-  const { featuredArticle } = useOutletContext();
-
-  console.log(featuredArticle);
+function Featured({ featuredArticle }) {
   return (
     <section className='flex justify-between my-5'>
       <img

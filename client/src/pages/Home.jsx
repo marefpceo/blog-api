@@ -4,10 +4,11 @@ import { useOutletContext } from 'react-router-dom';
 
 function Home() {
   const { articles } = useOutletContext([]);
+  const { featuredArticle } = useOutletContext();
 
   return (
     <>
-      <Featured />
+      <Featured featuredArticle={featuredArticle} />
       <Subsection
         className={'bg-indigo-200'}
         title={'Recent Articles'}
