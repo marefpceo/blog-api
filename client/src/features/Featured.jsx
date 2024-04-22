@@ -1,6 +1,10 @@
 import featuredImg from '../assets/images/passion-quote.jpg';
+import { useOutletContext } from 'react-router-dom';
 
-function Featured({ articles }) {
+function Featured() {
+  const { featuredArticle } = useOutletContext();
+
+  console.log(featuredArticle);
   return (
     <section className='flex justify-between my-5'>
       <img
@@ -11,17 +15,9 @@ function Featured({ articles }) {
         className='rounded-lg'
       />
 
-      <div className='feature-card flex items-center'>
-        {/* {articles.map((article) => (
-          <div className='feature-text py-4 px-8' key={article._id}>
-            <h2 className='mb-8'>{article.article_title}</h2>
-            <p className='text-left'>{article.article_text}</p>
-          </div>
-        ))} */}
-        <div className='feature-text py-4 px-8'>
-          <h2 className='mb-8'>{}</h2>
-          <p className='text-left'>{}</p>
-        </div>
+      <div className='flex flex-col items-center justify-center m-auto py-4 px-8'>
+        <h2 className='mb-8 text-center'>{featuredArticle.article_title}</h2>
+        <p className='text-left'>{featuredArticle.article_summary}</p>
       </div>
     </section>
   );

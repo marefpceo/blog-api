@@ -8,17 +8,33 @@ import { Outlet } from 'react-router-dom';
 
 function App() {
   const [articles, setArticles] = useState([]);
-  let featuredArticle;
+  const [featuredArticle, setFeaturedArticle] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function getArticles() {
-      const response = await fetch('http://localhost:3000/articles');
-      let responseData = await response.json();
-      setArticles(responseData);
-      console.log(articles);
+      try {
+        const response = await fetch('http://localhost:3000/articles');
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: Status ${response.status}`);
+        }
+        let responseData = await response.json();
+
+        setArticles(responseData);
+        setFeaturedArticle(responseData[0]);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        setArticles(null);
+      } finally {
+        setLoading(false);
+        console.log(articles);
+        console.log(featuredArticle);
+      }
     }
     getArticles();
-    console.log(featuredArticle);
   }, []);
 
   return (
@@ -27,6 +43,7 @@ function App() {
       <Outlet
         context={{
           articles,
+          featuredArticle,
         }}
       />
       <Footer />
