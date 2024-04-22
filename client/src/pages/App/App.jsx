@@ -9,8 +9,12 @@ import { Outlet } from 'react-router-dom';
 function App() {
   const [articles, setArticles] = useState([]);
   const [featuredArticle, setFeaturedArticle] = useState({});
+  const [recentArticles, setRecentArticles] = useState([]);
+  const [topPicks, setTopPicks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  function getTopPicks() {}
 
   useEffect(() => {
     async function getArticles() {
@@ -20,18 +24,18 @@ function App() {
         if (!response.ok) {
           throw new Error(`HTTP error: Status ${response.status}`);
         }
+
         let responseData = await response.json();
 
         setArticles(responseData);
         setFeaturedArticle(responseData[0]);
+        setRecentArticles([...responseData.slice(1, 5)]);
         setError(null);
       } catch (err) {
         setError(err.message);
         setArticles(null);
       } finally {
         setLoading(false);
-        console.log(articles);
-        console.log(featuredArticle);
       }
     }
     getArticles();
@@ -40,13 +44,18 @@ function App() {
   return (
     <div className='container'>
       <Header />
-      <Outlet
-        context={{
-          articles,
-          featuredArticle,
-          error,
-        }}
-      />
+      {loading ? (
+        <p className='h-screen'>Loading. . . </p>
+      ) : (
+        <Outlet
+          context={{
+            articles,
+            featuredArticle,
+            recentArticles,
+            error,
+          }}
+        />
+      )}
       <Footer />
     </div>
   );
