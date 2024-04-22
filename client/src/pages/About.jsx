@@ -1,5 +1,3 @@
-import Subsection from '../features/Subsection';
-
 function About() {
   return (
     <section className={'subsection about flex flex-col h-72 gap-8 mb-40 py-8'}>

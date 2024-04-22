@@ -44,6 +44,7 @@ function App() {
         context={{
           articles,
           featuredArticle,
+          error,
         }}
       />
       <Footer />
