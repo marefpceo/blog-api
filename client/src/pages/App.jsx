@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
-import './App.css';
-import Header from '../../components/Header';
-import Featured from '../../features/Featured';
-import Subsection from '../../features/Subsection';
-import Footer from '../../components/Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { Outlet } from 'react-router-dom';
 
 function App() {
@@ -42,7 +39,7 @@ function App() {
   }, []);
 
   return (
-    <div className='container'>
+    <div className='container mt-32 mx-auto mb-0 max-w-7xl'>
       <Header />
       {loading ? (
         <p className='h-screen'>Loading. . . </p>
