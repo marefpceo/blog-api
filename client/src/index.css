@@ -13,7 +13,7 @@
 
   color-scheme: light dark;
   color: #ffffffde;
-  background-color: #242424;
+  background-color: #f3f3f3;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,6 +22,9 @@
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   width: 100%;
   margin: 0 auto;
   padding: 0;
@@ -41,6 +44,7 @@ a:hover {
 body {
   margin: 0;
   display: flex;
+  flex-direction: column;
   place-items: center;
   min-height: 100vh;
   color: black;
