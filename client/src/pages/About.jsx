@@ -1,6 +1,8 @@
 function About() {
   return (
-    <section className={'subsection about flex flex-col h-72 gap-8 mb-40 py-8'}>
+    <section
+      className={'subsection about mb-40 flex h-72 flex-1 flex-col gap-8 py-8'}
+    >
       <h2>About Us</h2>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet rerum

@@ -39,7 +39,7 @@ function App() {
   }, []);
 
   return (
-    <div className='container mt-32 mx-auto mb-0 max-w-7xl'>
+    <div className='container mx-auto mb-0 mt-32 flex max-w-5xl flex-1 flex-col'>
       <Header />
       {loading ? (
         <p className='h-screen'>Loading. . . </p>
