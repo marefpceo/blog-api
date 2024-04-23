@@ -3,6 +3,7 @@ import App from '../pages/App';
 import Home from '../pages/Home';
 import ArticleList from '../pages/ArticleList';
 import About from '../pages/About';
+import Signup from '../pages/Signup';
 import ErrorPage from '../pages/ErrorPage';
 
 function Router() {
@@ -15,6 +16,7 @@ function Router() {
         { path: '/', element: <Home /> },
         { path: '/articles', element: <ArticleList /> },
         { path: '/about', element: <About /> },
+        { path: '/signup', element: <Signup /> },
       ],
     },
   ]);

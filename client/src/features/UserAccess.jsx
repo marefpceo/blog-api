@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 
 function UserAccess() {
@@ -19,22 +20,25 @@ function UserAccess() {
           transition: 'border-color 0.25',
         }}
       />
-      <Button
-        className={'shadow-md'}
-        type={'button'}
-        text={'Create Account'}
-        style={{
-          backgroundColor: '#f3f3f3',
-          color: 'black',
-          borderRadius: '8px',
-          padding: '0.3em 1.2em',
-          height: '36px',
-          fontSize: '1em',
-          fontFamily: 'inherit',
-          cursor: 'pointer',
-          transition: 'border-color 0.25',
-        }}
-      />
+
+      <Link to='/signup'>
+        <Button
+          className={'shadow-md'}
+          type={'button'}
+          text={'Create Account'}
+          style={{
+            backgroundColor: '#f3f3f3',
+            color: 'black',
+            borderRadius: '8px',
+            padding: '0.3em 1.2em',
+            height: '36px',
+            fontSize: '1em',
+            fontFamily: 'inherit',
+            cursor: 'pointer',
+            transition: 'border-color 0.25',
+          }}
+        />
+      </Link>
     </div>
   );
 }
