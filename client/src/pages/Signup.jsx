@@ -27,7 +27,7 @@ function Signup() {
       .then((res) => res.json())
       .then((result) => {
         setResponse(result); // Work on sending errors back to incorrect form fields
-        console.log(result.user);
+        console.log(result);
         console.log(response);
       })
       .catch((err) => console.log('error'));
@@ -51,73 +51,93 @@ function Signup() {
   }
 
   return (
-    <section className='signup mb-40 mt-5'>
+    <section className='signup mb-12 mt-2'>
       <form
         onSubmit={handleSubmit}
-        className='form mx-auto flex max-w-xl flex-col items-center gap-8 rounded-md border py-16 
+        className='form mx-auto flex max-w-xl flex-shrink flex-col items-center gap-4 rounded-md border py-10 
           shadow-xl shadow-slate-300'
       >
-        <FormInput
-          htmlFor={'first_name'}
-          type={'text'}
-          name={'first_name'}
-          id={'first_name'}
-          fieldname={'First Name'}
-          handleInputChange={handleInputChange}
-          value={userInput.first_name}
-        />
+        <div className='relative'>
+          <FormInput
+            htmlFor={'first_name'}
+            type={'text'}
+            name={'first_name'}
+            id={'first_name'}
+            fieldname={'First Name'}
+            handleInputChange={handleInputChange}
+            value={userInput.first_name}
+            autoFocus={true}
+            valid={'false'}
+          />
+          <sub className='absolute left-1'>test</sub>
+        </div>
 
-        <FormInput
-          htmlFor={'last_name'}
-          type={'text'}
-          name={'last_name'}
-          id={'last_name'}
-          fieldname={'Last Name'}
-          handleInputChange={handleInputChange}
-          value={userInput.last_name}
-        />
+        <div className='relative'>
+          <FormInput
+            htmlFor={'last_name'}
+            type={'text'}
+            name={'last_name'}
+            id={'last_name'}
+            fieldname={'Last Name'}
+            handleInputChange={handleInputChange}
+            value={userInput.last_name}
+          />
+          <sub className='absolute left-1'>test</sub>
+        </div>
 
-        <FormInput
-          htmlFor={'email'}
-          type={'text'}
-          name={'email'}
-          id={'email'}
-          fieldname={'Email'}
-          handleInputChange={handleInputChange}
-          value={userInput.email}
-        />
+        <div className='relative'>
+          <FormInput
+            htmlFor={'email'}
+            type={'email'}
+            name={'email'}
+            id={'email'}
+            fieldname={'Email'}
+            handleInputChange={handleInputChange}
+            value={userInput.email}
+          />
+          <sub className='absolute left-1'>test</sub>
+        </div>
 
-        <FormInput
-          htmlFor={'username'}
-          type={'text'}
-          name={'username'}
-          id={'username'}
-          fieldname={'Username'}
-          handleInputChange={handleInputChange}
-          value={userInput.username}
-        />
+        <div className='relative'>
+          <FormInput
+            htmlFor={'username'}
+            type={'text'}
+            name={'username'}
+            id={'username'}
+            fieldname={'Username'}
+            handleInputChange={handleInputChange}
+            value={userInput.username}
+          />
+          <sub className='absolute left-1'>test</sub>
+        </div>
 
-        <FormInput
-          htmlFor={'password'}
-          type={'text'}
-          name={'password'}
-          id={'password'}
-          fieldname={'Password'}
-          handleInputChange={handleInputChange}
-          value={userInput.password}
-        />
+        <div className='relative'>
+          <FormInput
+            htmlFor={'password'}
+            type={'text'}
+            name={'password'}
+            id={'password'}
+            fieldname={'Password'}
+            handleInputChange={handleInputChange}
+            value={userInput.password}
+          />
+          <sub className='absolute left-1'>test</sub>
+        </div>
 
-        {/* <FormInput
-          htmlFor={'confirm_password'}
-          type={'text'}
-          name={'confirm_password'}
-          id={'confirm_password'}
-          fieldname={'Confirm Password'}
-          handleInputChange={handleInputChange}
-          value={userInput.confirm_password}
-        /> */}
+        <div className='relative'>
+          <FormInput
+            htmlFor={'confirm_password'}
+            type={'text'}
+            name={'confirm_password'}
+            id={'confirm_password'}
+            fieldname={'Confirm Password'}
+            handleInputChange={handleInputChange}
+            value={userInput.confirm_password}
+          />
+          <sub className='absolute left-1'>test</sub>
+        </div>
 
-        <fieldset className='flex justify-center gap-8'>
+        <fieldset className='mt-8 flex justify-center gap-8'>
           <Button
             className={'shadow-md'}
             text={'Submit'}
