@@ -4,8 +4,8 @@ function FormInput({
   name,
   id,
   fieldname,
-  handleInputChange,
   value,
+  handleInputChange,
 }) {
   return (
     <label
@@ -19,8 +19,8 @@ function FormInput({
         type={type}
         name={name}
         id={id}
-        onChange={handleInputChange}
         value={value}
+        onChange={handleInputChange}
         required
       />
     </label>

@@ -44,6 +44,7 @@ exports.sign_up_post = [
 
     if(!errors.isEmpty()) {
       res.json({
+        user: user,
         errors: errors.array()
       });
       return;
