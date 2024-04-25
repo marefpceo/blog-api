@@ -28,7 +28,11 @@ function Signup() {
       .then((res) => res.json())
       .then((result) => {
         setResponse(result);
-        setValidationResults([result.errors]);
+        if (result.errors === undefined) {
+          navigate('/');
+        } else {
+          setValidationResults(result.errors);
+        }
       })
       .catch((err) => console.log(err));
   }
@@ -44,17 +48,18 @@ function Signup() {
   function handleSubmit(e) {
     e.preventDefault();
     createUser();
-    console.log('Submitted');
-    navigate('/');
   }
 
   function handleValidationResults(field) {
-    const fieldResult = validationResults.filter(
-      (result) => result.path === field,
-    );
-    const result = Object.assign({}, ...fieldResult);
-
-    return result.msg;
+    if (!validationResults) {
+      return '';
+    } else {
+      const fieldResult = validationResults.filter(
+        (result) => result.path === field,
+      );
+      const result = Object.assign({}, ...fieldResult);
+      return result.msg;
+    }
   }
 
   return (
