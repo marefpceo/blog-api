@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 function Signup() {
   const navigate = useNavigate();
   const [response, setResponse] = useState([]);
+  const [validationResults, setValidationResults] = useState([]);
   const [userInput, setUserInput] = useState({
     first_name: '',
     last_name: '',
@@ -27,8 +28,9 @@ function Signup() {
       .then((res) => res.json())
       .then((result) => {
         setResponse(result); // Work on sending errors back to incorrect form fields
-        console.log(result);
-        console.log(response);
+        setValidationResults([...result.errors]);
+
+        console.log(validationResults);
       })
       .catch((err) => console.log('error'));
   }
@@ -43,11 +45,18 @@ function Signup() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(userInput);
     createUser();
     console.log('Submitted');
-
     // navigate('/');
+  }
+
+  function handleValidationResults(field) {
+    const fieldResult = validationResults.filter(
+      (result) => result.path === field,
+    );
+    const result = Object.assign({}, ...fieldResult);
+
+    return result.msg;
   }
 
   return (
@@ -69,7 +78,9 @@ function Signup() {
             autoFocus={true}
             valid={'false'}
           />
-          <sub className='absolute left-1'>test</sub>
+          <sub className='absolute left-1 text-red-500'>
+            {handleValidationResults('first_name')}
+          </sub>
         </div>
 
         <div className='relative'>
@@ -82,20 +93,24 @@ function Signup() {
             handleInputChange={handleInputChange}
             value={userInput.last_name}
           />
-          <sub className='absolute left-1'>test</sub>
+          <sub className='absolute left-1 text-red-500'>
+            {handleValidationResults('last_name')}
+          </sub>
         </div>
 
         <div className='relative'>
           <FormInput
             htmlFor={'email'}
-            type={'email'}
+            type={'text'} // Changed to text for testing purposes.  CHANGE BACK TO EMAIL
             name={'email'}
             id={'email'}
             fieldname={'Email'}
             handleInputChange={handleInputChange}
             value={userInput.email}
           />
-          <sub className='absolute left-1'>test</sub>
+          <sub className='absolute left-1 text-red-500'>
+            {handleValidationResults('email')}
+          </sub>
         </div>
 
         <div className='relative'>
@@ -108,7 +123,9 @@ function Signup() {
             handleInputChange={handleInputChange}
             value={userInput.username}
           />
-          <sub className='absolute left-1'>test</sub>
+          <sub className='absolute left-1 text-red-500'>
+            {handleValidationResults('username')}
+          </sub>
         </div>
 
         <div className='relative'>
@@ -121,7 +138,9 @@ function Signup() {
             handleInputChange={handleInputChange}
             value={userInput.password}
           />
-          <sub className='absolute left-1'>test</sub>
+          <sub className='absolute left-1 text-red-500'>
+            {handleValidationResults('password')}
+          </sub>
         </div>
 
         <div className='relative'>
@@ -134,7 +153,9 @@ function Signup() {
             handleInputChange={handleInputChange}
             value={userInput.confirm_password}
           />
-          <sub className='absolute left-1'>test</sub>
+          <sub className='absolute left-1 text-red-500'>
+            {handleValidationResults('confirm_password')}
+          </sub>
         </div>
 
         <fieldset className='mt-8 flex justify-center gap-8'>
