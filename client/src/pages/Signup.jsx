@@ -27,12 +27,10 @@ function Signup() {
     })
       .then((res) => res.json())
       .then((result) => {
-        setResponse(result); // Work on sending errors back to incorrect form fields
-        setValidationResults([...result.errors]);
-
-        console.log(validationResults);
+        setResponse(result);
+        setValidationResults([result.errors]);
       })
-      .catch((err) => console.log('error'));
+      .catch((err) => console.log(err));
   }
 
   function handleInputChange(e) {
@@ -47,7 +45,7 @@ function Signup() {
     e.preventDefault();
     createUser();
     console.log('Submitted');
-    // navigate('/');
+    navigate('/');
   }
 
   function handleValidationResults(field) {
@@ -101,7 +99,7 @@ function Signup() {
         <div className='relative'>
           <FormInput
             htmlFor={'email'}
-            type={'text'} // Changed to text for testing purposes.  CHANGE BACK TO EMAIL
+            type={'text'}
             name={'email'}
             id={'email'}
             fieldname={'Email'}

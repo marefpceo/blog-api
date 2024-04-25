@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 
 // Required model
 const User = require('../models/userModel');
@@ -18,18 +19,39 @@ exports.sign_up_post = [
     .escape(),
   body('email')
     .trim()
-    .isLength({ min: 3, max: 120 })
-    .withMessage('Email must contain at least 3 characters')
+    .isEmail()
+    .withMessage('Not a valid e-mail address (example: my@email.com)')
+    .custom(async value => {
+      const user = await User.findOne({'email': value}).exec();
+      
+      if(user) {
+        throw new Error('E-mail address already in use');
+      }
+    })
     .escape(),
   body('username')
     .trim()
     .isLength({ min: 3, max: 120 })
     .withMessage('Username must contain at least 3 characters')
+    .custom(async value => {
+      const user = await User.findOne({'username': value}).exec();
+      
+      if(user) {
+        throw new Error('Username is already in use');
+      }
+    })
     .escape(),
   body('password')
     .trim()
     .isLength({ min: 3, max: 120 })
     .withMessage('Password must contain at least 3 characters')
+    .escape(),
+  body('confirm_password')
+    .trim()
+    .custom((value, { req }) => {
+      return value === req.body.password;
+    })
+    .withMessage('Passwords do not match')
     .escape(),
 
   asyncHandler(async (req, res, next) => {
@@ -49,6 +71,7 @@ exports.sign_up_post = [
       });
       return;
     } else {
+      user.password = bcrypt.hashSync(req.body.password, 10);
       await user.save();
       res.json({
         message: `${user.username} was created`
