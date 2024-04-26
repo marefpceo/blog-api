@@ -3,18 +3,21 @@ import FollowNav from '../features/FollowNav';
 import UserAccess from '../features/UserAccess';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function Header({ isAuthenticated, setIsAuthenticated }) {
   return (
     <header
-      className='flex justify-between items-center h-14 p-2 rounded-b-lg shadow-md fixed 
-      left-0 top-0 right-0 px-20 bg-green-200'
+      className='fixed left-0 right-0 top-0 flex h-14 items-center justify-between 
+      rounded-b-lg bg-green-200 p-2 px-20 shadow-md'
     >
       <h1>
         <Link to='/'>BlogAPI</Link>
       </h1>
       <Nav />
       <FollowNav />
-      <UserAccess />
+      <UserAccess
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={setIsAuthenticated}
+      />
     </header>
   );
 }

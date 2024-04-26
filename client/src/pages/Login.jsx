@@ -1,15 +1,27 @@
 import FormInput from '../components/FormInput';
 import Button from '../components/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [response, setResponse] = useState({});
-  const [validationResults, setValidationResults] = useState([]);
+  const [isValid, setIsValid] = useState(true);
   const [loginInput, setLoginInput] = useState({
     email: '',
     password: '',
   });
+  const { isAuthenticated, setIsAuthenticated } = useOutletContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [response, isAuthenticated]);
 
   async function requestLogin() {
     await fetch('http://localhost:3000/auth/login', {
@@ -21,9 +33,15 @@ function Login() {
     })
       .then((res) => res.json())
       .then((result) => {
+        setIsValid(true);
         setResponse(result);
+        localStorage.setItem('token', result.token);
+        navigate(-1);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIsValid(false);
+        console.log('Unauthorized');
+      });
   }
 
   function handleInputChange(e) {
@@ -37,8 +55,6 @@ function Login() {
   function handleLogin(e) {
     e.preventDefault();
     requestLogin();
-    console.log(response);
-    console.log('login clicked');
   }
 
   return (
@@ -49,7 +65,7 @@ function Login() {
           rounded-md border py-10 shadow-xl shadow-slate-300'
       >
         <sub className='error-msg mb-3 text-red-500'>
-          User Email/ Password incorrect
+          {!isValid ? 'User Email/ Password incorrect' : ''}
         </sub>
         <FormInput
           htmlFor={'email'}

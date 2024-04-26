@@ -10,6 +10,7 @@ function App() {
   const [topPicks, setTopPicks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   function getTopPicks() {}
 
@@ -40,7 +41,10 @@ function App() {
 
   return (
     <div className='container mx-auto mb-0 mt-32 flex max-w-5xl flex-1 flex-col'>
-      <Header />
+      <Header
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={setIsAuthenticated}
+      />
       {loading ? (
         <p className='h-screen'>Loading. . . </p>
       ) : (
@@ -50,6 +54,8 @@ function App() {
             featuredArticle,
             recentArticles,
             error,
+            isAuthenticated,
+            setIsAuthenticated,
           }}
         />
       )}
