@@ -82,12 +82,13 @@ router.post('/login', passport.authenticate('local', {
   failureMessage: true }),
 
   function(req, res) {
-    jwt.sign({ _id: req.user.id, email: req.user.email, role: req.user.role}, `${process.env.SECRET}`, (err, token) => {
+    jwt.sign({ _id: req.user.id, email: req.user.email, username: req.user.username, role: req.user.role}, `${process.env.SECRET}`, (err, token) => {
       if (err) {
         next(err);
       } else {
         res.json({
-          token
+          token,
+          username: req.user.username,
         });
       }
     });
