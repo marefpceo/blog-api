@@ -52,7 +52,7 @@ passport.use(
         if(passwordsMatch) {        
           return done(null, user);
         } else {
-          return done(null, false, {message: 'Incorrect password'});
+          return done(null, false, {  message: 'Incorrect password' });
         }
       } catch(err) {
         return done(err);
@@ -77,17 +77,9 @@ passport.deserializeUser(async (id, done) =>{
 });
 
 
-router.get('/', (req, res) => {
-  res.json({
-    message: 'AuthRoute'
-  });
-});
-
-
-
 // Login 
 router.post('/login', passport.authenticate('local', {
-  failureRedirect: '/auth'}),
+  failureMessage: true }),
 
   function(req, res) {
     jwt.sign({ _id: req.user.id, email: req.user.email, role: req.user.role}, `${process.env.SECRET}`, (err, token) => {

@@ -5,6 +5,7 @@ import ArticleList from '../pages/ArticleList';
 import About from '../pages/About';
 import Signup from '../pages/Signup';
 import ErrorPage from '../pages/ErrorPage';
+import Login from '../pages/Login';
 
 function Router() {
   const router = createBrowserRouter([
@@ -17,6 +18,7 @@ function Router() {
         { path: '/articles', element: <ArticleList /> },
         { path: '/about', element: <About /> },
         { path: '/signup', element: <Signup /> },
+        { path: '/login', element: <Login /> },
       ],
     },
   ]);

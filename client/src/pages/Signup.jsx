@@ -63,7 +63,7 @@ function Signup() {
   }
 
   return (
-    <section className='signup mb-12 mt-2'>
+    <section className='signup mb-12 mt-2 flex-1'>
       <form
         onSubmit={handleSubmit}
         className='form mx-auto flex max-w-xl flex-shrink flex-col items-center gap-4 rounded-md border py-10 
