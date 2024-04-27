@@ -8,10 +8,8 @@ function ErrorPage() {
 
   return (
     <div className='error-page h-screen'>
-      <div className='error-message absolute top-1/4 left-1/4 right-1/4'>
-        <h1>
-          {error.status} {error.statusText}
-        </h1>
+      <div className='error-message absolute left-1/4 right-1/4 top-1/4'>
+        <h1>404 Error</h1>
         <p>The page you were looking for does not exist.</p>
         <p onClick={() => navigate(-1)}>
           Click here to return to the previous page
