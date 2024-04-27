@@ -7,7 +7,8 @@ const Comment = require('../models/commentModel');
 
 // Display Article comments
 exports.article_comments_get = asyncHandler(async (req, res, next) => {
-  const comments = await Comment.find({ comment_article: req.params.id }).populate().sort({ timestamp: 1 });
+  const comments = await Comment.find({ comment_article: req.params.id }).populate('comment_user')
+    .sort({ timestamp: 1 });
   res.json(comments);
 });
 
