@@ -51,11 +51,11 @@ function Article() {
 
   return (
     <>
-      <section className='article mx-auto flex w-4/6 flex-1 flex-col items-center'>
+      <section className='article mx-auto mb-20 flex w-4/6 flex-1 flex-col items-center'>
         <div className='flex flex-col items-center'>
           <img src={blogImgPlaceholder} alt='' width={300} />
         </div>
-        <div>
+        <div className='article-header self-start text-left'>
           <h1>{selectedArticle.article_title}</h1>
           <p>Written By: {selectedArticle.author}</p>
           <p>Published: {selectedArticle.date_published}</p>

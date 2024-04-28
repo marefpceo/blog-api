@@ -1,20 +1,22 @@
 import featuredImg from '../assets/images/passion-quote.jpg';
+import { Link } from 'react-router-dom';
 
 function Featured({ featuredArticle }) {
   return (
-    <section className='my-5 flex justify-between'>
-      <img
-        src={featuredImg}
-        alt=''
-        width={450}
-        className='max-w-md rounded-lg'
-      />
-
-      <div className='m-auto flex flex-col items-center justify-center px-8 py-4'>
-        <h2 className='mb-8 text-center'>{featuredArticle.article_title}</h2>
-        <p className='text-left'>{featuredArticle.article_summary}</p>
-      </div>
-    </section>
+    <Link to={`/article/${featuredArticle._id}`}>
+      <section className='my-5 flex justify-between'>
+        <img
+          src={featuredImg}
+          alt=''
+          width={450}
+          className='max-w-md rounded-lg'
+        />
+        <div className='m-auto flex flex-col items-center justify-center px-8 py-4'>
+          <h2 className='mb-8 text-center'>{featuredArticle.article_title}</h2>
+          <p className='text-left'>{featuredArticle.article_summary}</p>
+        </div>
+      </section>
+    </Link>
   );
 }
 
