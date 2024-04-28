@@ -7,6 +7,7 @@ import Signup from '../pages/Signup';
 import ErrorPage from '../pages/ErrorPage';
 import Login from '../pages/Login';
 import Article from '../pages/Article';
+import Comments from '../pages/Comments';
 
 function Router() {
   const router = createBrowserRouter([
@@ -21,6 +22,7 @@ function Router() {
         { path: '/signup', element: <Signup /> },
         { path: '/login', element: <Login /> },
         { path: '/article/:id', element: <Article /> },
+        { path: '/article/:id/comments', element: <Comments /> },
         { path: '*', element: <ErrorPage /> },
       ],
     },
