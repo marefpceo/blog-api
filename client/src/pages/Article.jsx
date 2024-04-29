@@ -10,6 +10,7 @@ function Article() {
   const [articleComments, setArticleComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { isAuthenticated } = useOutletContext();
 
   useEffect(() => {
     async function getSelectedArticle() {
@@ -41,8 +42,6 @@ function Article() {
         setArticleComments(null);
       } finally {
         setLoading(false);
-        console.log(selectedArticle);
-        console.log(articleComments);
       }
     }
     getSelectedArticle();
@@ -50,14 +49,11 @@ function Article() {
 
   return (
     <>
-      {/* <ArticleSection 
-        selectedArticle={selectedArticle}
-        articleComments={articleComments}
-      />       */}
       <Outlet
         context={{
           selectedArticle,
           articleComments,
+          isAuthenticated,
         }}
       />
     </>

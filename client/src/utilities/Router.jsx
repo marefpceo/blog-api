@@ -9,6 +9,7 @@ import Login from '../pages/Login';
 import Article from '../pages/Article';
 import Comments from '../pages/Comments';
 import ArticleSection from '../features/ArticleSection';
+import LeaveComment from '../features/LeaveComment';
 
 function Router() {
   const router = createBrowserRouter([
@@ -28,6 +29,7 @@ function Router() {
           children: [
             { path: '/article/:id', element: <ArticleSection /> },
             { path: 'comments', element: <Comments /> },
+            { path: ':commentId', element: <LeaveComment /> },
           ],
         },
         { path: '/article/:id/comments', element: <Comments /> },
