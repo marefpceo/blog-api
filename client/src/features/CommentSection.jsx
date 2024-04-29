@@ -45,7 +45,7 @@ function CommentSection({ articleComments }) {
           <CommentCard key={comment._id} comment={comment} />
         ))}
 
-      <Link to={`/article/${id}/leave_comment`}>
+      <Link to={`/article/${id}/comments`}>
         <Button
           className={'shadow-md'}
           type={'button'}

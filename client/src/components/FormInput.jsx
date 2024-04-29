@@ -7,6 +7,7 @@ function FormInput({
   value,
   handleInputChange,
   autoFocus,
+  inputStyle,
 }) {
   return (
     <label
@@ -15,8 +16,8 @@ function FormInput({
     >
       {fieldname}
       <input
-        className='mt-1 min-w-96 rounded-md p-px shadow-inner shadow-slate-400 focus:border-2 
-          focus:border-green-500 focus:outline-none'
+        className={`mt-1 min-w-96 rounded-md p-px shadow-inner shadow-slate-400 focus:border-2 
+          focus:border-green-500 focus:outline-none ${inputStyle}`}
         type={type}
         name={name}
         id={id}

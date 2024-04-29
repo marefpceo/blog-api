@@ -29,10 +29,10 @@ function Router() {
           children: [
             { path: '/article/:id', element: <ArticleSection /> },
             { path: 'comments', element: <Comments /> },
-            { path: ':commentId', element: <LeaveComment /> },
+            { path: 'leave_comment', element: <LeaveComment /> },
           ],
         },
-        { path: '/article/:id/comments', element: <Comments /> },
+        // { path: '/article/:id/comments', element: <Comments /> },
         { path: '*', element: <ErrorPage /> },
       ],
     },
