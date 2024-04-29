@@ -8,6 +8,7 @@ import ErrorPage from '../pages/ErrorPage';
 import Login from '../pages/Login';
 import Article from '../pages/Article';
 import Comments from '../pages/Comments';
+import ArticleSection from '../features/ArticleSection';
 
 function Router() {
   const router = createBrowserRouter([
@@ -21,7 +22,14 @@ function Router() {
         { path: '/about', element: <About /> },
         { path: '/signup', element: <Signup /> },
         { path: '/login', element: <Login /> },
-        { path: '/article/:id', element: <Article /> },
+        {
+          path: '/article/:id',
+          element: <Article />,
+          children: [
+            { path: '/article/:id', element: <ArticleSection /> },
+            { path: 'comments', element: <Comments /> },
+          ],
+        },
         { path: '/article/:id/comments', element: <Comments /> },
         { path: '*', element: <ErrorPage /> },
       ],
