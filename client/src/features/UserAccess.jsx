@@ -17,7 +17,7 @@ function UserAccess({ isAuthenticated, setIsAuthenticated }) {
   function handleLogout() {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
-    navigate(0);
+    navigate('/');
   }
 
   return (

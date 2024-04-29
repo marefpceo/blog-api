@@ -69,7 +69,7 @@ function Login() {
         </sub>
         <FormInput
           htmlFor={'email'}
-          type={'text'}
+          type={'email'}
           name={'email'}
           id={'email'}
           fieldname={'User Email'}
@@ -78,7 +78,7 @@ function Login() {
 
         <FormInput
           htmlFor={'password'}
-          type={'text'}
+          type={'password'}
           name={'password'}
           id={'password'}
           fieldname={'Password'}

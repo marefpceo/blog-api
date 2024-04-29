@@ -1,16 +1,39 @@
-import { useParams } from 'react-router-dom';
+import { useNavigationType, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
+import ErrorPage from '../pages/ErrorPage';
 
 function LeaveComment() {
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
   const { id } = useParams();
   const { isAuthenticated } = useOutletContext();
   const [textInput, setTextInput] = useState({
     comment_text: '',
     comment_article: id,
   });
+
+  async function postComment() {
+    await fetch(`http://localhost:3000/articles/${id}/comment_post`, {
+      method: 'POST',
+      headers: new Headers({
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify(textInput),
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          navigate(-1);
+          throw new Error(res.status);
+        } else {
+          res.json();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
 
   function handleInputChange(e) {
     const value = e.target.value;
@@ -22,11 +45,13 @@ function LeaveComment() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    postComment();
+    navigate(`/article/${id}`);
     console.log(token);
     console.log(isAuthenticated);
   }
 
-  return (
+  return token ? (
     <section className='leave-comment flex-1'>
       <h2>Leave a Comment</h2>
 
@@ -63,6 +88,8 @@ function LeaveComment() {
         />
       </form>
     </section>
+  ) : (
+    <ErrorPage status={401} statusMessage={'Unauthorized'} />
   );
 }
 

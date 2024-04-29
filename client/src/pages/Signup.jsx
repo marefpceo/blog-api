@@ -104,7 +104,7 @@ function Signup() {
         <div className='relative'>
           <FormInput
             htmlFor={'email'}
-            type={'text'}
+            type={'email'}
             name={'email'}
             id={'email'}
             fieldname={'Email'}
@@ -134,7 +134,7 @@ function Signup() {
         <div className='relative'>
           <FormInput
             htmlFor={'password'}
-            type={'text'}
+            type={'password'}
             name={'password'}
             id={'password'}
             fieldname={'Password'}
@@ -149,7 +149,7 @@ function Signup() {
         <div className='relative'>
           <FormInput
             htmlFor={'confirm_password'}
-            type={'text'}
+            type={'password'}
             name={'confirm_password'}
             id={'confirm_password'}
             fieldname={'Confirm Password'}
