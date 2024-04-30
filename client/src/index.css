@@ -29,7 +29,7 @@
   margin: 0 auto;
   padding: 0;
   text-align: center;
-  background-color: #f3f3f3;
+  background-color: #eaf0ce;
 }
 
 /* a {
@@ -48,6 +48,7 @@ body {
   place-items: center;
   min-height: 100vh;
   color: black;
+  background-color: #f3f3f3;
 }
 
 h1 {

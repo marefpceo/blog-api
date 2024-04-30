@@ -10,7 +10,6 @@ function Nav() {
         <li>
           <Link to={'/about'}>About</Link>
         </li>
-        <li>Subscribe</li>
       </ul>
     </nav>
   );
