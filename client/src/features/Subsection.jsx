@@ -9,7 +9,13 @@ function Subsection({ className, title, articles }) {
       <div className='card-div flex justify-evenly'>
         {articles &&
           articles.map((article) => (
-            <Card key={article._id} article={article} />
+            <Card
+              key={article._id}
+              article={article}
+              className={
+                'rounded-sm border border-cust-english-violet/10 p-4 shadow-lg shadow-cust-slate-gray hover:shadow-lg hover:shadow-cust-pumpkin'
+              }
+            />
           ))}
       </div>
     </section>

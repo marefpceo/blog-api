@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   return (
-    <div className='container mx-auto mb-0 mt-32 flex max-w-5xl flex-1 flex-col'>
+    <div className='container mx-auto mb-0 mt-32 flex flex-1 flex-col'>
       <Header
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}

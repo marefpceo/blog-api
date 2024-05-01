@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Featured({ featuredArticle }) {
   return (
     <Link to={`/article/${featuredArticle._id}`}>
-      <section className='my-5 flex justify-between'>
+      <section className='my-5 flex justify-between border-b-2 border-cust-pumpkin pb-8'>
         <img
           src={featuredImg}
           alt=''

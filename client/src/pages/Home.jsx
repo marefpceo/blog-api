@@ -11,15 +11,11 @@ function Home() {
     <>
       <Featured featuredArticle={featuredArticle} />
       <Subsection
-        className={'bg-indigo-200'}
+        className={''}
         title={'Recent Articles'}
         articles={recentArticles}
       />
-      <Subsection
-        className={'bg-emerald-200'}
-        title={'Top Picks'}
-        articles={articles}
-      />
+      <Subsection className={''} title={'Top Picks'} articles={articles} />
     </>
   );
 }
