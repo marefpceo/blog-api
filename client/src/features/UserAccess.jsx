@@ -26,12 +26,12 @@ function UserAccess({ isAuthenticated, setIsAuthenticated }) {
         <>
           <Link to='/login'>
             <Button
-              className={'shadow-md'}
+              className={
+                'bg-cust-english-violet text-slate-50 shadow-md hover:bg-cust-english-violet/90 hover:shadow-cust-slate-gray'
+              }
               type={'button'}
               text={'Login'}
               style={{
-                backgroundColor: 'green',
-                color: 'black',
                 borderRadius: '8px',
                 padding: '0.3em 1.2em',
                 height: '36px',
@@ -45,12 +45,12 @@ function UserAccess({ isAuthenticated, setIsAuthenticated }) {
 
           <Link to='/signup'>
             <Button
-              className={'shadow-md'}
+              className={
+                'border-2 border-cust-pumpkin text-cust-english-violet shadow-md hover:bg-cust-pumpkin/10 hover:shadow-sm hover:shadow-cust-pumpkin/70'
+              }
               type={'button'}
               text={'Create Account'}
               style={{
-                backgroundColor: '#f3f3f3',
-                color: 'black',
                 borderRadius: '8px',
                 padding: '0.3em 1.2em',
                 height: '36px',

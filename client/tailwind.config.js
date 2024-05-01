@@ -4,11 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        pumpkin: '#ea7317',
-        beige: '#eaf0ce',
-        silver: '#c0c5c1',
-        'slate-gray': '#7d8491',
-        'english-violet': '#443850',
+        'cust-pumpkin': '#ea7317',
+        'cust-beige': '#eaf0ce',
+        'cust-silver': '#c0c5c1',
+        'cust-slate-gray': '#7d8491',
+        'cust-english-violet': '#443850',
       },
     },
   },
