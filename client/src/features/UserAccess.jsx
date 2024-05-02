@@ -64,12 +64,12 @@ function UserAccess({ isAuthenticated, setIsAuthenticated }) {
         </>
       ) : (
         <Button
-          className={'shadow-md'}
+          className={
+            'bg-cust-pumpkin text-cust-english-violet shadow-md hover:bg-cust-pumpkin/50 hover:shadow-cust-slate-gray'
+          }
           type={'button'}
           text={'Logout'}
           style={{
-            backgroundColor: 'green',
-            color: 'black',
             borderRadius: '8px',
             padding: '0.3em 1.2em',
             height: '36px',

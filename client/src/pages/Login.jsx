@@ -74,6 +74,7 @@ function Login() {
           id={'email'}
           fieldname={'User Email'}
           handleInputChange={handleInputChange}
+          autoFocus={true}
         />
 
         <FormInput
@@ -87,12 +88,12 @@ function Login() {
 
         <fieldset className='mt-8 flex justify-center gap-24'>
           <Button
-            className={'shadow-md'}
+            className={
+              'bg-cust-english-violet text-slate-50 shadow-md hover:bg-cust-english-violet/90 hover:shadow-cust-slate-gray'
+            }
             text={'Submit'}
             type={'submit'}
             style={{
-              backgroundColor: 'green',
-              color: 'black',
               borderRadius: '8px',
               padding: '0.3em 1.2em',
               height: '36px',
