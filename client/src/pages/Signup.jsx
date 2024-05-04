@@ -163,12 +163,12 @@ function Signup() {
 
         <fieldset className='mt-8 flex justify-center gap-8'>
           <Button
-            className={'shadow-md'}
+            className={
+              'bg-cust-english-violet text-slate-50 shadow-md hover:bg-cust-english-violet/90 hover:shadow-cust-slate-gray'
+            }
             text={'Submit'}
             type={'submit'}
             style={{
-              backgroundColor: 'green',
-              color: 'black',
               borderRadius: '8px',
               padding: '0.3em 1.2em',
               height: '36px',
@@ -181,7 +181,7 @@ function Signup() {
 
           <Link to='/'>
             <Button
-              className={'shadow-md'}
+              className={'bg-slate-50 shadow-md hover:shadow-cust-pumpkin/40'}
               text={'Cancel'}
               type={'button'}
               style={{

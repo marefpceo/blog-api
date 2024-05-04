@@ -20,14 +20,14 @@ function CommentSection({ articleComments }) {
           }
         >
           <Button
-            className={'shadow-md'}
+            className={
+              'border-2 border-cust-pumpkin text-cust-english-violet shadow-md hover:bg-cust-pumpkin/10 hover:shadow-sm hover:shadow-cust-pumpkin/70'
+            }
             type={'button'}
             text={
               isAuthenticated === false ? 'Create Account' : 'Leave a Comment'
             }
             style={{
-              backgroundColor: 'green',
-              color: 'black',
               borderRadius: '8px',
               padding: '0.3em 1.2em',
               height: '36px',
@@ -47,12 +47,10 @@ function CommentSection({ articleComments }) {
 
       <Link to={`/article/${id}/comments`}>
         <Button
-          className={'shadow-md'}
+          className={'bg-slate-50 shadow-md hover:shadow-cust-pumpkin/30'}
           type={'button'}
           text={'See All Comments'}
           style={{
-            backgroundColor: '#f3f3f3',
-            color: 'black',
             borderRadius: '8px',
             padding: '0.3em 1.2em',
             height: '36px',

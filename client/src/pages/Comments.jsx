@@ -39,7 +39,7 @@ function Comments() {
       </div>
 
       <section className='comments flex-1'>
-        <div className='comments-header'>
+        <div className='comments-header flex justify-around '>
           <h1>Comments</h1>
           <Link
             to={
@@ -49,14 +49,14 @@ function Comments() {
             }
           >
             <Button
-              className={'shadow-md'}
+              className={
+                'border-2 border-cust-pumpkin text-cust-english-violet shadow-md hover:bg-cust-pumpkin/10 hover:shadow-sm hover:shadow-cust-pumpkin/70'
+              }
               type={'button'}
               text={
                 isAuthenticated === false ? 'Create Account' : 'Leave a Comment'
               }
               style={{
-                backgroundColor: 'green',
-                color: 'black',
                 borderRadius: '8px',
                 padding: '0.3em 1.2em',
                 height: '36px',

@@ -106,12 +106,10 @@ function Login() {
 
           <Link to='/'>
             <Button
-              className={'shadow-md'}
+              className={'bg-slate-50 shadow-md hover:shadow-cust-pumpkin/40 '}
               text={'Cancel'}
               type={'button'}
               style={{
-                backgroundColor: '#f3f3f3',
-                color: 'black',
                 borderRadius: '8px',
                 padding: '0.3em 1.2em',
                 height: '36px',

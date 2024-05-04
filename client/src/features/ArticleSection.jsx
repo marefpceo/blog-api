@@ -7,8 +7,8 @@ function ArticleSection() {
 
   return (
     <>
-      <section className='article mx-auto mb-20 flex w-4/6 flex-1 flex-col items-center'>
-        <div className='flex flex-col items-center'>
+      <section className='article mx-auto mb-32 flex w-4/6 flex-1 flex-col items-center'>
+        <div className='mb-16 flex flex-col items-center'>
           <img src={blogImgPlaceholder} alt='' width={300} />
         </div>
         <div className='article-header self-start text-left'>

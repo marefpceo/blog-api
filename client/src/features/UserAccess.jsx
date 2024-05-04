@@ -65,7 +65,7 @@ function UserAccess({ isAuthenticated, setIsAuthenticated }) {
       ) : (
         <Button
           className={
-            'bg-cust-pumpkin text-cust-english-violet shadow-md hover:bg-cust-pumpkin/50 hover:shadow-cust-slate-gray'
+            'bg-cust-pumpkin/50 text-cust-english-violet shadow-md hover:bg-cust-pumpkin/70 hover:shadow-cust-slate-gray'
           }
           type={'button'}
           text={'Logout'}
