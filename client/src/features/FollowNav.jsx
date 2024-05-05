@@ -1,26 +1,49 @@
-import facebookIcon from '../assets/images/facebook.png';
-import githubIcon from '../assets/images/github.png';
-import instagramIcon from '../assets/images/instagram.png';
-import xTwitterIcon from '../assets/images/x-twitter.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFacebook,
+  faGithub,
+  faInstagram,
+  faXTwitter,
+} from '@fortawesome/free-brands-svg-icons';
 
 function FollowNav() {
   return (
     <div className='follow-nav flex gap-12'>
       <a href='https://www.facebook.com' target='_blank' rel='noreferrer'>
-        <img src={facebookIcon} alt='Facebook Icon' className='w-h-7 h-7' />
+        <FontAwesomeIcon
+          icon={faFacebook}
+          size='xl'
+          style={{ color: '#443850' }}
+          className='transition-all duration-500 ease-in-out hover:scale-150'
+        />
       </a>
       <a
         href='https://www.github.com/marefpceo'
         target='_blank'
         rel='noreferrer'
       >
-        <img src={githubIcon} alt='Github Icon' className='w-h-7 h-7' />
+        <FontAwesomeIcon
+          icon={faGithub}
+          size='xl'
+          style={{ color: '#443850' }}
+          className='transition-all duration-500 ease-in-out hover:scale-150'
+        />
       </a>
       <a href='https://www.instagram.com' target='_blank' rel='noreferrer'>
-        <img src={instagramIcon} alt='Instagram Icon' className='w-h-7 h-7' />
+        <FontAwesomeIcon
+          icon={faInstagram}
+          size='xl'
+          style={{ color: '#443850' }}
+          className='transition-all duration-500 ease-in-out hover:scale-150'
+        />
       </a>
       <a href='https://www.twitter.com' target='_blank' rel='noreferrer'>
-        <img src={xTwitterIcon} alt='X Twitter Icon' className='w-h-7 h-7' />
+        <FontAwesomeIcon
+          icon={faXTwitter}
+          size='xl'
+          style={{ color: '#443850' }}
+          className='transition-all duration-500 ease-in-out hover:scale-150'
+        />
       </a>
     </div>
   );
