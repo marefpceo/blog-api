@@ -8,6 +8,8 @@ const logger = require('morgan');
 const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const debug = require('debug')('connection');
 
 const articlesRouter = require('./routes/articlesRoute');
 const commentsRouter = require('./routes/commentsRoute');
@@ -18,9 +20,9 @@ const app = express();
 
 // Set up db connection
 const mongoose = require('mongoose');
-const mongoDB = process.env.MONGODB_URI;
+const mongoDB = process.env.MONGODB_UR;
 
-main().catch(err => console.log(err));
+main().catch(err => debug(`DB Connection error ${err}`));
 mongoose.set('strictQuery', false);
 
 async function main() {
@@ -36,9 +38,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   secret: process.env.SECRET,
-  resave: false,
   saveUninitialized: false,
-  cookie: { secure: true }
+  resave: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    ttl: 1 * 24 * 60 * 60,
+    collectionName: 'sessions',
+    autoRemove: 'disabled',
+    touchAfter: 24 * 3600,
+  })
 }));
 
 app.use(passport.authenticate('session'));
@@ -62,7 +70,7 @@ app.use((err, req, res, next) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.send(err);
+  res.json(err);
 });
 
 module.exports = app;

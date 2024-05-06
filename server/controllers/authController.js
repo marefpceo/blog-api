@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const debug = require('debug')('auth');
 
 // Required model
 const User = require('../models/userModel');
@@ -65,6 +66,7 @@ exports.sign_up_post = [
     });
 
     if(!errors.isEmpty()) {
+      debug(`Sign up validation error`);
       res.json({
         user: user,
         errors: errors.array()
@@ -73,6 +75,7 @@ exports.sign_up_post = [
     } else {
       user.password = bcrypt.hashSync(req.body.password, 10);
       await user.save();
+      debug(`${user.username} created`);
       res.json({
         message: `${user.username} was created`
       })
