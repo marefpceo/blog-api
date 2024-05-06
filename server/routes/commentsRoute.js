@@ -27,7 +27,6 @@ passport.use(
   )
 );
 
-
 // GET Article comments
 router.get('/:id/comments', comments_controller.article_comments_get);
 

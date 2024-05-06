@@ -13,9 +13,4 @@ const ArticleSchema = new Schema({
   {timestamps: true}
 );
 
-// Virtual article URL
-ArticleSchema.virtual('url').get(() => {
-  return `/articles/${this._id}`;
-});
-
 module.exports = mongoose.model('Article', ArticleSchema);

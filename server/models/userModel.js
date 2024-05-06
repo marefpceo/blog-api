@@ -12,10 +12,4 @@ const AdminUserSchema = new Schema({
   status: { type: String, required: true, default: 'ok' },
 });
 
-
-// Virtual adminUser URL
-AdminUserSchema.virtual('url').get(() => {
-  return `admin/${this._id}`;
-});
-
 module.exports = mongoose.model('User', AdminUserSchema);
