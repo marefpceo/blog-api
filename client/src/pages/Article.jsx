@@ -23,11 +23,11 @@ function Article() {
         );
 
         if (!articleResponse.ok) {
-          throw new Error(`HTTP error: Status ${articleResponse.status}`);
+          // throw new Error(`HTTP error: Status ${articleResponse.status}`);
         }
 
         if (!commentsResponse.ok) {
-          throw new Error(`HTTP error: Status ${commentsResponse.status}`);
+          // throw new Error(`HTTP error: Status ${commentsResponse.status}`);
         }
 
         let articleResponseData = await articleResponse.json();
@@ -36,8 +36,8 @@ function Article() {
         setSelectedArticle(articleResponseData);
         setArticleComments(commentsResponseData);
         setError(null);
-      } catch (err) {
-        setError(err.message);
+      } catch {
+        // setError();
         setSelectedArticle(null);
         setArticleComments(null);
       } finally {

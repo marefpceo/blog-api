@@ -2,16 +2,23 @@ import { useNavigate } from 'react-router-dom';
 import { useRouteError } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import LinkUnderline from '../utilities/LinkUnderline';
+import { useLocation } from 'react-router-dom';
 
 function ErrorPage({ status, statusMessage }) {
   const navigate = useNavigate();
   const error = useRouteError();
-  console.log(error);
+  const location = useLocation();
+  console.log(location.state.status);
+  console.log(location.state.statusMessage);
 
   return (
     <div className='error-page flex flex-1 flex-col'>
       <div className='error-message absolute left-1/4 right-1/4 top-1/4'>
-        <h1>{status ? `${status} ${statusMessage}` : '404 Page Not Found'}</h1>
+        <h1>
+          {status
+            ? `${status} ${statusMessage}`
+            : `${location.state.status} ${location.state.statusMessage}`}
+        </h1>
         {status === 401 ? (
           <>
             <br />

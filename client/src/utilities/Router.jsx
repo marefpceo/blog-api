@@ -32,9 +32,11 @@ function Router() {
             { path: 'leave_comment', element: <LeaveComment /> },
           ],
         },
-        // { path: '/article/:id/comments', element: <Comments /> },
-        { path: '*', element: <ErrorPage /> },
       ],
+    },
+    {
+      path: '*',
+      element: <ErrorPage />,
     },
   ]);
 

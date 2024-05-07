@@ -2,17 +2,16 @@ import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [articles, setArticles] = useState([]);
   const [featuredArticle, setFeaturedArticle] = useState({});
   const [recentArticles, setRecentArticles] = useState([]);
-  const [topPicks, setTopPicks] = useState([]);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  function getTopPicks() {}
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getArticles() {
@@ -20,18 +19,36 @@ function App() {
         const response = await fetch('http://localhost:3000/articles');
 
         if (!response.ok) {
-          throw new Error(`HTTP error: Status ${response.status}`);
+          const error = new Error();
+          if (response.status === 500) {
+            setIsDataLoaded(false);
+            error.message = 'Internal Server Error';
+            error.status = 500;
+            throw error;
+          }
+          if (response.status === 404) {
+            setIsDataLoaded(false);
+            error.message = 'Page Not Found';
+            error.status = 404;
+            throw error;
+          }
+          setIsDataLoaded(false);
+          throw new Error(response.status);
+        } else {
+          let responseData = await response.json();
+
+          setArticles(responseData);
+          setFeaturedArticle(responseData[0]);
+          setRecentArticles([...responseData.slice(1, 5)]);
+          setError(null);
+          setIsDataLoaded(true);
         }
-
-        let responseData = await response.json();
-
-        setArticles(responseData);
-        setFeaturedArticle(responseData[0]);
-        setRecentArticles([...responseData.slice(1, 5)]);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
+      } catch (error) {
+        console.error(error, error.status);
         setArticles(null);
+        return navigate('*', {
+          state: { status: error.status, statusMessage: error.message },
+        });
       } finally {
         setLoading(false);
       }
@@ -53,7 +70,6 @@ function App() {
             articles,
             featuredArticle,
             recentArticles,
-            error,
             isAuthenticated,
             setIsAuthenticated,
           }}
