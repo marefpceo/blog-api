@@ -20,7 +20,7 @@ const app = express();
 
 // Set up db connection
 const mongoose = require('mongoose');
-const mongoDB = process.env.MONGODB_UR;
+const mongoDB = process.env.MONGODB_URI;
 
 main().catch(err => debug(`DB Connection error ${err}`));
 mongoose.set('strictQuery', false);

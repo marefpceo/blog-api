@@ -3,6 +3,7 @@ import { useRouteError } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import LinkUnderline from '../utilities/LinkUnderline';
 import { useLocation } from 'react-router-dom';
+import FollowNav from '../features/FollowNav';
 
 function ErrorPage({ status, statusMessage }) {
   const navigate = useNavigate();
@@ -19,42 +20,53 @@ function ErrorPage({ status, statusMessage }) {
             ? `${status} ${statusMessage}`
             : `${location.state.status} ${location.state.statusMessage}`}
         </h1>
-        {status === 401 ? (
-          <>
-            <br />
-            <br />
-            <div className='mb-4'>
-              <Link to={'/login'} className='group relative'>
-                <span>
-                  <strong>Login</strong>
-                </span>
-                <LinkUnderline />
-              </Link>
-              &nbsp;or &nbsp;
-              <Link to={'/signup'} className='group relative'>
-                <span>
-                  <strong>Signup</strong>
-                </span>
-                <LinkUnderline />
-              </Link>
-              &nbsp;to view this page.
+        <div className='mt-12'>
+          {status === 401 ? (
+            <>
+              <br />
+              <br />
+              <div className='mb-4'>
+                <Link to={'/login'} className='group relative'>
+                  <span>
+                    <strong>Login</strong>
+                  </span>
+                  <LinkUnderline />
+                </Link>
+                &nbsp;or &nbsp;
+                <Link to={'/signup'} className='group relative'>
+                  <span>
+                    <strong>Signup</strong>
+                  </span>
+                  <LinkUnderline />
+                </Link>
+                &nbsp;to view this page.
+              </div>
+            </>
+          ) : location.state.status === 500 ? (
+            <div className='flex flex-col items-center'>
+              <div className='mb-12'>
+                <p>Our API is down. Please try back later!</p>
+                <p>Or stay updated by following us on social media!</p>
+              </div>
+              <FollowNav />
             </div>
-          </>
-        ) : (
-          <>
-            <br />
-            <br />
-            <p>The page you were looking for does not exist.</p>
-            <br />
-          </>
-        )}
-        <p
-          onClick={() => navigate(-1)}
-          className='group relative mx-auto max-w-fit hover:cursor-pointer'
-        >
-          <span>Click here to return to the previous page</span>
-          <LinkUnderline />
-        </p>
+          ) : (
+            <>
+              <br />
+              <br />
+              <p>The page you were looking for does not exist.</p>
+              <br />
+
+              <p
+                onClick={() => navigate(-1)}
+                className='group relative mx-auto max-w-fit hover:cursor-pointer'
+              >
+                <span>Click here to return to the previous page</span>
+                <LinkUnderline />
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -8,7 +8,6 @@ function App() {
   const [articles, setArticles] = useState([]);
   const [featuredArticle, setFeaturedArticle] = useState({});
   const [recentArticles, setRecentArticles] = useState([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
@@ -21,18 +20,15 @@ function App() {
         if (!response.ok) {
           const error = new Error();
           if (response.status === 500) {
-            setIsDataLoaded(false);
             error.message = 'Internal Server Error';
             error.status = 500;
             throw error;
           }
           if (response.status === 404) {
-            setIsDataLoaded(false);
             error.message = 'Page Not Found';
             error.status = 404;
             throw error;
           }
-          setIsDataLoaded(false);
           throw new Error(response.status);
         } else {
           let responseData = await response.json();
@@ -41,7 +37,6 @@ function App() {
           setFeaturedArticle(responseData[0]);
           setRecentArticles([...responseData.slice(1, 5)]);
           setError(null);
-          setIsDataLoaded(true);
         }
       } catch (error) {
         console.error(error, error.status);
@@ -50,7 +45,7 @@ function App() {
           state: { status: error.status, statusMessage: error.message },
         });
       } finally {
-        setLoading(false);
+        setTimeout(setLoading(false), 3000);
       }
     }
     getArticles();
