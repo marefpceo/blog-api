@@ -36,7 +36,6 @@ function App() {
           setArticles(responseData);
           setFeaturedArticle(responseData[0]);
           setRecentArticles([...responseData.slice(1, 5)]);
-          setError(null);
         }
       } catch (error) {
         console.error(error, error.status);
