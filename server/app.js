@@ -10,6 +10,8 @@ const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const debug = require('debug')('connection');
+const compression = require('compression');
+const helmet = require('helmet');
 
 const articlesRouter = require('./routes/articlesRoute');
 const commentsRouter = require('./routes/commentsRoute');
@@ -17,6 +19,12 @@ const authRouter = require('./routes/authRoute');
 const adminRouter = require('./routes/adminRoute');
 
 const app = express();
+
+const RateLimit = require('express-rate-limit');
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 20,
+});
 
 // Set up db connection
 const mongoose = require('mongoose');
@@ -29,6 +37,9 @@ async function main() {
   await mongoose.connect(mongoDB);
 }
 
+app.use(limiter);
+app.use(compression());
+app.use(helmet());
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
