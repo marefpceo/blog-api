@@ -15,10 +15,10 @@ function Article() {
   useEffect(() => {
     async function getSelectedArticle() {
       try {
-        const [articleResponse, commentsResponse] = await Promise.all(
+        const [articleResponse, commentsResponse] = await Promise.all([
           fetch(`http://localhost:3000/articles/${id}`),
           fetch(`http://localhost:3000/articles/${id}/comments`),
-        );
+        ]);
 
         if (!articleResponse.ok || !commentsResponse.ok) {
           const error = new Error();
@@ -49,7 +49,6 @@ function Article() {
 
           setSelectedArticle(articleResponseData);
           setArticleComments(commentsResponseData);
-          setError(null);
         }
       } catch (error) {
         console.error(error, error.status);
