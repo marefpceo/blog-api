@@ -18,7 +18,7 @@ function Signup() {
   });
 
   async function createUser() {
-    await fetch('http://localhost:3000/auth/signup', {
+    await fetch('https://blogapi-c1xf.onrender.com/auth/signup', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

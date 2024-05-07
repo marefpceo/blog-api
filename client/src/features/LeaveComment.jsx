@@ -16,14 +16,17 @@ function LeaveComment() {
   });
 
   async function postComment() {
-    await fetch(`http://localhost:3000/articles/${id}/comment_post`, {
-      method: 'POST',
-      headers: new Headers({
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify(textInput),
-    })
+    await fetch(
+      `https://blogapi-c1xf.onrender.com/articles/${id}/comment_post`,
+      {
+        method: 'POST',
+        headers: new Headers({
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify(textInput),
+      },
+    )
       .then((res) => {
         if (res.status === 401) {
           navigate(-1);

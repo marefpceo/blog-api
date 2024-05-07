@@ -16,8 +16,8 @@ function Article() {
     async function getSelectedArticle() {
       try {
         const [articleResponse, commentsResponse] = await Promise.all([
-          fetch(`http://localhost:3000/articles/${id}`),
-          fetch(`http://localhost:3000/articles/${id}/comments`),
+          fetch(`https://blogapi-c1xf.onrender.com/articles/${id}`),
+          fetch(`https://blogapi-c1xf.onrender.com/articles/${id}/comments`),
         ]);
 
         if (!articleResponse.ok || !commentsResponse.ok) {

@@ -15,7 +15,9 @@ function App() {
   useEffect(() => {
     async function getArticles() {
       try {
-        const response = await fetch('http://localhost:3000/articles');
+        const response = await fetch(
+          'https://blogapi-c1xf.onrender.com/articles',
+        );
 
         if (!response.ok) {
           const error = new Error();

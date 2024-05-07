@@ -24,7 +24,7 @@ function Login() {
   }, [response, isAuthenticated]);
 
   async function requestLogin() {
-    await fetch('http://localhost:3000/auth/login', {
+    await fetch('https://blogapi-c1xf.onrender.com/auth/login', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
