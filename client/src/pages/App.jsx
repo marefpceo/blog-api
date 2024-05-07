@@ -29,6 +29,7 @@ function App() {
             error.status = 404;
             throw error;
           }
+
           throw new Error(response.status);
         } else {
           let responseData = await response.json();
