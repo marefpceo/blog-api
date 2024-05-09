@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
-import ErrorPage from '../pages/ErrorPage';
 
 function LeaveComment() {
   const token = localStorage.getItem('token');
@@ -48,9 +47,16 @@ function LeaveComment() {
             statusMessage: response.statusText,
           },
         });
-      } else {
+      }
+      if (responseData.errors) {
         setValidationResults(responseData.errors[0].msg);
-        console.log(responseData === true);
+        console.log(responseData.errors);
+        return;
+      }
+
+      if (responseData.status === 201) {
+        console.log('Comment Posted');
+        navigate(-1);
       }
     } catch (error) {
       console.error(error, error.status);
@@ -58,6 +64,7 @@ function LeaveComment() {
   }
 
   function handleInputChange(e) {
+    setValidationResults(null);
     const value = e.target.value;
     setTextInput({
       ...textInput,
@@ -67,12 +74,8 @@ function LeaveComment() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setValidationResults(false);
     postComment();
     setRefreshComments(true);
-    if (validationResults === false) {
-      navigate(-1);
-    }
   }
 
   return (
