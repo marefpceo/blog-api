@@ -31,7 +31,9 @@ function App() {
             error.status = 404;
             throw error;
           }
-          throw new Error(response.status);
+          error.message = 'API Connection Error';
+          error.status = 500;
+          throw error;
         } else {
           let responseData = await response.json();
 
@@ -40,11 +42,17 @@ function App() {
           setRecentArticles([...responseData.slice(1, 5)]);
         }
       } catch (error) {
-        console.error(error, error.status);
+        console.error(error.message);
         setArticles(null);
-        return navigate('*', {
-          state: { status: error.status, statusMessage: error.message },
-        });
+        if (error instanceof TypeError) {
+          return navigate('*', {
+            state: { status: 503, statusMessage: 'Service Unavailable' },
+          });
+        } else {
+          return navigate('*', {
+            state: { status: error.status, statusMessage: error.message },
+          });
+        }
       } finally {
         setTimeout(setLoading(false), 3000);
       }

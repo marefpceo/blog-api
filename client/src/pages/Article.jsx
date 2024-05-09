@@ -8,6 +8,7 @@ function Article() {
   const { id } = useParams();
   const [selectedArticle, setSelectedArticle] = useState({});
   const [articleComments, setArticleComments] = useState([]);
+  const [refreshComments, setRefreshComments] = useState(false);
   const [loading, setLoading] = useState(true);
   const { isAuthenticated } = useOutletContext();
   const navigate = useNavigate();
@@ -31,8 +32,8 @@ function Article() {
             throw error;
           }
           if (
-            articleResponse.status === 400 ||
-            commentsResponse.status === 400
+            articleResponse.status === 404 ||
+            commentsResponse.status === 404
           ) {
             error.message = 'Page Not Found';
             error.status = 404;
@@ -58,11 +59,12 @@ function Article() {
           state: { status: error.status, statusMessage: error.message },
         });
       } finally {
+        setRefreshComments(false);
         setTimeout(setLoading(false), 3000);
       }
     }
     getSelectedArticle();
-  }, []);
+  }, [refreshComments]);
 
   return (
     <>
@@ -74,6 +76,7 @@ function Article() {
             selectedArticle,
             articleComments,
             isAuthenticated,
+            setRefreshComments,
           }}
         />
       )}

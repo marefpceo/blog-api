@@ -51,6 +51,9 @@ exports.comment_post = [
       return;
     } else {
       await comment.save();
+      res.json({
+        status: 201,
+      })
     }
   })
 ];
