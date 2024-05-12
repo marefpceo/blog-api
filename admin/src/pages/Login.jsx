@@ -48,7 +48,7 @@ function Login() {
 
   return (
     <div className='flex h-screen w-screen flex-col items-center justify-center bg-cust-silver'>
-      <div className='rounded-md border border-cust-slate-gray p-4 shadow-lg shadow-cust-pumpkin/25'>
+      <div className='rounded-md border border-cust-slate-gray p-4 shadow-[0_3px_20px_rgb(0,0,0,0.2)] shadow-cust-pumpkin/25'>
         <div className='flex items-center gap-4 p-2'>
           <img src={logo} alt='Site logo' className='max-h-12' />
           <h1 className='text-2xl'>BlogAPI Admin</h1>

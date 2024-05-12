@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown } from '@fortawesome/free-solid-svg-icons';
 import { faSortUp } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +14,12 @@ function AsideNav() {
   return (
     <nav className='w-full text-xl'>
       <ul className='space-y-4'>
-        <li>Dashboard</li>
+        <li>
+          <Link to='/' className='hover:text-cust-pumpkin'>
+            Dashboard
+          </Link>
+        </li>
+
         <li className='flex cursor-pointer flex-col items-center justify-between'>
           <div
             onClick={handleClick}
@@ -22,17 +28,17 @@ function AsideNav() {
             <span>Articles</span>
             {showMenu === false ? (
               <FontAwesomeIcon
-                icon={faSortUp}
+                icon={faSortDown}
                 size='xl'
                 style={{ color: '#ea7317' }}
-                className='absolute right-1 top-1 transition-all duration-500'
+                className='absolute bottom-1 right-1 transition-all duration-500'
               />
             ) : (
               <FontAwesomeIcon
-                icon={faSortDown}
+                icon={faSortUp}
                 size='xl'
                 style={{ color: '#443850' }}
-                className='absolute bottom-1 right-1 transition-all duration-500'
+                className='absolute right-1 top-1 transition-all duration-500'
               />
             )}
           </div>
@@ -40,14 +46,40 @@ function AsideNav() {
             ''
           ) : (
             <ul className='-ml-20 space-y-2 pt-4'>
-              <li>All</li>
-              <li>Published</li>
-              <li>UnPublished</li>
-              <li>Create New</li>
+              <li>
+                <Link to='/articles' className='hover:text-cust-pumpkin'>
+                  All
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to='/articles/published'
+                  className='hover:text-cust-pumpkin'
+                >
+                  Published
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to='/articles/nonpublished'
+                  className='hover:text-cust-pumpkin'
+                >
+                  UnPublished
+                </Link>
+              </li>
             </ul>
           )}
         </li>
-        <li>Users</li>
+        <li>
+          <Link to='/create' className='hover:text-cust-pumpkin'>
+            Create New Article
+          </Link>
+        </li>
+        <li>
+          <Link to='/users' className='hover:text-cust-pumpkin'>
+            Users
+          </Link>
+        </li>
       </ul>
     </nav>
   );
