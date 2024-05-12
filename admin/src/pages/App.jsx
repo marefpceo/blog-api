@@ -5,7 +5,7 @@ import Header from '../sections/Header';
 
 function App() {
   return (
-    <div className=' m-0 grid h-screen w-screen grid-cols-layout grid-rows-layout p-0'>
+    <div className='m-0 grid h-screen w-screen grid-cols-layout grid-rows-layout p-0'>
       <Header />
       <SideBar />
       <div

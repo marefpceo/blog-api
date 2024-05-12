@@ -1,4 +1,4 @@
-import Logo from '../assets/images/blog-api-logo.png';
+import logo from '../assets/images/blog-api-logo.png';
 import AsideNav from '../components/AsideNav';
 
 function SideBar() {
@@ -8,7 +8,7 @@ function SideBar() {
       text-cust-english-violet'
     >
       <div className='mt-4 flex items-center gap-4 p-2'>
-        <img src={Logo} alt='Site logo' className='max-h-12' />
+        <img src={logo} alt='Site logo' className='max-h-12' />
         <h1 className='text-2xl'>BlogAPI Admin</h1>
       </div>
 

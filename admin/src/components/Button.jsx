@@ -1,5 +1,5 @@
 function Button({ text, className }) {
-  return <button className={className}>{text}</button>;
+  return <button className={`active:scale-95 ${className}`}>{text}</button>;
 }
 
 export default Button;
