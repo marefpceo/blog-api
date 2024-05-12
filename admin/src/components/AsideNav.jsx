@@ -25,21 +25,21 @@ function AsideNav() {
                 icon={faSortUp}
                 size='xl'
                 style={{ color: '#ea7317' }}
-                className='absolute right-1 top-1'
+                className='absolute right-1 top-1 transition-all duration-500'
               />
             ) : (
               <FontAwesomeIcon
                 icon={faSortDown}
                 size='xl'
                 style={{ color: '#443850' }}
-                className='absolute bottom-1 right-1'
+                className='absolute bottom-1 right-1 transition-all duration-500'
               />
             )}
           </div>
           {showMenu === false ? (
             ''
           ) : (
-            <ul className='-ml-20 space-y-2'>
+            <ul className='-ml-20 space-y-2 pt-4'>
               <li>All</li>
               <li>Published</li>
               <li>UnPublished</li>

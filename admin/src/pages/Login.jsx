@@ -1,8 +1,51 @@
 import logo from '../assets/images/blog-api-logo.png';
 import Button from '../components/Button';
 import FormInput from '../components/FormInput';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
+  const [userInput, setUserInput] = useState({
+    email: '',
+    password: '',
+  });
+
+  function handleInputChange(e) {
+    const value = e.target.value;
+    setUserInput({
+      ...userInput,
+      [e.target.name]: value,
+    });
+  }
+
+  async function requestLogin() {
+    try {
+      const response = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(userInput),
+      });
+
+      const responseData = await response.json();
+
+      if (response.status === 200) {
+        localStorage.setItem('token', responseData.token);
+        navigate(0);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleSubmit(e) {
+    requestLogin();
+    e.preventDefault();
+    console.log('submit');
+  }
+
   return (
     <div className='flex h-screen w-screen flex-col items-center justify-center bg-cust-silver'>
       <div className='rounded-md border border-cust-slate-gray p-4 shadow-lg shadow-cust-pumpkin/25'>
@@ -11,22 +54,27 @@ function Login() {
           <h1 className='text-2xl'>BlogAPI Admin</h1>
         </div>
 
-        <form className='flex flex-col items-center justify-center'>
+        <form
+          onSubmit={handleSubmit}
+          className='flex flex-col items-center justify-center'
+        >
           <fieldset className='my-8 flex flex-col gap-2'>
             <FormInput
-              htmlFor={'login_username'}
-              fieldName={'Username'}
-              type={'login_text'}
-              name={'login_username'}
-              id={'login_username'}
+              htmlFor={'email'}
+              fieldName={'Email'}
+              type={'email'}
+              name={'email'}
+              id={'email'}
+              onChange={handleInputChange}
               autoFocus={true}
             />
             <FormInput
-              htmlFor={'login_password'}
+              htmlFor={'password'}
               fieldName={'Password'}
               type={'password'}
-              name={'login_password'}
-              id={'login_password'}
+              name={'password'}
+              id={'password'}
+              onChange={handleInputChange}
             />
           </fieldset>
           <Button
