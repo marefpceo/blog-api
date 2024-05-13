@@ -13,9 +13,13 @@ function Dashboard({ className }) {
         <StatusCard title={'Total Likes'} count={20} />
       </div>
       <div className='med-card-div flex justify-evenly'>
-        <ArticleStatusCard title={'Articles Status'} />
-
-        <ArticleStatusCard title={'Top Views'} />
+        <ArticleStatusCard
+          title={'Articles Status'}
+          total={23}
+          draft={3}
+          published={13}
+          notPublished={10}
+        />
       </div>
     </section>
   );
