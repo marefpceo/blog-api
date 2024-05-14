@@ -9,8 +9,8 @@ function App() {
       <Header />
       <SideBar />
       <div
-        className='col-start-2 row-start-2 bg-cust-slate-gray p-4 text-cust-beige 
-        shadow-inner shadow-cust-english-violet'
+        className='col-start-2 row-start-2 overflow-y-auto bg-cust-slate-gray p-4 
+        text-cust-beige shadow-inner shadow-cust-english-violet'
       >
         <Outlet />
       </div>
