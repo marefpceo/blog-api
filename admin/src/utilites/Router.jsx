@@ -9,6 +9,7 @@ import All from '../sections/All';
 import Published from '../sections/Published';
 import NotPublished from '../sections/NotPublished';
 import Create from '../pages/Create';
+import { Navigate } from 'react-router-dom';
 
 const token = localStorage.getItem('token');
 
@@ -16,7 +17,7 @@ function Router() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: !token ? <Login /> : <App />,
+      element: !token ? <Navigate to={'/login'} /> : <App />,
       errorElement: <ErrorPage />,
       children: [
         { path: '/', element: <Dashboard /> },
@@ -33,6 +34,10 @@ function Router() {
         { path: 'users', element: <Users /> },
         { path: '*', element: <ErrorPage /> },
       ],
+    },
+    {
+      path: '/login',
+      element: token ? <Navigate to={'/'} /> : <Login />,
     },
   ]);
 

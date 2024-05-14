@@ -17,7 +17,8 @@ function All() {
           >
             <div
               className='article-info flex w-3/4 flex-col justify-between 
-              rounded-md bg-cust-silver p-4 text-cust-english-violet shadow-md shadow-cust-english-violet'
+              rounded-md bg-cust-silver p-4 text-cust-english-violet shadow-md 
+              shadow-cust-english-violet'
             >
               <div className='mb-4 grid w-full grid-cols-3 grid-rows-1'>
                 <h2 className='text-xl'>{article.article_title}</h2>
@@ -42,7 +43,8 @@ function All() {
 
             <div
               className='article-btn-div flex w-1/5 flex-col items-center 
-                justify-evenly rounded-md bg-cust-english-violet/30 text-cust-beige shadow-md shadow-cust-english-violet'
+                justify-evenly rounded-md bg-cust-english-violet/30 text-cust-beige shadow-md 
+                shadow-cust-english-violet'
             >
               {article.isPublished ? (
                 <>

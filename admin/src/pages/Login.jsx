@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const navigate = useNavigate();
+  const [invalidLogin, setInvalidLogin] = useState(false);
   const [userInput, setUserInput] = useState({
     email: '',
     password: '',
@@ -33,17 +34,19 @@ function Login() {
 
       if (response.status === 200) {
         localStorage.setItem('token', responseData.token);
+        console.log(responseData);
         navigate(0);
       }
+      setInvalidLogin(false);
     } catch (error) {
+      setInvalidLogin(true);
       console.log(error);
     }
   }
 
   function handleSubmit(e) {
-    requestLogin();
     e.preventDefault();
-    console.log('submit');
+    requestLogin();
   }
 
   return (
@@ -77,6 +80,11 @@ function Login() {
               onChange={handleInputChange}
             />
           </fieldset>
+          <div>
+            <sub className='text-red-700'>
+              {invalidLogin === false ? '' : 'Invalid Login Credentials'}
+            </sub>
+          </div>
           <Button
             text={'Login'}
             className={'mt-8 w-3/4 rounded-md bg-cust-pumpkin px-4 py-1'}
