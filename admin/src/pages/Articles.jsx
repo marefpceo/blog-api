@@ -33,7 +33,6 @@ function Articles({ className }) {
         } else {
           let responseData = await response.json();
           setAllArticles(responseData.articlesList);
-          console.log(responseData);
         }
       } catch (error) {
         console.error(error.message);
