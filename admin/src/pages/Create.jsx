@@ -1,6 +1,21 @@
 import imgPlaceholder from '../assets/images/blog-img-placeholder.png';
 
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+
+function onError(error) {
+  console.error(error);
+}
+
 function Create() {
+  const initialConfig = {
+    namespace: 'New Article',
+    onError,
+  };
+
   return (
     <>
       <h1 id='title' className='title text-4xl text-cust-silver'>
@@ -16,6 +31,16 @@ function Create() {
         </div>
         <div>
           <h2 id='title'>Article Title</h2>
+        </div>
+
+        <div className='bg-slate-500'>
+          <LexicalComposer initialConfig={initialConfig}>
+            <RichTextPlugin
+              contentEditable={<ContentEditable />}
+              placeholder={<div>Click to start creating</div>}
+            />
+            <HistoryPlugin />
+          </LexicalComposer>
         </div>
       </article>
     </>
