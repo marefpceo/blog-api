@@ -1,21 +1,14 @@
 import imgPlaceholder from '../assets/images/blog-img-placeholder.png';
-
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-
-function onError(error) {
-  console.error(error);
-}
+import { useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 
 function Create() {
-  const initialConfig = {
-    namespace: 'New Article',
-    onError,
+  const editorRef = useRef(null);
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
   };
-
   return (
     <>
       <h1 id='title' className='title text-4xl text-cust-silver'>
@@ -33,15 +26,43 @@ function Create() {
           <h2 id='title'>Article Title</h2>
         </div>
 
-        <div className='bg-slate-500'>
-          <LexicalComposer initialConfig={initialConfig}>
-            <RichTextPlugin
-              contentEditable={<ContentEditable />}
-              placeholder={<div>Click to start creating</div>}
-            />
-            <HistoryPlugin />
-          </LexicalComposer>
-        </div>
+        <Editor
+          tinymceScriptSrc='/tinymce/tinymce.min.js'
+          licenseKey='your-license-key'
+          onInit={(_evt, editor) => (editorRef.current = editor)}
+          initialValue='<p>This is the initial content of the editor.</p>'
+          init={{
+            height: 500,
+            menubar: false,
+            plugins: [
+              'advlist',
+              'autolink',
+              'lists',
+              'link',
+              'image',
+              'charmap',
+              'anchor',
+              'searchreplace',
+              'visualblocks',
+              'code',
+              'fullscreen',
+              'insertdatetime',
+              'media',
+              'table',
+              'preview',
+              'help',
+              'wordcount',
+            ],
+            toolbar:
+              'undo redo | blocks | ' +
+              'bold italic forecolor | alignleft aligncenter ' +
+              'alignright alignjustify | bullist numlist outdent indent | ' +
+              'removeformat | help',
+            content_style:
+              'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+          }}
+        />
+        <button onClick={log}>Log editor content</button>
       </article>
     </>
   );
