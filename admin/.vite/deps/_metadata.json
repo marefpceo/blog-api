@@ -1,0 +1,64 @@
+{
+  "hash": "dddf8589",
+  "configHash": "0faa8870",
+  "lockfileHash": "2dd52064",
+  "browserHash": "04dc4c8b",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "22045878",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "19d34c93",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "213b4947",
+      "needsInterop": false
+    },
+    "luxon": {
+      "src": "../../node_modules/luxon/src/luxon.js",
+      "file": "luxon.js",
+      "fileHash": "c4cef9c5",
+      "needsInterop": false
+    },
+    "@tinymce/tinymce-react": {
+      "src": "../../node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/index.js",
+      "file": "@tinymce_tinymce-react.js",
+      "fileHash": "ec4b6111",
+      "needsInterop": false
+    },
+    "@fortawesome/react-fontawesome": {
+      "src": "../../node_modules/@fortawesome/react-fontawesome/index.es.js",
+      "file": "@fortawesome_react-fontawesome.js",
+      "fileHash": "6fc48b40",
+      "needsInterop": false
+    },
+    "@fortawesome/free-solid-svg-icons": {
+      "src": "../../node_modules/@fortawesome/free-solid-svg-icons/index.mjs",
+      "file": "@fortawesome_free-solid-svg-icons.js",
+      "fileHash": "057e3f74",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-DYIYK56Z": {
+      "file": "chunk-DYIYK56Z.js"
+    },
+    "chunk-O63ZRILJ": {
+      "file": "chunk-O63ZRILJ.js"
+    },
+    "chunk-QY3QVPNU": {
+      "file": "chunk-QY3QVPNU.js"
+    },
+    "chunk-LQ2VYIYD": {
+      "file": "chunk-LQ2VYIYD.js"
+    }
+  }
+}
