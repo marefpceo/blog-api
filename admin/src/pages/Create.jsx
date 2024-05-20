@@ -1,9 +1,11 @@
 import imgPlaceholder from '../assets/images/blog-img-placeholder.png';
 import { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import { useState } from 'react';
 import { classicEditor, inlineEditor } from '../utilites/EditorConfigs';
 
 function Create() {
+  const [file, setFile] = useState();
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -11,16 +13,28 @@ function Create() {
     }
   };
 
+  function handleImageUpload(e) {
+    setFile(URL.createObjectURL(e.target.files[0]));
+  }
+
   return (
     <>
       <h1 className='title text-4xl text-cust-silver'>Create Article</h1>
       <form className='mx-auto mt-12 flex max-h-fit w-4/6 flex-col justify-start bg-slate-100 p-8 text-black'>
-        <div className='main-image mb-16 h-56 w-full'>
+        <div className='main-image relative mb-16 h-56 w-full'>
           <img
-            src={imgPlaceholder}
+            src={file === undefined ? imgPlaceholder : file}
             alt='Main image placeholder'
             className='mx-auto h-full '
           />
+          <div className='absolute left-0 top-1/2'>
+            <input
+              type='file'
+              name='image-upload'
+              id='image-upload'
+              onChange={handleImageUpload}
+            />
+          </div>
         </div>
         <div>
           <h2 className='mb-2' id='title'>
@@ -28,7 +42,7 @@ function Create() {
               tinymceScriptSrc='/tinymce/tinymce.min.js'
               inline={true}
               licenseKey='gpl'
-              initialValue='<em>&lt; Article Title &gt;</em>'
+              initialValue='&lt; Article Title &gt;'
               init={inlineEditor}
             />
           </h2>
@@ -38,7 +52,7 @@ function Create() {
               tinymceScriptSrc='/tinymce/tinymce.min.js'
               inline={true}
               licenseKey='gpl'
-              initialValue='<em>&lt; Author &gt;</em>'
+              initialValue='&lt; Author &gt;'
               init={inlineEditor}
             />
           </div>
