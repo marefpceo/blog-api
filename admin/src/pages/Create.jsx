@@ -14,7 +14,7 @@ function Create() {
   return (
     <>
       <h1 className='title text-4xl text-cust-silver'>Create Article</h1>
-      <form className='mx-auto mt-12 flex h-5/6 w-4/6 flex-col justify-start bg-slate-100 text-black'>
+      <form className='mx-auto mt-12 flex max-h-fit w-4/6 flex-col justify-start bg-slate-100 p-8 text-black'>
         <div className='main-image mb-16 h-56 w-full'>
           <img
             src={imgPlaceholder}
@@ -23,15 +23,25 @@ function Create() {
           />
         </div>
         <div>
-          <h2 id='title'>
+          <h2 className='mb-2' id='title'>
             <Editor
               tinymceScriptSrc='/tinymce/tinymce.min.js'
               inline={true}
               licenseKey='gpl'
-              initialValue='Article Title'
+              initialValue='<em>&lt; Article Title &gt;</em>'
               init={inlineEditor}
             />
           </h2>
+          <div className='mb-8 flex gap-4'>
+            <p>Written by:</p>
+            <Editor
+              tinymceScriptSrc='/tinymce/tinymce.min.js'
+              inline={true}
+              licenseKey='gpl'
+              initialValue='<em>&lt; Author &gt;</em>'
+              init={inlineEditor}
+            />
+          </div>
         </div>
 
         <div>
