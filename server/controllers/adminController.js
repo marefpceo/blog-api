@@ -1,61 +1,60 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const asyncHandler = require('express-async-handler');
-const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator');
+const asyncHandler = require("express-async-handler");
+const jwt = require("jsonwebtoken");
+const { body, validationResult } = require("express-validator");
 
 // Required models
-const Article = require('../models/articleModel');
-const Comment = require('../models/commentModel');
-
+const Article = require("../models/articleModel");
+const Comment = require("../models/commentModel");
 
 // Handle GET admin dashboard
 exports.admin_get = asyncHandler(async (req, res, next) => {
   res.json({
-    message: 'Admin Dashboard'
+    message: "Admin Dashboard",
   });
 });
-
 
 // Handle GET article list for ADMIN. (Published and Unpublished)
 exports.admin_articles_list_get = asyncHandler(async (req, res, next) => {
   const articlesList = await Article.find().sort({ timestamp: 1 }).exec();
   res.json({
-    message: 'ADMIN: Article List',
+    message: "ADMIN: Article List",
     articlesList,
   });
 });
 
-
 // Handle GET article by ID for ADMIN
 exports.admin_articles_get = asyncHandler(async (req, res, next) => {
   const selectedArticle = await Article.findOne(req.id).exec();
-  const articleComments = await Comment.find({ 'comment_article': selectedArticle._id})
-    .populate('comment_user', 'username').sort({ timestamp: 1 });
+  const articleComments = await Comment.find({
+    comment_article: selectedArticle._id,
+  })
+    .populate("comment_user", "username")
+    .sort({ timestamp: 1 });
   res.json({
-    message: 'ADMIN: Get article by ID',
+    message: "ADMIN: Get article by ID",
     selectedArticle,
     comments: articleComments,
   });
 });
 
-
 // Handle POST to create new article
 exports.admin_articles_post = [
-  body('article_title')
+  body("article_title")
     .trim()
     .isLength({ min: 3, max: 120 })
-    .withMessage('Title must contain at least 3 characters')
+    .withMessage("Title must contain at least 3 characters")
     .escape(),
-  body('author')
+  body("author")
     .trim()
     .isLength({ min: 3, max: 120 })
-    .withMessage('Author must contain at least 3 characters')
+    .withMessage("Author must contain at least 3 characters")
     .escape(),
-  body('article_text')
+  body("article_text")
     .trim()
     .isLength({ min: 3 })
-    .withMessage('Text body must contain at least 3 characters')
+    .withMessage("Text body must contain at least 3 characters")
     .escape(),
 
   asyncHandler(async (req, res, next) => {
@@ -64,10 +63,11 @@ exports.admin_articles_post = [
       article_title: req.body.article_title,
       author: req.body.author,
       article_text: req.body.article_text,
-      isPublished: req.body.isPublished
+      isPublished: req.body.isPublished,
+      main_image: req.file.path,
     });
 
-    if(!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
       res.json({
         article,
         errors: errors.array(),
@@ -76,28 +76,28 @@ exports.admin_articles_post = [
     } else {
       await article.save();
       res.json({
-        message: `${article.article_title} was created`
+        message: `${article.article_title} was created`,
       });
     }
-})];
+  }),
+];
 
-
-// Handle PUT to edit 
+// Handle PUT to edit
 exports.admin_articles_put = [
-  body('article_title')
+  body("article_title")
     .trim()
     .isLength({ min: 3, max: 120 })
-    .withMessage('Title must contain at least 3 characters')
+    .withMessage("Title must contain at least 3 characters")
     .escape(),
-  body('author')
+  body("author")
     .trim()
     .isLength({ min: 3, max: 120 })
-    .withMessage('Author must contain at least 3 characters')
+    .withMessage("Author must contain at least 3 characters")
     .escape(),
-  body('article_text')
+  body("article_text")
     .trim()
     .isLength({ min: 3 })
-    .withMessage('Text body must contain at least 3 characters')
+    .withMessage("Text body must contain at least 3 characters")
     .escape(),
 
   asyncHandler(async (req, res, next) => {
@@ -110,28 +110,27 @@ exports.admin_articles_put = [
       _id: req.body.id,
     });
 
-    if(!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
       res.json({
-        errors: errors.array()
+        errors: errors.array(),
       });
       return;
     } else {
       const updatedArticle = article;
       await Article.findByIdAndUpdate(article._id, updatedArticle).exec();
       res.json({
-        message: 'ADMIN: Edit article',
-        updatedArticle
+        message: "ADMIN: Edit article",
+        updatedArticle,
       });
     }
-  })
+  }),
 ];
-
 
 // Handle DELETE to delete selected article
 exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
   const articleToDelete = await Article.findById(req.body.id).exec();
 
-  if(!articleToDelete) {
+  if (!articleToDelete) {
     res.sendStatus(404);
   } else {
     await Article.findByIdAndDelete(articleToDelete._id).exec();
