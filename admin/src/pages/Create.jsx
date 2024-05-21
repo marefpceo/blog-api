@@ -5,33 +5,71 @@ import { useState } from 'react';
 import { classicEditor, inlineEditor } from '../utilites/EditorConfigs';
 
 function Create() {
+  const token = localStorage.getItem('token');
   const [file, setFile] = useState();
+  const [article, setArticle] = useState({
+    article_title: 'test',
+    author: 'test',
+    article_text: 'test',
+    main_image: File,
+  });
+
   const editorRef = useRef(null);
-  const log = () => {
+
+  const log = (e) => {
+    e.preventDefault();
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
     }
   };
 
+  async function createArticle() {
+    try {
+      const response = await fetch('http://localhost:3000/admin/articles', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-type': 'multipart/form-data',
+        },
+        body: article,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function handleImageUpload(e) {
     setFile(URL.createObjectURL(e.target.files[0]));
+    setArticle({ ...article, main_image: e.target.files[0] });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    createArticle();
+    console.log(editorRef.current);
+    console.log(file);
   }
 
   return (
     <>
       <h1 className='title text-4xl text-cust-silver'>Create Article</h1>
-      <form className='mx-auto mt-12 flex max-h-fit w-4/6 flex-col justify-start bg-slate-100 p-8 text-black'>
-        <div className='main-image relative mb-16 h-56 w-full'>
+      <form
+        className='mx-auto mt-12 flex max-h-fit w-4/6 flex-col justify-start bg-slate-100 p-8 text-black'
+        method='post'
+        encType='multipart/form-data'
+      >
+        <div className='main_image relative mb-16 h-56 w-full'>
           <img
             src={file === undefined ? imgPlaceholder : file}
-            alt='Main image placeholder'
+            alt='Main image'
             className='mx-auto h-full '
           />
           <div className='absolute left-0 top-1/2'>
             <input
               type='file'
-              name='image-upload'
-              id='image-upload'
+              name='main_image'
+              id='main_image'
               onChange={handleImageUpload}
             />
           </div>
@@ -68,6 +106,7 @@ function Create() {
           />
         </div>
         <button onClick={log}>Log editor content</button>
+        <button onClick={handleSubmit}>Submit</button>
       </form>
     </>
   );

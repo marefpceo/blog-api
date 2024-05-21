@@ -27,8 +27,6 @@ const classicEditor = {
   content_style:
     'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
   a11y_advanced_options: true,
-
-  a11y_advanced_options: true,
   /* 
   image_uploadtab: true,
   images_upload_url: *** Server side image handler (multer) to handle upload and returns new location for 
