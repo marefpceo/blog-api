@@ -27,7 +27,8 @@
     "nodemon": "^3.1.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "prettier-plugin-tailwindcss": "^0.5.14"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
