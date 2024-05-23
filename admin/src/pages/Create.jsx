@@ -50,6 +50,14 @@ function Create() {
     }
   }
 
+  function handleInputChange(e) {
+    const value = e.target.value;
+    setArticle({
+      ...article,
+      [e.target.name]: value,
+    });
+  }
+
   function handleImageUpload(e) {
     setFile(URL.createObjectURL(e.target.files[0]));
     setArticle({ ...article, main_image: e.target.files[0] });
@@ -109,6 +117,7 @@ function Create() {
               id={'article_title'}
               className={'w-full rounded-md'}
               autoFocus={true}
+              onChange={handleInputChange}
             />
           </h2>
           <div className='mb-2 flex gap-4 rounded-md bg-white p-1'>
