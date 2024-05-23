@@ -36,6 +36,7 @@ const classicEditor = {
   image_title: true,
   file_picker_types: 'image',
   image_uploadtab: true,
+  images_upload_url: 'test.jsx',
 };
 
 const inlineEditor = {

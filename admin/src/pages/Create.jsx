@@ -4,26 +4,24 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useState, useEffect } from 'react';
 import { classicEditor, inlineEditor } from '../utilites/EditorConfigs';
 import Button from '../components/Button';
+import FormInput from '../components/FormInput';
+import { useNavigate } from 'react-router-dom';
 
 function Create() {
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
+  const username = localStorage.getItem('username');
   const [file, setFile] = useState();
+  const [errorResponse, setErrorResponse] = useState();
   const [article, setArticle] = useState({
     article_title: '',
-    author: '',
+    author: username,
     article_summary: '',
     article_text: '',
     main_image: '',
   });
 
   const editorRef = useRef(null);
-
-  const log = (e) => {
-    e.preventDefault();
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
 
   useEffect(() => {}, [article.article_title]);
 
@@ -38,7 +36,14 @@ function Create() {
       });
       const responseData = await response.json();
       if (response.ok) {
-        console.log(responseData.errors);
+        if (responseData.errors) {
+          setErrorResponse(responseData.errors);
+          return;
+        } else {
+          console.log(responseData.message);
+          navigate('/');
+        }
+        console.log(errorResponse);
       }
     } catch (error) {
       console.log(error);
@@ -95,32 +100,20 @@ function Create() {
           text-cust-english-violet'
         >
           <legend className='px-2'>Article Info</legend>
-          <h2 className='mb-2 rounded-md bg-white p-1' id='title'>
-            <Editor
-              tinymceScriptSrc='/tinymce/tinymce.min.js'
-              inline={true}
-              licenseKey='gpl'
-              initialValue='&lt; Article Title &gt;'
-              init={inlineEditor}
-              value={article.article_title}
-              onEditorChange={(newValue, editor) =>
-                setArticle({ ...article, article_title: newValue })
-              }
+          <h2 className='mb-2 flex gap-4 rounded-md bg-white p-1' id='title'>
+            <FormInput
+              htmlFor={'article_title'}
+              fieldName={'Title:'}
+              type={'text'}
+              name={'article_title'}
+              id={'article_title'}
+              className={'w-full rounded-md'}
+              autoFocus={true}
             />
           </h2>
           <div className='mb-2 flex gap-4 rounded-md bg-white p-1'>
-            <p>Author:</p>
-            <Editor
-              tinymceScriptSrc='/tinymce/tinymce.min.js'
-              inline={true}
-              licenseKey='gpl'
-              initialValue='&lt; Author &gt;'
-              init={inlineEditor}
-              value={article.author}
-              onEditorChange={(newValue, editor) =>
-                setArticle({ ...article, author: newValue })
-              }
-            />
+            <p>Author: </p>
+            <p>{username}</p>
           </div>
         </fieldset>
 
@@ -134,7 +127,6 @@ function Create() {
               tinymceScriptSrc='/tinymce/tinymce.min.js'
               inline={true}
               licenseKey='gpl'
-              initialValue='<em>Enter a brief description about the article</em>'
               init={inlineEditor}
               value={article.article_summary}
               onEditorChange={(newValue, editor) =>
@@ -153,7 +145,6 @@ function Create() {
             tinymceScriptSrc='/tinymce/tinymce.min.js'
             licenseKey='gpl'
             onInit={(_evt, editor) => (editorRef.current = editor)}
-            initialValue='<p>This is the initial content of the editor.</p>'
             init={classicEditor}
             textareaName='article_text'
             onSubmit={() =>
