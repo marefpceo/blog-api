@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema(
@@ -7,20 +7,17 @@ const ArticleSchema = new Schema(
       type: String,
       required: true,
       minLength: 3,
-      maxLength: 120,
     },
-    author: { type: String, required: true, minLength: 3, maxLength: 120 },
+    author: { type: String, required: true, minLength: 3 },
     article_summary: {
       type: String,
       required: true,
       minLength: 3,
-      maxLength: 120,
     },
     article_text: {
       type: String,
       required: true,
       minLength: 3,
-      maxLength: 120,
     },
     main_image: { type: String },
     isPublished: { type: Boolean, default: false, required: true },
@@ -30,4 +27,4 @@ const ArticleSchema = new Schema(
   { timestamps: true },
 );
 
-module.exports = mongoose.model("Article", ArticleSchema);
+module.exports = mongoose.model('Article', ArticleSchema);

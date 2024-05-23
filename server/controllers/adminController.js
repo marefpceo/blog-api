@@ -44,18 +44,19 @@ exports.admin_articles_post = [
   body('article_title')
     .trim()
     .isLength({ min: 3, max: 120 })
-    .withMessage('Title must contain at least 3 characters')
-    .escape(),
+    .withMessage('Title must contain at least 3 characters'),
   body('author')
     .trim()
     .isLength({ min: 3, max: 120 })
-    .withMessage('Author must contain at least 3 characters')
-    .escape(),
+    .withMessage('Author must contain at least 3 characters'),
+  body('article_summary')
+    .trim()
+    .isLength({ min: 3 })
+    .withMessage('Summary must contain at least 3 characters'),
   body('article_text')
     .trim()
     .isLength({ min: 3 })
-    .withMessage('Text body must contain at least 3 characters')
-    .escape(),
+    .withMessage('Text body must contain at least 3 characters'),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
