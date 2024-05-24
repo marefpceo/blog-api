@@ -83,8 +83,9 @@ router.post(
   '/articles/upload',
   [verifyRole, upload.single('article_text')],
   (res, req, next) => {
+    res.sendStatus(200);
     res.json({
-      location: req.file.path,
+      location: req.body.filename,
     });
   },
 );
