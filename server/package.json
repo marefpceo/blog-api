@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "serverstart": "nodemon DEBUG=server:* npm start",
-    "prepare": "cd .. && server/.husky"
+    "prepare": "cd .. && husky server/.husky"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
