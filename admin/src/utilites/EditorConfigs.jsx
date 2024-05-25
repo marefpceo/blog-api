@@ -26,7 +26,6 @@ const custom_image_upload_handler = (blobInfo, progress) =>
         reject('Invalid JSON: ' + xhr.responseText);
         return;
       }
-
       resolve(json.location);
     };
 
@@ -37,7 +36,7 @@ const custom_image_upload_handler = (blobInfo, progress) =>
     };
 
     const formData = new FormData();
-    formData.append('article_text', blobInfo.blob(), blobInfo.filename());
+    formData.append('articleTextImageUpload', blobInfo.blob(), blobInfo.filename());
 
     xhr.send(formData);
   });
@@ -71,6 +70,7 @@ const classicEditor = {
   content_style:
     'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
   images_upload_handler: custom_image_upload_handler,
+  image_prepend_url: 'http://localhost:3000/uploads/',
 };
 
 const inlineEditor = {

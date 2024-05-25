@@ -39,7 +39,7 @@ exports.admin_articles_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-// Handle POST to create new article
+// Handle POST to create new article with main image
 exports.admin_articles_post = [
   body('article_title')
     .trim()
@@ -84,6 +84,13 @@ exports.admin_articles_post = [
     }
   }),
 ];
+
+// Handle article body image upload and returns file name
+exports.admin_article_image_upload = asyncHandler(async (req, res, next) => {
+  res.json({
+    location: req.file.filename,
+  });
+});
 
 // Handle PUT to edit
 exports.admin_articles_put = [

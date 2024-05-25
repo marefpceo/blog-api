@@ -81,13 +81,9 @@ router.post(
 // Admin article image upload
 router.post(
   '/articles/upload',
-  [verifyRole, upload.single('article_text')],
-  (res, req, next) => {
-    res.sendStatus(200);
-    res.json({
-      location: req.body.filename,
-    });
-  },
+  verifyRole,
+  upload.single('articleTextImageUpload'),
+  admin_controller.admin_article_image_upload,
 );
 
 // Admin article update

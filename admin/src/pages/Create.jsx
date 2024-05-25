@@ -40,10 +40,8 @@ function Create() {
           setErrorResponse(responseData.errors);
           return;
         } else {
-          console.log(responseData.message);
           navigate('/');
         }
-        console.log(errorResponse);
       }
     } catch (error) {
       console.log(error);
@@ -73,8 +71,6 @@ function Create() {
     formData.append('main_image', article.main_image);
 
     createArticle(formData);
-    console.log(editorRef.current.getContent());
-    console.log(article);
   }
 
   return (
