@@ -66,7 +66,7 @@ exports.admin_articles_post = [
       author: req.body.author,
       article_text: req.body.article_text,
       isPublished: req.body.isPublished,
-      main_image: req.file.path,
+      main_image: req.file.filename,
     });
 
     if (!errors.isEmpty()) {

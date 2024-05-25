@@ -8,7 +8,7 @@ function Card({ article, className }) {
         <img src={blogImgPlaceholder} />
         <div className='card-text mt-4 text-justify'>
           <h3>{article.article_title}</h3>
-          <p>{article.article_text}</p>
+          <p>{article.article_summary}</p>
         </div>
       </div>
     </Link>

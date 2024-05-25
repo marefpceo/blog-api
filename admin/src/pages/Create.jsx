@@ -128,15 +128,15 @@ function Create() {
         >
           <legend className='px-2'>Article Summary</legend>
           <div className='mb-2 flex gap-4 rounded-md bg-white p-1'>
-            <Editor
-              tinymceScriptSrc='/tinymce/tinymce.min.js'
-              inline={true}
-              licenseKey='gpl'
-              init={inlineEditor}
-              value={article.article_summary}
-              onEditorChange={(newValue, editor) =>
-                setArticle({ ...article, article_summary: newValue })
-              }
+            <FormInput
+              htmlFor={'article_summary'}
+              fieldName={''}
+              type={'text'}
+              name={'article_summary'}
+              id={'article_summary'}
+              className={'w-full rounded-md'}
+              autoFocus={true}
+              onChange={handleInputChange}
             />
           </div>
         </fieldset>
