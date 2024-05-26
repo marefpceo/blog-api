@@ -136,6 +136,16 @@ exports.admin_articles_put = [
   }),
 ];
 
+// Handle publish and unpublishing of articles
+exports.admin_articles_publish = asyncHandler(async (req, res, next) => {
+  await Article.findByIdAndUpdate(req.body._id, {
+    isPublished: req.body.isPublished,
+  }).exec();
+  res.json({
+    message: req.body._id,
+  });
+});
+
 // Handle DELETE to delete selected article
 exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
   const articleToDelete = await Article.findById(req.body.id).exec();

@@ -89,6 +89,13 @@ router.post(
 // Admin article update
 router.put('/articles/:id', verifyRole, admin_controller.admin_articles_put);
 
+// Admin article publish/ unpublish
+router.put(
+  '/articles/:id/publish',
+  verifyRole,
+  admin_controller.admin_articles_publish,
+);
+
 // Admin article delete
 router.delete(
   '/articles/:id',

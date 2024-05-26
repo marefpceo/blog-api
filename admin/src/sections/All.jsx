@@ -1,9 +1,49 @@
 import { useOutletContext } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 function All() {
+  const token = localStorage.getItem('token');
   const { allArticles } = useOutletContext([]);
+  const navigate = useNavigate();
+
+  async function publishArticle(id, status) {
+    try {
+      console.log(id);
+      const response = await fetch(`http://localhost:3000/admin/articles/${id}/publish`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'content-type': 'application/json',
+      }, 
+        body: JSON.stringify({
+          _id: id,
+          isPublished: status
+        }),
+      });
+      
+      const responseData = await response.json();
+      console.log(responseData);
+      
+      if (response.ok) {
+        navigate(0);
+      }
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handleClick(e) {
+    e.preventDefault();
+    const id = e.target.id;
+    const name = e.target.name;
+    const status = name === 'notPublished' ? 'true' : 'false';
+
+    publishArticle(id, status);
+    console.log(id, status);
+  }
 
   return (
     <>
@@ -54,6 +94,9 @@ function All() {
                     className={
                       'h-10 w-24 rounded-md bg-green-600 shadow-md shadow-cust-english-violet'
                     }
+                    id={article._id}
+                    name={'published'}
+                    onClick={handleClick}
                   />
                 </>
               ) : (
@@ -64,6 +107,9 @@ function All() {
                     className={
                       'h-10 w-32 rounded-md bg-red-600 shadow-md shadow-cust-english-violet'
                     }
+                    id={article._id}
+                    name={'notPublished'}
+                    onClick={handleClick}
                   />
                 </>
               )}
