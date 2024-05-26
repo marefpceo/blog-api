@@ -76,6 +76,11 @@ function AsideNav() {
           </Link>
         </li>
         <li>
+          <Link to='/edit' className='hover:text-cust-pumpkin'>
+            Edit Article
+          </Link>
+        </li>
+        <li>
           <Link to='/users' className='hover:text-cust-pumpkin'>
             Users
           </Link>
