@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const asyncHandler = require('express-async-handler');
-const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 
 // Required models
