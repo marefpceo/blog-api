@@ -32,7 +32,6 @@ exports.admin_articles_get = asyncHandler(async (req, res, next) => {
     .populate('comment_user', 'username')
     .sort({ timestamp: 1 });
   res.json({
-    message: 'ADMIN: Get article by ID',
     selectedArticle,
     comments: articleComments,
   });
