@@ -25,15 +25,9 @@ exports.admin_articles_list_get = asyncHandler(async (req, res, next) => {
 
 // Handle GET article by ID for ADMIN
 exports.admin_articles_get = asyncHandler(async (req, res, next) => {
-  const selectedArticle = await Article.findOne(req.id).exec();
-  const articleComments = await Comment.find({
-    comment_article: selectedArticle._id,
-  })
-    .populate('comment_user', 'username')
-    .sort({ timestamp: 1 });
+  const selectedArticle = await Article.findById(req.params.id).exec();
   res.json({
     selectedArticle,
-    comments: articleComments,
   });
 });
 
@@ -90,18 +84,17 @@ exports.admin_article_image_upload = asyncHandler(async (req, res, next) => {
   });
 });
 
-// Handle PUT to edit
+// Handle PUT to edit and update article
 exports.admin_articles_put = [
   body('article_title')
     .trim()
     .isLength({ min: 3, max: 120 })
     .withMessage('Title must contain at least 3 characters')
     .escape(),
-  body('author')
+  body('article_summary')
     .trim()
-    .isLength({ min: 3, max: 120 })
-    .withMessage('Author must contain at least 3 characters')
-    .escape(),
+    .isLength({ min: 3 })
+    .withMessage('Summary must contain at least 3 characters'),
   body('article_text')
     .trim()
     .isLength({ min: 3 })
@@ -112,23 +105,24 @@ exports.admin_articles_put = [
     const errors = validationResult(req);
     const article = new Article({
       article_title: req.body.article_title,
-      author: req.body.author,
       article_text: req.body.article_text,
-      isPublished: req.body.isPublished,
-      _id: req.body.id,
+      article_summary: req.body.article_summary,
+      edited_by: req.body.edited_by,
+      main_image: req.body.main_image,
+      _id: req.body._id,
     });
 
     if (!errors.isEmpty()) {
       res.json({
+        article,
         errors: errors.array(),
       });
       return;
     } else {
       const updatedArticle = article;
-      await Article.findByIdAndUpdate(article._id, updatedArticle).exec();
+      await Article.findByIdAndUpdate(updatedArticle._id, updatedArticle);
       res.json({
         message: 'ADMIN: Edit article',
-        updatedArticle,
       });
     }
   }),

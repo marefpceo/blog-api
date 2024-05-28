@@ -7,6 +7,7 @@ function FormInput({
   className,
   autoFocus,
   onChange,
+  value,
 }) {
   return (
     <>
@@ -19,6 +20,7 @@ function FormInput({
           shadow-cust-slate-gray/50 focus:border-cust-pumpkin focus:outline-none ${className}`}
         autoFocus={autoFocus}
         onChange={onChange}
+        value={value}
         required
       />
     </>

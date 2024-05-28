@@ -14,25 +14,43 @@ function Edit() {
   const username = localStorage.getItem('username');
   const [file, setFile] = useState();
   const [errorResponse, setErrorResponse] = useState();
-  const [article, setArticle] = useState({});
+  const [article, setArticle] = useState({
+    article_title: '',
+    article_summary: '',
+    article_text: '',
+    author: '',
+    main_image: '',
+    _id: '',
+    // edited_by: username,
+  });
 
   const editorRef = useRef(null);
-  const linkId = useLocation().state;
-  
+  const linkId = useLocation().state.id;
 
   useEffect(() => {
     async function getArticle() {
-      console.log(linkId);
       try {
-        const response = await fetch(`http://localhost:3000/admin/articles/${linkId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        });
+        const response = await fetch(
+          `http://localhost:3000/admin/articles/${linkId}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
         const responseData = await response.json();
         if (response.ok) {
-          setArticle(responseData.selectedArticle);
+          setArticle({
+            ...article,
+            article_title: responseData.selectedArticle.article_title,
+            article_summary: responseData.selectedArticle.article_summary,
+            article_text: responseData.selectedArticle.article_text,
+            author: responseData.selectedArticle.author,
+            main_image: responseData.selectedArticle.main_image,
+            _id: responseData.selectedArticle._id,
+          });
           console.log(responseData.selectedArticle);
         }
       } catch (error) {
@@ -40,17 +58,21 @@ function Edit() {
       }
     }
     getArticle();
+    console.log(article);
   }, []);
 
   async function editArticle(formData) {
     try {
-      const response = await fetch(`http://localhost:3000/admin/articles/${id}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `http://localhost:3000/admin/articles/${linkId}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         },
-        body: formData,
-      });
+      );
       const responseData = await response.json();
       if (response.ok) {
         if (responseData.errors) {
@@ -80,7 +102,14 @@ function Edit() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log('Submit');
+    const formData = new FormData();
+    formData.append('_id', article._id);
+    formData.append('article_title', article.article_title);
+    formData.append('article_summary', article.article_summary);
+    formData.append('article_text', editorRef.current.getContent());
+    formData.append('main_image', article.main_image);
+    console.log(formData);
+    editArticle(formData);
   }
 
   return (
@@ -95,7 +124,11 @@ function Edit() {
       >
         <div className='main_image relative mb-16 h-56 w-full'>
           <img
-            src={file === undefined ? imgPlaceholder : file}
+            src={
+              file === undefined
+                ? `http://localhost:3000/${article.main_image}`
+                : file
+            }
             alt='Main image'
             className='mx-auto h-full '
           />
@@ -105,7 +138,6 @@ function Edit() {
               name='main_image'
               id='main_image'
               onChange={handleImageUpload}
-              required
             />
           </div>
         </div>
@@ -123,12 +155,23 @@ function Edit() {
               id={'article_title'}
               className={'w-full rounded-md'}
               autoFocus={true}
+              value={article.article_title}
               onChange={handleInputChange}
             />
           </h2>
-          <div className='mb-2 flex gap-4 rounded-md bg-white p-1'>
-            <p>Author: </p>
-            <p>{username}</p>
+          <div className='mb-2 flex justify-between gap-4 rounded-md bg-white p-1 pr-8'>
+            <div className='flex gap-4'>
+              <p>
+                <strong>Edited by:</strong>
+              </p>
+              <p>{username}</p>
+            </div>
+            <div className='flex gap-4'>
+              <p>
+                <strong>Orginal Author:</strong>{' '}
+              </p>
+              <p>{article.author}</p>
+            </div>
           </div>
         </fieldset>
 
@@ -146,6 +189,7 @@ function Edit() {
               id={'article_summary'}
               className={'w-full rounded-md'}
               autoFocus={true}
+              value={article.article_summary}
               onChange={handleInputChange}
             />
           </div>
@@ -161,6 +205,7 @@ function Edit() {
             licenseKey='gpl'
             onInit={(_evt, editor) => (editorRef.current = editor)}
             init={classicEditor}
+            initialValue={article.article_text}
             textareaName='article_text'
             onSubmit={() =>
               setArticle({
@@ -178,7 +223,7 @@ function Edit() {
         />
       </form>
     </>
-  )
+  );
 }
 
 export default Edit;
