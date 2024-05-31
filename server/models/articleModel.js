@@ -19,6 +19,9 @@ const ArticleSchema = new Schema(
       required: true,
       minLength: 3,
     },
+    edited_by: {
+      type: String,
+    },
     main_image: { type: String },
     isPublished: { type: Boolean, default: false, required: true },
     date_published: { type: Date },

@@ -32,7 +32,7 @@ function Router() {
           ],
         },
         { path: 'create', element: <Create /> },
-        { path: 'edit', element: <Edit /> },
+        { path: 'edit/:id', element: <Edit /> },
         { path: 'users', element: <Users /> },
         { path: '*', element: <ErrorPage /> },
       ],
