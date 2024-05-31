@@ -7,6 +7,7 @@ import Button from '../components/Button';
 import FormInput from '../components/FormInput';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import convertEscape from '../utilites/helpers';
 
 function Edit() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function Edit() {
     author: '',
     main_image: '',
     _id: '',
-    // edited_by: username,
+    edited_by: username,
   });
 
   const editorRef = useRef(null);
@@ -46,19 +47,19 @@ function Edit() {
             ...article,
             article_title: responseData.selectedArticle.article_title,
             article_summary: responseData.selectedArticle.article_summary,
-            article_text: responseData.selectedArticle.article_text,
+            article_text: convertEscape(
+              responseData.selectedArticle.article_text,
+            ),
             author: responseData.selectedArticle.author,
             main_image: responseData.selectedArticle.main_image,
             _id: responseData.selectedArticle._id,
           });
-          console.log(responseData.selectedArticle);
         }
       } catch (error) {
         console.error(error);
       }
     }
     getArticle();
-    console.log(article);
   }, []);
 
   async function editArticle(formData) {
@@ -104,11 +105,12 @@ function Edit() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('_id', article._id);
+    formData.append('edited_by', article.edited_by);
     formData.append('article_title', article.article_title);
     formData.append('article_summary', article.article_summary);
     formData.append('article_text', editorRef.current.getContent());
     formData.append('main_image', article.main_image);
-    console.log(formData);
+
     editArticle(formData);
   }
 
@@ -118,7 +120,7 @@ function Edit() {
       <form
         className='mx-auto mt-12 flex max-h-fit w-4/6 flex-col justify-start space-y-8 bg-slate-100 
           p-8 text-black'
-        method='post'
+        method='put'
         encType='multipart/form-data'
         onSubmit={handleSubmit}
       >
@@ -126,7 +128,7 @@ function Edit() {
           <img
             src={
               file === undefined
-                ? `http://localhost:3000/${article.main_image}`
+                ? `http://localhost:3000/uploads/${article.main_image}`
                 : file
             }
             alt='Main image'
