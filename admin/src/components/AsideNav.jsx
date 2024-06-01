@@ -25,7 +25,9 @@ function AsideNav() {
             onClick={handleClick}
             className='relative flex w-full items-center justify-between'
           >
-            <span>Articles</span>
+            <Link to='/articles' className='hover:text-cust-pumpkin'>
+              <span>Articles</span>
+            </Link>
             {showMenu === false ? (
               <FontAwesomeIcon
                 icon={faSortDown}
@@ -46,11 +48,6 @@ function AsideNav() {
             ''
           ) : (
             <ul className='-ml-20 space-y-2 pt-4'>
-              <li>
-                <Link to='/articles' className='hover:text-cust-pumpkin'>
-                  All
-                </Link>
-              </li>
               <li>
                 <Link
                   to='/articles/published'
@@ -73,11 +70,6 @@ function AsideNav() {
         <li>
           <Link to='/create' className='hover:text-cust-pumpkin'>
             Create New Article
-          </Link>
-        </li>
-        <li>
-          <Link to='/edit' className='hover:text-cust-pumpkin'>
-            Edit Article
           </Link>
         </li>
         <li>
