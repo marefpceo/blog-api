@@ -11,26 +11,26 @@ function All() {
 
   async function publishArticle(id, status) {
     try {
-      console.log(id);
-      const response = await fetch(`http://localhost:3000/admin/articles/${id}/publish`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'content-type': 'application/json',
-      }, 
-        body: JSON.stringify({
-          _id: id,
-          isPublished: status
-        }),
-      });
-      
+      const response = await fetch(
+        `http://localhost:3000/admin/articles/${id}/publish`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            _id: id,
+            isPublished: status,
+          }),
+        },
+      );
+
       const responseData = await response.json();
-      console.log(responseData);
-      
+
       if (response.ok) {
         navigate(0);
       }
-      
     } catch (error) {
       console.error(error);
     }
@@ -43,7 +43,6 @@ function All() {
     const status = name === 'notPublished' ? 'true' : 'false';
 
     publishArticle(id, status);
-    console.log(id, status);
   }
 
   return (
@@ -61,18 +60,17 @@ function All() {
               rounded-md bg-cust-silver p-4 text-cust-english-violet shadow-md
               shadow-cust-english-violet'
             >
-              
-              <Link to={`/edit/${article._id}`} state={{ id: article._id}}>
-                <div className='mb-4 grid w-full grid-cols-3 grid-rows-1 relative'>
+              <Link to={`/edit/${article._id}`} state={{ id: article._id }}>
+                <div className='relative mb-4 grid w-full grid-cols-3 grid-rows-1'>
                   <h2 className='text-xl'>{article.article_title}</h2>
-                  <p className='absolute top-0 left-1/2'>
+                  <p className='absolute left-1/2 top-0'>
                     <strong>
                       {DateTime.fromISO(article.createdAt).toFormat(
                         'dd LLLL yyyy',
                       )}
                     </strong>
                   </p>
-                  <p className='text-right absolute right-0'>
+                  <p className='absolute right-0 text-right'>
                     <span>
                       <em>Written by: &nbsp;&nbsp;</em>
                     </span>
@@ -83,7 +81,6 @@ function All() {
                   <em>{article.article_summary}</em>
                 </div>
               </Link>
-            
             </div>
             <div
               className='article-btn-div flex w-1/5 flex-col items-center 
