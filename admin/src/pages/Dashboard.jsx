@@ -41,15 +41,15 @@ function Dashboard() {
         <div className='flex flex-col items-center gap-20'>
           <StatusCardSmall title={'Site Visits'} count={siteCount.siteVisits} />
           <StatusCardLarge
-            title={'Site Details'}
+            title={'Weekly Site Details'}
             statusText1={'Visits'}
-            statusValue1={siteCount.siteVisits}
+            statusValue1={siteCount.weeklyVisits}
             statusText2={'New Users'}
             statusValue2={0}
             statusText3={'New Comments'}
-            statusValue3={3}
+            statusValue3={0}
             statusText4={'Likes'}
-            statusValue4={3}
+            statusValue4={0}
           />
         </div>
         <div className='flex flex-col items-center gap-20'>
@@ -74,8 +74,8 @@ function Dashboard() {
           <StatusCardLarge
             title={'Users Details'}
             statusText1={'Total'}
-            statusValue1={userInfo.totalUsers}
-            statusText2={'Weekly Signup(s)'}
+            statusValue1={userInfo.regularUsers}
+            statusText2={'Weekly Signups'}
             statusValue2={0}
             statusText3={'Administrators'}
             statusValue3={userInfo.totalAdmins}

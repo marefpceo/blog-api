@@ -19,6 +19,7 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
     totalUsers,
     totalAdmins,
     totalEditors,
+    regularUsers,
     siteVisits,
   ] = await Promise.all([
     Article.countDocuments().exec(),
@@ -28,10 +29,9 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
     User.countDocuments().exec(),
     User.countDocuments({ role: 'admin' }).exec(),
     User.countDocuments({ role: 'editor' }).exec(),
+    User.countDocuments({ role: 'user' }).exec(),
     SiteCount.findById(process.env.SITE_COUNT_ID).exec(),
   ]);
-
-  // const siteVisits = await SiteCount.findById(process.env.SITE_COUNT_ID).exec();
 
   const articleInfo = {
     totalArticles: totalArticles,
@@ -44,10 +44,12 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
     totalUsers: totalUsers,
     totalAdmins: totalAdmins,
     totalEditors: totalEditors,
+    regularUsers: regularUsers,
   };
 
   const siteCount = {
     siteVisits: siteVisits.count_total,
+    weeklyVisits: siteVisits.weekly_count,
   };
 
   res.json({
