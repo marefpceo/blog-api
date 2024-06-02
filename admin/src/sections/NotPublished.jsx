@@ -95,7 +95,7 @@ function NotPublished() {
 
   return (
     <>
-      <h1 className='text-4xl text-cust-silver'>Non-Published Articles</h1>
+      <h1 className='text-4xl text-cust-silver'>Unpublished Articles</h1>
 
       <div className='list-div m-8'>
         {nonPublishedArticles.map((article) => (

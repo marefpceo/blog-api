@@ -7,8 +7,16 @@ import { faSortUp } from '@fortawesome/free-solid-svg-icons';
 function AsideNav() {
   const [showMenu, setShowMenu] = useState(false);
 
-  function handleClick() {
-    showMenu === false ? setShowMenu(true) : setShowMenu(false);
+  function handleShowMenu() {
+    if (showMenu === false) {
+      setShowMenu(true);
+    }
+  }
+
+  function handleHideMenu() {
+    if (showMenu === true) {
+      setShowMenu(false);
+    }
   }
 
   return (
@@ -21,10 +29,7 @@ function AsideNav() {
         </li>
 
         <li className='flex cursor-pointer flex-col items-center justify-between'>
-          <div
-            onClick={handleClick}
-            className='relative flex w-full items-center justify-between'
-          >
+          <div className='relative flex w-full items-center justify-between'>
             <Link to='/articles' className='hover:text-cust-pumpkin'>
               <span>Articles</span>
             </Link>
@@ -34,13 +39,15 @@ function AsideNav() {
                 size='xl'
                 style={{ color: '#ea7317' }}
                 className='absolute bottom-1 right-1 transition-all duration-500'
+                onClick={handleShowMenu}
               />
             ) : (
               <FontAwesomeIcon
                 icon={faSortUp}
                 size='xl'
-                style={{ color: '#443850' }}
+                style={{ color: '#ea7317' }}
                 className='absolute right-1 top-1 transition-all duration-500'
+                onClick={handleHideMenu}
               />
             )}
           </div>
@@ -61,7 +68,7 @@ function AsideNav() {
                   to='/articles/nonpublished'
                   className='hover:text-cust-pumpkin'
                 >
-                  UnPublished
+                  Unpublished
                 </Link>
               </li>
             </ul>
