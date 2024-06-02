@@ -1,9 +1,9 @@
 import StatusCard from '../components/StatusCard';
 import ArticleStatusCard from '../components/ArticleStatusCard';
 
-function Dashboard({ className }) {
+function Dashboard() {
   return (
-    <section className={className}>
+    <section>
       <h1 className='text-4xl text-cust-silver'>Dashboard</h1>
 
       <div className='card-div my-14 flex justify-evenly'>
