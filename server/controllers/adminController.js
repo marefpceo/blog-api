@@ -6,6 +6,8 @@ const { body, validationResult } = require('express-validator');
 // Required models
 const Article = require('../models/articleModel');
 const Comment = require('../models/commentModel');
+const User = require('../models/userModel');
+const SiteCount = require('../models/siteCount');
 
 // Handle GET admin dashboard
 exports.admin_get = asyncHandler(async (req, res, next) => {
@@ -14,19 +16,45 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
     publishedArticles,
     nonpublishedArticles,
     edit_required,
+    totalUsers,
+    totalAdmins,
+    totalEditors,
+    siteVisits,
   ] = await Promise.all([
     Article.countDocuments().exec(),
     Article.countDocuments({ isPublished: true }).exec(),
     Article.countDocuments({ isPublished: false }).exec(),
     Article.countDocuments({ edit_required: true }).exec(),
+    User.countDocuments().exec(),
+    User.countDocuments({ role: 'admin' }).exec(),
+    User.countDocuments({ role: 'editor' }).exec(),
+    SiteCount.findById(process.env.SITE_COUNT_ID).exec(),
   ]);
 
-  res.json({
-    message: 'Admin Dashboard',
+  // const siteVisits = await SiteCount.findById(process.env.SITE_COUNT_ID).exec();
+
+  const articleInfo = {
     totalArticles: totalArticles,
     publishedArticles: publishedArticles,
     nonpublishedArticles: nonpublishedArticles,
     edit_required: edit_required,
+  };
+
+  const userInfo = {
+    totalUsers: totalUsers,
+    totalAdmins: totalAdmins,
+    totalEditors: totalEditors,
+  };
+
+  const siteCount = {
+    siteVisits: siteVisits.count_total,
+  };
+
+  res.json({
+    message: 'Admin Dashboard',
+    articleInfo: articleInfo,
+    userInfo: userInfo,
+    siteCount: siteCount,
   });
 });
 
