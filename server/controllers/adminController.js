@@ -9,8 +9,24 @@ const Comment = require('../models/commentModel');
 
 // Handle GET admin dashboard
 exports.admin_get = asyncHandler(async (req, res, next) => {
+  const [
+    totalArticles,
+    publishedArticles,
+    nonpublishedArticles,
+    edit_required,
+  ] = await Promise.all([
+    Article.countDocuments().exec(),
+    Article.countDocuments({ isPublished: true }).exec(),
+    Article.countDocuments({ isPublished: false }).exec(),
+    Article.countDocuments({ edit_required: true }).exec(),
+  ]);
+
   res.json({
     message: 'Admin Dashboard',
+    totalArticles: totalArticles,
+    publishedArticles: publishedArticles,
+    nonpublishedArticles: nonpublishedArticles,
+    edit_required: edit_required,
   });
 });
 

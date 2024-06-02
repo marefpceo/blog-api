@@ -23,9 +23,11 @@ const ArticleSchema = new Schema(
       type: String,
     },
     main_image: { type: String },
+    edit_required: { type: Boolean, default: true, required: true },
     isPublished: { type: Boolean, default: false, required: true },
     date_published: { type: Date },
     date_updated: { type: Date },
+    likes: { type: Number, default: 0 },
   },
   { timestamps: true },
 );
