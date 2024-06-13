@@ -55,7 +55,7 @@ function verifyRole(req, res, next) {
     process.env.SECRET,
   ).role;
 
-  if (role !== 'Admin') {
+  if (role !== 'admin') {
     res.sendStatus(401);
   } else {
     next();
