@@ -2,12 +2,28 @@ require('dotenv').config();
 
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
+const { DateTime } = require('luxon');
 
 // Required models
 const Article = require('../models/articleModel');
 const Comment = require('../models/commentModel');
 const User = require('../models/userModel');
 const SiteCount = require('../models/siteCount');
+
+// Schedule to reset weekly count every Sunday at midnight PST
+const cron = require('node-cron');
+
+cron.schedule('0 0 * * 0', async () => {
+  const countTemp = await SiteCount.findById(
+    `${process.env.SITE_COUNT_ID}`,
+    'weekly_count',
+  ).exec();
+  SiteCount.findByIdAndUpdate(`${process.env.SITE_COUNT_ID}`, {
+    weekly_count: 0,
+    previous_weekly_count: countTemp.weekly_count,
+  }).exec(),
+    console.log('Weekly count reset', countTemp.weekly_count);
+});
 
 // Handle GET admin dashboard
 exports.admin_get = asyncHandler(async (req, res, next) => {

@@ -10,7 +10,7 @@ const SiteCount = require('../models/siteCount');
 function siteCountUp() {
   SiteCount.findByIdAndUpdate(
     `${process.env.SITE_COUNT_ID}`,
-    { $inc: { count_total: 1 } },
+    { $inc: { count_total: 1, weekly_count: 1 } },
     { new: true },
   ).exec();
 }

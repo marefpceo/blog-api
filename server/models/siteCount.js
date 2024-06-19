@@ -7,7 +7,7 @@ const SiteCountSchema = new Schema({
   weekly_user_count: { type: Number, required: true },
   weekly_comment_count: { type: Number, required: true },
   weekly_likes_count: { type: Number, required: true },
-  weekly_date_baseline: { type: Date, required: true },
+  previous_weekly_count: { type: Number, required: true },
 });
 
 module.exports = mongoose.model('SiteCount', SiteCountSchema);
