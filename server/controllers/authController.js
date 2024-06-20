@@ -5,6 +5,16 @@ const debug = require('debug')('auth');
 
 // Required model
 const User = require('../models/userModel');
+const SiteCount = require('../models/siteCount');
+
+// Site count function
+function siteCountUp() {
+  SiteCount.findByIdAndUpdate(
+    `${process.env.SITE_COUNT_ID}`,
+    { $inc: { weekly_user_count: 1 } },
+    { new: true },
+  ).exec();
+}
 
 // Handle signup POST to create new user
 exports.sign_up_post = [
@@ -22,10 +32,10 @@ exports.sign_up_post = [
     .trim()
     .isEmail()
     .withMessage('Not a valid e-mail address (example: my@email.com)')
-    .custom(async value => {
-      const user = await User.findOne({'email': value}).exec();
-      
-      if(user) {
+    .custom(async (value) => {
+      const user = await User.findOne({ email: value }).exec();
+
+      if (user) {
         throw new Error('E-mail address already in use');
       }
     })
@@ -34,10 +44,10 @@ exports.sign_up_post = [
     .trim()
     .isLength({ min: 3, max: 120 })
     .withMessage('Username must contain at least 3 characters')
-    .custom(async value => {
-      const user = await User.findOne({'username': value}).exec();
-      
-      if(user) {
+    .custom(async (value) => {
+      const user = await User.findOne({ username: value }).exec();
+
+      if (user) {
         throw new Error('Username is already in use');
       }
     })
@@ -65,19 +75,21 @@ exports.sign_up_post = [
       password: req.body.password,
     });
 
-    if(!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
       debug(`Sign up validation error`);
       res.json({
         user: user,
-        errors: errors.array()
+        errors: errors.array(),
       });
       return;
     } else {
       user.password = bcrypt.hashSync(req.body.password, 10);
       await user.save();
+      siteCountUp();
       debug(`${user.username} created`);
       res.json({
-        message: `${user.username} was created`
-      })
+        message: `${user.username} was created`,
+      });
     }
-})];
+  }),
+];

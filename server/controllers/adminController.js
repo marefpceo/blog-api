@@ -66,6 +66,9 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
   const siteCount = {
     siteVisits: siteVisits.count_total,
     weeklyVisits: siteVisits.weekly_count,
+    weeklyUsers: siteVisits.weekly_user_count,
+    lastWeekVisits: siteVisits.previous_weekly_count,
+    weeklyLikes: siteVisits.weekly_likes_count,
   };
 
   res.json({
