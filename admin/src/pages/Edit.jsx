@@ -132,7 +132,7 @@ function Edit() {
                 : file
             }
             alt='Main image'
-            className='mx-auto h-full '
+            className='mx-auto h-full'
           />
           <div className='max-w-max border'>
             <input

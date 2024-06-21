@@ -42,14 +42,14 @@ function Dashboard() {
           <StatusCardSmall title={'Site Visits'} count={siteCount.siteVisits} />
           <StatusCardLarge
             title={'Weekly Site Details'}
-            statusText1={'Visits'}
+            statusText1={'Visits This Week'}
             statusValue1={siteCount.weeklyVisits}
             statusText2={'New Users'}
-            statusValue2={0}
-            statusText3={'New Comments'}
-            statusValue3={0}
+            statusValue2={siteCount.weeklyUsers}
+            statusText3={'Last Week Visits'}
+            statusValue3={siteCount.lastWeekVisits}
             statusText4={'Likes'}
-            statusValue4={0}
+            statusValue4={siteCount.weeklyLikes}
           />
         </div>
         <div className='flex flex-col items-center gap-20'>
