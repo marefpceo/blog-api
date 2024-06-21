@@ -108,4 +108,7 @@ router.delete(
   admin_controller.admin_articles_delete,
 );
 
+// Admin User's List
+router.get('/users', verifyRole, admin_controller.admin_user_list);
+
 module.exports = router;

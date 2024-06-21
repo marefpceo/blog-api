@@ -216,3 +216,19 @@ exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
     });
   }
 });
+
+// Get Users List
+exports.admin_user_list = asyncHandler(async (req, res, next) => {
+  const userList = await User.find({}, { password: 0 })
+    .sort({ last_name: 1 })
+    .exec();
+
+  if (!userList) {
+    res.sendStatus(404);
+  } else {
+    res.json({
+      message: 'User List By Last Name',
+      users: userList,
+    });
+  }
+});
