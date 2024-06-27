@@ -8,30 +8,34 @@ function ArticleSection() {
   const [articleText, setArticleText] = useState();
 
   useEffect(() => {
-    const convertedText = { __html: convertEscape(selectedArticle.article_text)};
+    const convertedText = {
+      __html: convertEscape(selectedArticle.article_text),
+    };
     setArticleText(convertedText);
-  }, [])
-
+  }, []);
 
   return (
     <>
       <section className='article mx-auto mb-32 flex w-4/6 flex-1 flex-col items-center'>
         <div className='mb-16 flex flex-col items-center'>
-          <img src={`http://localhost:3000/${selectedArticle.main_image}`} alt='' width={300}/>
+          <img
+            src={`http://localhost:3000/uploads/${selectedArticle.main_image}`}
+            alt=''
+            width={300}
+          />
         </div>
         {selectedArticle && (
           <>
-            <div className='article-header self-start text-left'>
+            <div className='article-header self-start text-left leading-loose'>
               <h1>{convertEscape(selectedArticle.article_title)}</h1>
               <p>Written By: {selectedArticle.author}</p>
               <p>Published: {selectedArticle.date_published}</p>
             </div>
-            <div className='text'>
-              <p className='mt-8 text-left'
+            <div className='article-text mt-12 w-full'>
+              <p
+                className='text-left'
                 dangerouslySetInnerHTML={articleText}
-              >
-                {/* {articleText} */}
-              </p>
+              ></p>
             </div>
           </>
         )}

@@ -10,6 +10,7 @@ function App() {
   const [recentArticles, setRecentArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [refreshList, setRefreshList] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,11 +53,12 @@ function App() {
           });
         }
       } finally {
+        setRefreshList(false);
         setTimeout(setLoading(false), 3000);
       }
     }
     getArticles();
-  }, []);
+  }, [refreshList]);
 
   return (
     <div className='container mx-auto mb-0 mt-32 flex flex-1 flex-col'>
@@ -74,6 +76,7 @@ function App() {
             recentArticles,
             isAuthenticated,
             setIsAuthenticated,
+            setRefreshList,
           }}
         />
       )}
