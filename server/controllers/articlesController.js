@@ -17,7 +17,6 @@ function siteCountUp() {
 
 // Display article listing
 exports.articles_list_get = asyncHandler(async (req, res, next) => {
-  siteCountUp();
   const articles = await Article.find({ isPublished: true })
     .sort({ timestamp: 1 })
     .exec();

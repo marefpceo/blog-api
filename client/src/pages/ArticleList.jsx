@@ -8,7 +8,7 @@ function ArticleList() {
 
   useEffect(() => {
     setRefreshList(true);
-  });
+  }, []);
 
   return (
     <>
