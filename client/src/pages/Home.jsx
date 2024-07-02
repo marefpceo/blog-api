@@ -13,7 +13,8 @@ function Home() {
       try {
         const response = await fetch('http://localhost:3000/articles/count');
         if (response.ok) {
-          console.log('Site visit logged');
+          const responseData = await response.json();
+          console.log(responseData.message);
         }
       } catch (error) {
         console.error(error.message);

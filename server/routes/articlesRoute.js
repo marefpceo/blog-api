@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
 
@@ -8,13 +10,15 @@ const SiteCount = require('../models/siteCount');
 const articles_controller = require('../controllers/articlesController');
 
 // Site count function
-function siteCountUp(req, res, next) {
+function siteCountUp(req, res) {
   SiteCount.findByIdAndUpdate(
     `${process.env.SITE_COUNT_ID}`,
     { $inc: { count_total: 1, weekly_count: 1 } },
     { new: true },
   ).exec();
-  next();
+  res.json({
+    message: 'Count added'
+  });
 }
 
 // GET site visitor count
