@@ -2,8 +2,6 @@ const asyncHandler = require('express-async-handler');
 
 // Required models
 const Article = require('../models/articleModel');
-const Comment = require('../models/commentModel');
-const User = require('../models/userModel');
 const SiteCount = require('../models/siteCount');
 
 // Site count function
