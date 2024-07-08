@@ -53,7 +53,7 @@ function CommentSection({ articleComments }) {
         )}
       </div>
 
-      {articleComments &&
+      {!articleComments &&
         articleComments.map((comment) => (
           <CommentCard key={comment._id} comment={comment} />
         ))}
