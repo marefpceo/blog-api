@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import convertEscape from '../utilites/helpers';
+import LinkUnderline from '../utilites/LinkUnderline';
 
 function ViewArticle() {
   const token = localStorage.getItem('token');
@@ -10,6 +11,7 @@ function ViewArticle() {
   const [comments, setComment] = useState([]);
   const [articleText, setArticleText] = useState();
   const [dataSet, setDataSet] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function getArticle() {
@@ -46,20 +48,43 @@ function ViewArticle() {
     }
   }, [dataSet]);
 
+  function handleOpenModal() {
+    setShowModal(true);
+    console.log(showModal);
+  }
+
+  function handleCloseModal() {
+    setShowModal(false);
+    console.log(showModal);
+  }
+
   return (
     <section>
-      <div className='mt-0 w-full flex items-center justify-between sticky top-0 bg-cust-slate-gray'>
+      <div className='mt-0 pt-4 w-full flex items-center justify-between sticky top-0 bg-cust-slate-gray'>
         <h1 className='title text-4xl text-cust-silver'>View Article</h1>
-        <div className='flex gap-12'>
-          <Link to={`/edit/${id}`} state={{ id: id }}>
+        <div className='flex gap-12 mr-8'>
+          <div className='cursor-pointer group relative' onClick={handleOpenModal}>View/ Edit Comments
+            <LinkUnderline 
+              color={'bg-cust-pumpkin'}
+            />
+          </div>
+          <Link to={`/edit/${id}`} state={{ id: id }} className='group relative'>
             Edit Article
+            <LinkUnderline 
+              color={'bg-cust-pumpkin'}
+            />
           </Link>
-          <Link to={-1}>Back</Link>
+          <Link to={-1} className='group relative'>
+            Back
+            <LinkUnderline 
+              color={'bg-cust-pumpkin'}
+            />
+          </Link>
         </div>
       </div>
 
       <article className='article mx-auto mt-16 mb-32 px-8 flex w-4/6 flex-1 flex-col items-center 
-        text-cust-english-violet bg-slate-50'>
+        text-cust-english-violet bg-slate-50 relative'>
         <div className='mt-8 mb-16 flex flex-col items-center'>
             <img
               src={`http://localhost:3000/uploads/${article.main_image}`}
