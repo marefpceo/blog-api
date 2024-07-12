@@ -13,6 +13,8 @@ function ViewArticle() {
   const [articleText, setArticleText] = useState();
   const [dataSet, setDataSet] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [deleteComment, setDeleteComment] = useState(false);
+  const [commentId, setCommentId] = useState();
 
   useEffect(() => {
     async function getArticle() {
@@ -28,14 +30,14 @@ function ViewArticle() {
         let commentsResponseData = await commentsResponse.json();
 
         setArticle(articleResponseData.selectedArticle);
-        setComment(commentsResponseData);
+        setComment(commentsResponseData.comments);
         setDataSet(true);
       } catch (error) {
         console.error(error, error.status);
       }
     }
     getArticle();
-  }, []);
+  }, [deleteComment]);
 
   useEffect(() => {
     if (dataSet === true) {
@@ -49,14 +51,50 @@ function ViewArticle() {
     }
   }, [dataSet]);
 
+  useEffect(() => {
+    if (deleteComment === false) {
+      return;
+    } else {
+      async function deleteComment() {
+        try {
+          console.log(commentId);
+          const response = await fetch(`http://localhost:3000/articles/${id}/comments/${commentId}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` },
+            // body: JSON.stringify({
+            //   id: commentId
+            // })
+          });
+
+          let responseData = await response.json();
+
+          console.log(responseData);
+        } catch (error) {
+          console.error(error);
+        }
+      } deleteComment();
+    } 
+  }, [deleteComment]);
+
   function handleOpenModal() {
     setShowModal(true);
-    console.log(showModal);
   }
 
   function handleCloseModal() {
     setShowModal(false);
-    console.log(showModal);
+  }
+
+  function commentDelete() {
+    // Dialog box only used to complete delete logic. This will change to a custom modal dialog
+    const agree = confirm('Are you sure?');
+    if (agree === true) {
+      setDeleteComment(true);
+      console.log('delete' + deleteComment);
+      console.log(commentId);
+    } else {
+      setDeleteComment(false);
+      console.log('deleted' + deleteComment);
+    }
   }
 
   return (
@@ -97,6 +135,9 @@ function ViewArticle() {
             className='mt-16 mx-auto w-4/6 h-3/4 px-2 py-4 bg-cust-beige/20 relative rounded-md shadow-md 
               shadow-cust-english-violet/50'
             handleCloseModal={handleCloseModal}
+            comments={comments}
+            commentDelete={commentDelete}
+            setCommentId={setCommentId}
           />
           ) : (
           <article className='article mx-auto mt-16 mb-32 px-8 flex w-4/6 flex-1 flex-col items-center 

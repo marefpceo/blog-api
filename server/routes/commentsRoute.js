@@ -33,6 +33,9 @@ router.get('/:id/comments', comments_controller.article_comments_get);
 // GET single comment from article
 router.get('/:id/comments/:id', passport.authenticate('jwt', { session: false }), comments_controller.comment_get);
 
+// DELETE single comment from article
+router.delete('/:id/comments/:id', passport.authenticate('jwt', { session: false }), comments_controller.comment_delete);
+
 // POST Comment to selected article
 router.post('/:id/comment_post', passport.authenticate('jwt', { session: false }), comments_controller.comment_post);
 

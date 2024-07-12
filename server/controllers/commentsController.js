@@ -29,7 +29,7 @@ exports.comment_get = asyncHandler(async (req, res, next) => {
     process.env.SECRET,
   ).role;
 
-  if (role !== 'Admin') {
+  if (role !== 'admin') {
     res.sendStatus(401);
   } else {
     res.json({
@@ -37,6 +37,24 @@ exports.comment_get = asyncHandler(async (req, res, next) => {
     });
   }
 });
+
+// Delete single comment
+exports.comment_delete = asyncHandler(async (req, res, next) => {
+  const role = jwt.verify(
+    req.headers['Authorization'].split(' ')[1],
+    process.env.SECRET,
+  ).role;
+
+  if (role !== 'admin') {
+    res.sendStatus(401);
+  } else {
+    await Comment.findByIdAndDelete(req.body.id);
+    res.json({
+      message: 'Comment'
+    })
+  }
+});
+
 
 // Handle post comment
 exports.comment_post = [

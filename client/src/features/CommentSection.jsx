@@ -1,4 +1,3 @@
-import CommentCard from '../components/CommentCard';
 import Button from '../components/Button';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -60,7 +59,9 @@ function CommentSection({ articleComments }) {
 
       <Link to={`/article/${id}/comments`}>
         <Button
-          className={'bg-slate-50 shadow-md hover:shadow-cust-pumpkin/30'}
+          className={
+            'flex flex-col bg-slate-50 shadow-md hover:shadow-cust-pumpkin/30'
+          }
           type={'button'}
           text={'See All Comments'}
           style={{
