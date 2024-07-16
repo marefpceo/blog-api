@@ -13,7 +13,7 @@ function ViewArticle() {
   const [articleText, setArticleText] = useState();
   const [dataSet, setDataSet] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [deleteComment, setDeleteComment] = useState(false);
+  const [readyToDelete, setReadyToDelete] = useState(false);
   const [commentId, setCommentId] = useState();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function ViewArticle() {
       }
     }
     getArticle();
-  }, [deleteComment]);
+  }, []);
 
   useEffect(() => {
     if (dataSet === true) {
@@ -52,18 +52,14 @@ function ViewArticle() {
   }, [dataSet]);
 
   useEffect(() => {
-    if (deleteComment === false) {
+    if (readyToDelete === false) {
       return;
     } else {
       async function deleteComment() {
         try {
-          console.log(commentId);
           const response = await fetch(`http://localhost:3000/articles/${id}/comments/${commentId}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` },
-            // body: JSON.stringify({
-            //   id: commentId
-            // })
           });
 
           let responseData = await response.json();
@@ -74,7 +70,7 @@ function ViewArticle() {
         }
       } deleteComment();
     } 
-  }, [deleteComment]);
+  }, [readyToDelete]);
 
   function handleOpenModal() {
     setShowModal(true);
@@ -84,16 +80,16 @@ function ViewArticle() {
     setShowModal(false);
   }
 
-  function commentDelete() {
+  function handleCommentDelete() {
     // Dialog box only used to complete delete logic. This will change to a custom modal dialog
     const agree = confirm('Are you sure?');
     if (agree === true) {
-      setDeleteComment(true);
-      console.log('delete' + deleteComment);
+      setReadyToDelete(true);
+      console.log('delete ' + readyToDelete);
       console.log(commentId);
     } else {
-      setDeleteComment(false);
-      console.log('deleted' + deleteComment);
+      setReadyToDelete(false);
+      console.log('deleted' + readyToDelete);
     }
   }
 
@@ -136,7 +132,7 @@ function ViewArticle() {
               shadow-cust-english-violet/50'
             handleCloseModal={handleCloseModal}
             comments={comments}
-            commentDelete={commentDelete}
+            handleCommentDelete={handleCommentDelete}
             setCommentId={setCommentId}
           />
           ) : (

@@ -2,11 +2,11 @@ import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-function CommentCard({ comment, commentDelete, setCommentId }) {
+function CommentCard({ comment, handleCommentDelete, setCommentId }) {
 
   function handleClick() {
     setCommentId(comment._id);
-    commentDelete();
+    handleCommentDelete();
   }
 
   return (

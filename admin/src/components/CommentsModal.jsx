@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import CommentCard from './CommentCard';
 
-function CommentsModal({ handleCloseModal, className, comments, commentDelete, setCommentId }) {
+function CommentsModal({ handleCloseModal, className, comments, handleCommentDelete, setCommentId }) {
   return (
     <div className={className}>
       <div className='modal-header mb-8 flex justify-between relative'>
@@ -22,7 +22,7 @@ function CommentsModal({ handleCloseModal, className, comments, commentDelete, s
             <CommentCard 
               key={comment._id} 
               comment={comment} 
-              commentDelete={commentDelete}
+              handleCommentDelete={handleCommentDelete}
               setCommentId={setCommentId}
             />
           ))

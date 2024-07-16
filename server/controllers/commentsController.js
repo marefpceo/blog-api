@@ -23,14 +23,12 @@ exports.article_comments_get = asyncHandler(async (req, res, next) => {
 
 // View single comment
 exports.comment_get = asyncHandler(async (req, res, next) => {
-  const selectedComment = await Comment.findById(req.params.id);
-  const role = jwt.verify(
-    req.headers['Authorization'].split(' ')[1],
-    process.env.SECRET,
-  ).role;
-
-  if (role !== 'admin') {
-    res.sendStatus(401);
+  const selectedComment = await Comment.findById(req.params.commentId).populate(
+    'comment_user',
+    'username',
+  );
+  if (!selectedComment) {
+    res.status = 404;
   } else {
     res.json({
       selectedComment,
@@ -40,21 +38,17 @@ exports.comment_get = asyncHandler(async (req, res, next) => {
 
 // Delete single comment
 exports.comment_delete = asyncHandler(async (req, res, next) => {
-  const role = jwt.verify(
-    req.headers['Authorization'].split(' ')[1],
-    process.env.SECRET,
-  ).role;
+  const deleteArticleId = await Comment.findById(req.params.commentId);
 
-  if (role !== 'admin') {
-    res.sendStatus(401);
+  if (!deleteArticleId) {
+    res.status = 404;
   } else {
-    await Comment.findByIdAndDelete(req.body.id);
+    // await Comment.findByIdAndDelete(req.params.commentId);
     res.json({
-      message: 'Comment'
-    })
+      message: 'Comment Deleted',
+    });
   }
 });
-
 
 // Handle post comment
 exports.comment_post = [
