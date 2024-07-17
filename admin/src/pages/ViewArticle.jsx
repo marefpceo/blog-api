@@ -63,7 +63,7 @@ function ViewArticle() {
           });
 
           let responseData = await response.json();
-
+          setReadyToDelete(false);
           console.log(responseData);
         } catch (error) {
           console.error(error);
