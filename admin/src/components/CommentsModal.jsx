@@ -1,8 +1,43 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import CommentCard from './CommentCard';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-function CommentsModal({ handleCloseModal, className, comments, handleCommentDelete, setCommentId }) {
+function CommentsModal({ handleCloseModal, className, comments }) {
+  const token = localStorage.getItem('token');
+  const { id } = useParams();
+  const [readyToDelete, setReadyToDelete] = useState(false);
+  const [commentId, setCommentId] = useState();
+  
+
+  useEffect(() => {
+    async function deleteComment() {
+      if(commentId === undefined) { return };
+      try {
+        const response = await fetch(`http://localhost:3000/articles/${id}/comments/${commentId}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}`},
+        });
+
+        if (response.ok) {
+          let responseData = await response.json();
+          setReadyToDelete(false);
+          console.log(responseData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } 
+    deleteComment();
+  },[readyToDelete]);
+
+  function handleCommentDelete() {
+    setReadyToDelete(true);
+    console.log('handle delete');
+    console.log(commentId);
+  }
+
   return (
     <div className={className}>
       <div className='modal-header mb-8 flex justify-between relative'>

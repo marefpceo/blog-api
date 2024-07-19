@@ -33,7 +33,7 @@ router.get(
 
 // DELETE single comment from article
 router.delete(
-  '/:id/comments/:id',
+  '/:id/comments/:commentId',
   verifyRole,
   comments_controller.comment_delete,
 );

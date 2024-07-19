@@ -13,8 +13,6 @@ function ViewArticle() {
   const [articleText, setArticleText] = useState();
   const [dataSet, setDataSet] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [readyToDelete, setReadyToDelete] = useState(false);
-  const [commentId, setCommentId] = useState();
 
   useEffect(() => {
     async function getArticle() {
@@ -51,46 +49,12 @@ function ViewArticle() {
     }
   }, [dataSet]);
 
-  useEffect(() => {
-    if (readyToDelete === false) {
-      return;
-    } else {
-      async function deleteComment() {
-        try {
-          const response = await fetch(`http://localhost:3000/articles/${id}/comments/${commentId}`, {
-            method: 'DELETE',
-            headers: { Authorization: `Bearer ${token}` },
-          });
-
-          let responseData = await response.json();
-          setReadyToDelete(false);
-          console.log(responseData);
-        } catch (error) {
-          console.error(error);
-        }
-      } deleteComment();
-    } 
-  }, [readyToDelete]);
-
   function handleOpenModal() {
     setShowModal(true);
   }
 
   function handleCloseModal() {
     setShowModal(false);
-  }
-
-  function handleCommentDelete() {
-    // Dialog box only used to complete delete logic. This will change to a custom modal dialog
-    const agree = confirm('Are you sure?');
-    if (agree === true) {
-      setReadyToDelete(true);
-      console.log('delete ' + readyToDelete);
-      console.log(commentId);
-    } else {
-      setReadyToDelete(false);
-      console.log('deleted' + readyToDelete);
-    }
   }
 
   return (
@@ -132,8 +96,6 @@ function ViewArticle() {
               shadow-cust-english-violet/50'
             handleCloseModal={handleCloseModal}
             comments={comments}
-            handleCommentDelete={handleCommentDelete}
-            setCommentId={setCommentId}
           />
           ) : (
           <article className='article mx-auto mt-16 mb-32 px-8 flex w-4/6 flex-1 flex-col items-center 
@@ -163,9 +125,6 @@ function ViewArticle() {
       </article>
         )
       }
-       
-
-      
     </section>
   );
 }
