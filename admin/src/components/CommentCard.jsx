@@ -2,17 +2,17 @@ import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-function CommentCard({ comment, handleCommentDelete, setCommentId }) {
+function CommentCard({ comment, setCommentId, setShowDialog }) {
 
   function handleClick() {
     setCommentId(comment._id);
-    handleCommentDelete();
+    setShowDialog(true);
   }
 
   return (
     <div className='comment-card mx-auto mb-6 p-3 flex w-2/3 items-center gap-12 rounded-lg border 
-      bg-slate-200 border-cust-beige/50  text-cust-english-violet shadow-md shadow-cust-english-violet/60
-      justify-between'
+      bg-slate-200 border-cust-beige/50  text-cust-english-violet shadow-md justify-between 
+      shadow-cust-english-violet/60'
     >
       <div className='user-avatar mx-auto rounded-full bg-cust-slate-gray/50 p-3'>
         <FontAwesomeIcon 

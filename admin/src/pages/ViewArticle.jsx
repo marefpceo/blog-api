@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import convertEscape from '../utilites/helpers';
@@ -13,6 +13,7 @@ function ViewArticle() {
   const [articleText, setArticleText] = useState();
   const [dataSet, setDataSet] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [reloadData, setReloadData] = useState(false);
 
   useEffect(() => {
     async function getArticle() {
@@ -30,12 +31,13 @@ function ViewArticle() {
         setArticle(articleResponseData.selectedArticle);
         setComment(commentsResponseData.comments);
         setDataSet(true);
+        setReloadData(false);
       } catch (error) {
         console.error(error, error.status);
       }
     }
     getArticle();
-  }, []);
+  }, [reloadData]);
 
   useEffect(() => {
     if (dataSet === true) {
@@ -96,33 +98,34 @@ function ViewArticle() {
               shadow-cust-english-violet/50'
             handleCloseModal={handleCloseModal}
             comments={comments}
+            setReloadData={setReloadData}
           />
           ) : (
           <article className='article mx-auto mt-16 mb-32 px-8 flex w-4/6 flex-1 flex-col items-center 
-        text-cust-english-violet bg-slate-50 relative'>
-        <div className='mt-8 mb-16 flex flex-col items-center'>
-            <img
-              src={`http://localhost:3000/uploads/${article.main_image}`}
-              alt=''
-              width={300}
-            />
-          </div>
+          text-cust-english-violet bg-slate-50 relative'>
+            <div className='mt-8 mb-16 flex flex-col items-center'>
+                <img
+                  src={`http://localhost:3000/uploads/${article.main_image}`}
+                  alt=''
+                  width={300}
+                />
+              </div>
 
-          <>
-            <div className='article-header self-start text-left leading-loose'>
-              <h1>{article.article_title}</h1>
-              <p>Written By: {article.author}</p>
-              <p>Published: {article.date_published}</p>
-            </div>
-            <div className='article-text mt-12 w-full'>
-              <p
-                className='text-left'
-                dangerouslySetInnerHTML={articleText}
-              ></p>
-            </div>
-          </>
+              <>
+                <div className='article-header self-start text-left leading-loose'>
+                  <h1>{article.article_title}</h1>
+                  <p>Written By: {article.author}</p>
+                  <p>Published: {article.date_published}</p>
+                </div>
+                <div className='article-text mt-12 w-full'>
+                  <p
+                    className='text-left'
+                    dangerouslySetInnerHTML={articleText}
+                  ></p>
+                </div>
+              </>
 
-      </article>
+          </article>
         )
       }
     </section>

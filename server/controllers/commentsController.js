@@ -43,7 +43,7 @@ exports.comment_delete = asyncHandler(async (req, res, next) => {
   if (!deleteArticleId) {
     res.status = 404;
   } else {
-    // await Comment.findByIdAndDelete(req.params.commentId);
+    await Comment.findByIdAndDelete(req.params.commentId);
     res.json({
       message: 'Comment Deleted',
     });

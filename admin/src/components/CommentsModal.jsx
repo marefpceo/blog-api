@@ -1,15 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import CommentCard from './CommentCard';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import CommentCard from './CommentCard';
+import DialogModal from './DialogModal';
 
-function CommentsModal({ handleCloseModal, className, comments }) {
+function CommentsModal({ handleCloseModal, className, comments, setReloadData }) {
   const token = localStorage.getItem('token');
   const { id } = useParams();
-  const [readyToDelete, setReadyToDelete] = useState(false);
   const [commentId, setCommentId] = useState();
-  
+  const [readyToDelete, setReadyToDelete] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   useEffect(() => {
     async function deleteComment() {
@@ -23,6 +24,7 @@ function CommentsModal({ handleCloseModal, className, comments }) {
         if (response.ok) {
           let responseData = await response.json();
           setReadyToDelete(false);
+          setReloadData(true);
           console.log(responseData);
         }
       } catch (error) {
@@ -33,6 +35,7 @@ function CommentsModal({ handleCloseModal, className, comments }) {
   },[readyToDelete]);
 
   function handleCommentDelete() {
+    setShowDialog(true);
     setReadyToDelete(true);
     console.log('handle delete');
     console.log(commentId);
@@ -57,13 +60,20 @@ function CommentsModal({ handleCloseModal, className, comments }) {
             <CommentCard 
               key={comment._id} 
               comment={comment} 
-              handleCommentDelete={handleCommentDelete}
+              setReadyToDelete={setReadyToDelete}
               setCommentId={setCommentId}
+              setShowDialog={setShowDialog}
             />
           ))
         }
       </div>
 
+      <DialogModal 
+        message={'Would you really like to delete'}
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+        handleCommentDelete={handleCommentDelete}
+      />
     </div>
   )
 }
