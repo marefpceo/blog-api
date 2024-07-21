@@ -10,6 +10,7 @@ import Published from '../sections/Published';
 import NotPublished from '../sections/NotPublished';
 import Create from '../pages/Create';
 import Edit from '../pages/Edit';
+import ViewArticle from '../pages/ViewArticle';
 import { Navigate } from 'react-router-dom';
 
 const token = localStorage.getItem('token');
@@ -32,6 +33,7 @@ function Router() {
           ],
         },
         { path: 'create', element: <Create /> },
+        { path: 'article/:id', element: <ViewArticle /> },
         { path: 'edit/:id', element: <Edit /> },
         { path: 'users', element: <Users /> },
         { path: '*', element: <ErrorPage /> },

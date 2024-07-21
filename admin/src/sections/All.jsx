@@ -60,7 +60,7 @@ function All() {
               rounded-md bg-cust-silver p-4 text-cust-english-violet shadow-md
               shadow-cust-english-violet'
             >
-              <Link to={`/edit/${article._id}`} state={{ id: article._id }}>
+              <Link to={`/article/${article._id}`} state={{ id: article._id }}>
                 <div className='relative mb-4 grid w-full grid-cols-3 grid-rows-1'>
                   <h2 className='text-xl'>{article.article_title}</h2>
                   <p className='absolute left-1/2 top-0'>

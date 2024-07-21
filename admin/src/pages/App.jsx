@@ -8,8 +8,8 @@ function App() {
       <Header />
       <SideBar />
       <div
-        className='col-start-2 row-start-2 overflow-y-auto bg-cust-slate-gray p-4 
-        text-cust-beige shadow-inner shadow-cust-english-violet'
+        className='col-start-2 row-start-2 overflow-y-auto bg-cust-slate-gray pt-0 px-4 
+        text-cust-beige border border-t-2 border-l-2 border-cust-english-violet/15'
       >
         <Outlet />
       </div>
