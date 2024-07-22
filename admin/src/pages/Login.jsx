@@ -35,7 +35,6 @@ function Login() {
       if (response.status === 200) {
         localStorage.setItem('token', responseData.token);
         localStorage.setItem('username', responseData.username);
-        console.log(responseData);
         navigate(0);
       }
       setInvalidLogin(false);

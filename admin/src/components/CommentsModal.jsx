@@ -25,7 +25,6 @@ function CommentsModal({ handleCloseModal, className, comments, setReloadData })
           let responseData = await response.json();
           setReadyToDelete(false);
           setReloadData(true);
-          console.log(responseData);
         }
       } catch (error) {
         console.log(error);
@@ -37,8 +36,6 @@ function CommentsModal({ handleCloseModal, className, comments, setReloadData })
   function handleCommentDelete() {
     setShowDialog(true);
     setReadyToDelete(true);
-    console.log('handle delete');
-    console.log(commentId);
   }
 
   return (
