@@ -14,6 +14,7 @@ model User {
   email             String    @unique
   username          String
   password          String
+  role              String    @default("user")
   isAdmin           Boolean   @default(false)
   status            String    @default("ok")
   comment Comment[]
