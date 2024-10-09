@@ -37,13 +37,13 @@ model Article {
   author            String
   article_summary   String
   article_text      String
-  edited_by         String?
+  edited_by         String?         
   main_image        String?
   edit_required     Boolean         @default(true)
   isPublished       Boolean         @default(false)
   date_published    DateTime?
   date_updated      DateTime?
-  likes             Int?             @default(0)
+  likes             Int?            @default(0)
   comment           Comment[]
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @default(now())
