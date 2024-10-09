@@ -5,19 +5,6 @@ const debug = require('debug')('auth');
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// Required model
-const User = require('../models/userModel');
-const SiteCount = require('../models/siteCount');
-
-// Site count function
-function siteCountUp() {
-  SiteCount.findByIdAndUpdate(
-    `${process.env.SITE_COUNT_ID}`,
-    { $inc: { weekly_user_count: 1 } },
-    { new: true },
-  ).exec();
-}
-
 // Handle signup POST to create new user
 exports.sign_up_post = [
   body('first_name')
@@ -96,7 +83,6 @@ exports.sign_up_post = [
     } else {
       user.password = bcrypt.hashSync(req.body.password, 10);
       await prisma.user.create({ data: user });
-      // siteCountUp();
       debug(`${user.username} created`);
       res.json({
         message: `${user.username} was created`,
