@@ -27,6 +27,8 @@ model Comment {
   commentId         Int
   comment_user      User            @relation(fields: [userId], references: [id])
   userId            Int
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @default(now())
 }
 
 model Article {
@@ -43,6 +45,8 @@ model Article {
   date_updated      DateTime
   likes             Int             @default(0)
   comment           Comment[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @default(now())
 }
 
 model Count {
