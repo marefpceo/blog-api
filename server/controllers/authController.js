@@ -2,6 +2,8 @@ const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const debug = require('debug')('auth');
+const { PrismaClient, Prisma } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 // Required model
 const User = require('../models/userModel');
@@ -33,8 +35,11 @@ exports.sign_up_post = [
     .isEmail()
     .withMessage('Not a valid e-mail address (example: my@email.com)')
     .custom(async (value) => {
-      const user = await User.findOne({ email: value }).exec();
-
+      const user = await prisma.user.findUnique({
+        where: {
+          email: value,
+        },
+      });
       if (user) {
         throw new Error('E-mail address already in use');
       }
@@ -45,7 +50,11 @@ exports.sign_up_post = [
     .isLength({ min: 3, max: 120 })
     .withMessage('Username must contain at least 3 characters')
     .custom(async (value) => {
-      const user = await User.findOne({ username: value }).exec();
+      const user = await prisma.user.findUnique({
+        where: {
+          username: value,
+        },
+      });
 
       if (user) {
         throw new Error('Username is already in use');
@@ -67,13 +76,15 @@ exports.sign_up_post = [
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    const user = new User({
+    let user = Prisma.UserCreateInput;
+
+    user = {
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       email: req.body.email,
       username: req.body.username,
       password: req.body.password,
-    });
+    };
 
     if (!errors.isEmpty()) {
       debug(`Sign up validation error`);
@@ -84,8 +95,8 @@ exports.sign_up_post = [
       return;
     } else {
       user.password = bcrypt.hashSync(req.body.password, 10);
-      await user.save();
-      siteCountUp();
+      await prisma.user.create({ data: user });
+      // siteCountUp();
       debug(`${user.username} created`);
       res.json({
         message: `${user.username} was created`,
