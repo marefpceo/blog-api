@@ -17,7 +17,8 @@ model User {
   role              String    @default("user")
   isAdmin           Boolean   @default(false)
   status            String    @default("ok")
-  comment Comment[]
+  comment           Comment[]
+  article           Article[]
 }
 
 model Comment {
@@ -34,7 +35,8 @@ model Comment {
 model Article {
   id                Int             @id @default(autoincrement())
   article_title     String
-  author            String
+  author            User            @relation(fields: [authorId], references: [id])
+  authorId          Int             
   article_summary   String
   article_text      String
   edited_by         String?         
