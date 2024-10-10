@@ -2,15 +2,19 @@ require('dotenv').config();
 const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 // Required models
 const Comment = require('../models/commentModel');
 
 // Display Article comments
 exports.article_comments_get = asyncHandler(async (req, res, next) => {
-  const comments = await Comment.find({ comment_article: req.params.id })
-    .populate('comment_user')
-    .sort({ timestamp: 1 });
+  const comments = await prisma.comment.findMany({
+    where: {
+      articleId: parseInt(req.params.id),
+    },
+  });
   if (!comments) {
     res.status = 404;
   } else {
@@ -23,10 +27,14 @@ exports.article_comments_get = asyncHandler(async (req, res, next) => {
 
 // View single comment
 exports.comment_get = asyncHandler(async (req, res, next) => {
-  const selectedComment = await Comment.findById(req.params.commentId).populate(
-    'comment_user',
-    'username',
-  );
+  const selectedComment = await prisma.comment.findUnique({
+    where: {
+      id: parseInt(req.params.commentId),
+    },
+    include: {
+      comment_user: true,
+    },
+  });
   if (!selectedComment) {
     res.status = 404;
   } else {
