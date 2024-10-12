@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 const { DateTime } = require('luxon');
 
 // Required models
@@ -27,27 +29,59 @@ cron.schedule('0 0 * * 0', async () => {
 
 // Handle GET admin dashboard
 exports.admin_get = asyncHandler(async (req, res, next) => {
-  const [
-    totalArticles,
-    publishedArticles,
-    nonpublishedArticles,
-    edit_required,
-    totalUsers,
-    totalAdmins,
-    totalEditors,
-    regularUsers,
-    siteVisits,
-  ] = await Promise.all([
-    Article.countDocuments().exec(),
-    Article.countDocuments({ isPublished: true }).exec(),
-    Article.countDocuments({ isPublished: false }).exec(),
-    Article.countDocuments({ edit_required: true }).exec(),
-    User.countDocuments().exec(),
-    User.countDocuments({ role: 'admin' }).exec(),
-    User.countDocuments({ role: 'editor' }).exec(),
-    User.countDocuments({ role: 'user' }).exec(),
-    SiteCount.findById(process.env.SITE_COUNT_ID).exec(),
-  ]);
+  // const [
+  //   totalArticles,
+  //   publishedArticles,
+  //   nonpublishedArticles,
+  //   edit_required,
+  //   totalUsers,
+  //   totalAdmins,
+  //   totalEditors,
+  //   regularUsers,
+  //   siteVisits,
+  // ] = await Promise.all([
+  //   Article.countDocuments().exec(),
+  //   Article.countDocuments({ isPublished: true }).exec(),
+  //   Article.countDocuments({ isPublished: false }).exec(),
+  //   Article.countDocuments({ edit_required: true }).exec(),
+  //   User.countDocuments().exec(),
+  //   User.countDocuments({ role: 'admin' }).exec(),
+  //   User.countDocuments({ role: 'editor' }).exec(),
+  //   User.countDocuments({ role: 'user' }).exec(),
+  //   SiteCount.findById(process.env.SITE_COUNT_ID).exec(),
+  // ]);
+  const totalArticles = await prisma.article.count();
+  const publishedArticles = await prisma.article.count({
+    where: {
+      isPublished: true,
+    },
+  });
+  const nonpublishedArticles = await prisma.article.count({
+    where: {
+      isPublished: false,
+    },
+  });
+  const edit_required = await prisma.article.count({
+    where: {
+      edit_required: true,
+    },
+  });
+  const totalUsers = await prisma.user.count();
+  const totalAdmins = await prisma.user.count({
+    where: {
+      role: 'admin',
+    },
+  });
+  const totalEditors = await prisma.user.count({
+    where: {
+      role: 'editor',
+    },
+  });
+  const regularUsers = await prisma.user.count({
+    where: {
+      role: 'user',
+    },
+  });
 
   const articleInfo = {
     totalArticles: totalArticles,
@@ -63,19 +97,19 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
     regularUsers: regularUsers,
   };
 
-  const siteCount = {
-    siteVisits: siteVisits.count_total,
-    weeklyVisits: siteVisits.weekly_count,
-    weeklyUsers: siteVisits.weekly_user_count,
-    lastWeekVisits: siteVisits.previous_weekly_count,
-    weeklyLikes: siteVisits.weekly_likes_count,
-  };
+  // const siteCount = {
+  //   siteVisits: siteVisits.count_total,
+  //   weeklyVisits: siteVisits.weekly_count,
+  //   weeklyUsers: siteVisits.weekly_user_count,
+  //   lastWeekVisits: siteVisits.previous_weekly_count,
+  //   weeklyLikes: siteVisits.weekly_likes_count,
+  // };
 
   res.json({
     message: 'Admin Dashboard',
     articleInfo: articleInfo,
     userInfo: userInfo,
-    siteCount: siteCount,
+    // siteCount: siteCount,
   });
 });
 
