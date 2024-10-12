@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 
 // Required models
 const Comment = require('../models/commentModel');
+const { parse } = require('dotenv');
 
 // Display Article comments
 exports.article_comments_get = asyncHandler(async (req, res, next) => {
@@ -46,12 +47,19 @@ exports.comment_get = asyncHandler(async (req, res, next) => {
 
 // Delete single comment
 exports.comment_delete = asyncHandler(async (req, res, next) => {
-  const deleteArticleId = await Comment.findById(req.params.commentId);
-
+  const deleteArticleId = await prisma.comment.findUnique({
+    where: {
+      id: parseInt(req.params.commentId),
+    },
+  });
   if (!deleteArticleId) {
     res.status = 404;
   } else {
-    await Comment.findByIdAndDelete(req.params.commentId);
+    await prisma.comment.delete({
+      where: {
+        id: parseInt(req.params.commentId),
+      },
+    });
     res.json({
       message: 'Comment Deleted',
     });
