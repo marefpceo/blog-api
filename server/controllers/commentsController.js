@@ -2,7 +2,6 @@ require('dotenv').config();
 const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
-const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // Required models
