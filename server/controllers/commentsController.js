@@ -2,7 +2,7 @@ require('dotenv').config();
 const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // Required models
@@ -71,12 +71,7 @@ exports.comment_post = [
     const userId = jwt.verify(
       req.headers['authorization'].split(' ')[1],
       process.env.SECRET,
-    )._id;
-    const comment = new Comment({
-      comment_text: req.body.comment_text,
-      comment_article: req.body.comment_article,
-      comment_user: userId,
-    });
+    ).id;
 
     if (!errors.isEmpty()) {
       res.json({
@@ -84,7 +79,13 @@ exports.comment_post = [
       });
       return;
     } else {
-      await comment.save();
+      await prisma.comment.create({
+        data: {
+          comment_text: req.body.comment_text,
+          articleId: parseInt(req.body.comment_article),
+          userId: parseInt(userId),
+        },
+      });
       res.json({
         status: 201,
       });
