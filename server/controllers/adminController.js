@@ -96,7 +96,7 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
 
 // Handle GET article list for ADMIN. (Published and Unpublished)
 exports.admin_articles_list_get = asyncHandler(async (req, res, next) => {
-  const articlesList = await Article.find().sort({ timestamp: 1 }).exec();
+  const articlesList = await prisma.article.findMany();
   res.json({
     message: 'ADMIN: Article List',
     articlesList,
@@ -105,7 +105,11 @@ exports.admin_articles_list_get = asyncHandler(async (req, res, next) => {
 
 // Handle GET article by ID for ADMIN
 exports.admin_articles_get = asyncHandler(async (req, res, next) => {
-  const selectedArticle = await Article.findById(req.params.id).exec();
+  const selectedArticle = await prisma.article.findUnique({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
   res.json({
     selectedArticle,
   });
