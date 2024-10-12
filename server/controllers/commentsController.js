@@ -4,10 +4,6 @@ const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 const prisma = new PrismaClient();
 
-// Required models
-const Comment = require('../models/commentModel');
-const { parse } = require('dotenv');
-
 // Display Article comments
 exports.article_comments_get = asyncHandler(async (req, res, next) => {
   const comments = await prisma.comment.findMany({
