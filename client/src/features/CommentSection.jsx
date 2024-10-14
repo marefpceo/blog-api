@@ -54,7 +54,7 @@ function CommentSection({ articleComments }) {
 
       {!articleComments &&
         articleComments.map((comment) => (
-          <CommentCard key={comment._id} comment={comment} />
+          <CommentCard key={comment.id} comment={comment} />
         ))}
 
       <Link to={`/article/${id}/comments`}>

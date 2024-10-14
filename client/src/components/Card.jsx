@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Card({ article, className }) {
   return (
-    <Link to={`/article/${article._id}`}>
+    <Link to={`/article/${article.id}`}>
       <div className={`card w-52 ${className}`}>
         <img src={blogImgPlaceholder} />
         <div className='card-text mt-4 text-justify'>

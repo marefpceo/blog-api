@@ -84,7 +84,7 @@ function Comments() {
         <div className='comments-div mt-16'>
           {articleComments &&
             articleComments.map((comment) => (
-              <CommentCard key={comment._id} comment={comment} />
+              <CommentCard key={comment.id} comment={comment} />
             ))}
         </div>
       </section>
