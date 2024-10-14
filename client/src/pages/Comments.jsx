@@ -9,7 +9,8 @@ import LinkUnderline from '../utilities/LinkUnderline';
 
 function Comments() {
   const { id } = useParams();
-  const { articleComments, selectedArticle } = useOutletContext({});
+  const { selectedArticle } = useOutletContext({});
+  const { articleComments } = useOutletContext([]);
   const { isAuthenticated } = useOutletContext();
   const navigate = useNavigate();
 
@@ -82,7 +83,7 @@ function Comments() {
           )}
         </div>
         <div className='comments-div mt-16'>
-          {articleComments &&
+          {!articleComments &&
             articleComments.map((comment) => (
               <CommentCard key={comment.id} comment={comment} />
             ))}
