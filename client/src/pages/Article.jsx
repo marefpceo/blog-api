@@ -49,7 +49,7 @@ function Article() {
           let commentsResponseData = await commentsResponse.json();
 
           setSelectedArticle(articleResponseData);
-          setArticleComments(commentsResponseData);
+          setArticleComments(commentsResponseData.comments);
         }
       } catch (error) {
         console.error(error, error.status);

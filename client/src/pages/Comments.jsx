@@ -10,10 +10,10 @@ import LinkUnderline from '../utilities/LinkUnderline';
 function Comments() {
   const { id } = useParams();
   const { selectedArticle } = useOutletContext({});
-  const { articleComments } = useOutletContext([]);
+  const { articleComments } = useOutletContext({});
   const { isAuthenticated } = useOutletContext();
   const navigate = useNavigate();
-
+  console.log(articleComments);
   return (
     <>
       <section className='comments-header mx-auto mb-32 flex w-4/6 flex-1 flex-col items-center'>
@@ -83,8 +83,7 @@ function Comments() {
           )}
         </div>
         <div className='comments-div mt-16'>
-          {!articleComments &&
-            articleComments.map((comment) => (
+          {articleComments.map((comment) => (
               <CommentCard key={comment.id} comment={comment} />
             ))}
         </div>

@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import convertEscape from '../utilities/helpers';
 
 function ArticleSection() {
-  const { selectedArticle, articleComments } = useOutletContext([]);
+  const { selectedArticle } = useOutletContext({});
+  const { articleComments } = useOutletContext([]);
   const [articleText, setArticleText] = useState();
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import LinkUnderline from '../utilities/LinkUnderline';
+import CommentCard from '../components/CommentCard';
 
 function CommentSection({ articleComments }) {
   const { id } = useParams();
@@ -52,8 +53,7 @@ function CommentSection({ articleComments }) {
         )}
       </div>
 
-      {!articleComments &&
-        articleComments.map((comment) => (
+      {articleComments.map((comment) => (
           <CommentCard key={comment.id} comment={comment} />
         ))}
 
