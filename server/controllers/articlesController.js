@@ -9,7 +9,11 @@ exports.articles_list_get = asyncHandler(async (req, res, next) => {
       isPublished: true,
     },
     include: {
-      comment: true,
+      comment: {
+        include: {
+          comment_user: true,
+        },
+      },
     },
   });
   res.json(articles);

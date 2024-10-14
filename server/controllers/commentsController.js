@@ -11,6 +11,9 @@ exports.article_comments_get = asyncHandler(async (req, res, next) => {
     where: {
       articleId: parseInt(req.params.id),
     },
+    include: {
+      comment_user: true,
+    },
   });
   if (!comments) {
     res.status = 404;
