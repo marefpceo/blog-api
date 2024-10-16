@@ -13,23 +13,22 @@ const { DateTime } = require('luxon');
 // const SiteCount = require('../models/siteCount');
 
 // Schedule to reset weekly count every Sunday at midnight PST
-const cron = require('node-cron');
+// const cron = require('node-cron');
 
-cron.schedule('0 0 * * 0', async () => {
-  const countTemp = await SiteCount.findById(
-    `${process.env.SITE_COUNT_ID}`,
-    'weekly_count',
-  ).exec();
-  SiteCount.findByIdAndUpdate(`${process.env.SITE_COUNT_ID}`, {
-    weekly_count: 0,
-    previous_weekly_count: countTemp.weekly_count,
-  }).exec(),
-    console.log('Weekly count reset', countTemp.weekly_count);
-});
+// cron.schedule('0 0 * * 0', async () => {
+//   const countTemp = await SiteCount.findById(
+//     `${process.env.SITE_COUNT_ID}`,
+//     'weekly_count',
+//   ).exec();
+//   SiteCount.findByIdAndUpdate(`${process.env.SITE_COUNT_ID}`, {
+//     weekly_count: 0,
+//     previous_weekly_count: countTemp.weekly_count,
+//   }).exec(),
+//     console.log('Weekly count reset', countTemp.weekly_count);
+// });
 
 // Handle GET admin dashboard
 exports.admin_get = asyncHandler(async (req, res, next) => {
-  // SiteCount.findById(process.env.SITE_COUNT_ID).exec()
 
   const totalArticles = await prisma.article.count();
   const publishedArticles = await prisma.article.count({
@@ -63,6 +62,11 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
       role: 'user',
     },
   });
+  const siteVisits = await prisma.count.findUnique({
+    where: {
+      id: process.env.SITE_COUNT_ID,
+    }
+  });
 
   const articleInfo = {
     totalArticles: totalArticles,
@@ -78,19 +82,19 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
     regularUsers: regularUsers,
   };
 
-  // const siteCount = {
-  //   siteVisits: siteVisits.count_total,
-  //   weeklyVisits: siteVisits.weekly_count,
-  //   weeklyUsers: siteVisits.weekly_user_count,
-  //   lastWeekVisits: siteVisits.previous_weekly_count,
-  //   weeklyLikes: siteVisits.weekly_likes_count,
-  // };
+  const siteCount = {
+    siteVisits: siteVisits.count_total,
+    weeklyVisits: siteVisits.weekly_count,
+    weeklyUsers: siteVisits.weekly_user_count,
+    lastWeekVisits: siteVisits.previous_weekly_count,
+    weeklyLikes: siteVisits.weekly_likes_count,
+  };
 
   res.json({
     message: 'Admin Dashboard',
     articleInfo: articleInfo,
     userInfo: userInfo,
-    // siteCount: siteCount,
+    siteCount: siteCount,
   });
 });
 
