@@ -85,7 +85,8 @@ function ViewArticle() {
                   Back
                   <LinkUnderline
                     color={'bg-cust-pumpkin'} />
-                </Link></>
+                </Link>
+              </>
             )
           }
         </div>

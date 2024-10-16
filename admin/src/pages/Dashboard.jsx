@@ -73,7 +73,7 @@ function Dashboard() {
           <StatusCardSmall title={'Total Users'} count={userInfo.totalUsers} />
           <StatusCardLarge
             title={'Users Details'}
-            statusText1={'Total'}
+            statusText1={'Non-Admin'}
             statusValue1={userInfo.regularUsers}
             statusText2={'Weekly Signups'}
             statusValue2={0}

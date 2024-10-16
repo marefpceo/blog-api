@@ -2,6 +2,8 @@ import imgPlaceholder from '../assets/images/blog-img-placeholder.png';
 import { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import LinkUnderline from '../utilites/LinkUnderline';
 import { classicEditor } from '../utilites/EditorConfigs';
 import Button from '../components/Button';
 import FormInput from '../components/FormInput';
@@ -21,7 +23,7 @@ function Edit() {
     article_text: '',
     author: '',
     main_image: '',
-    _id: '',
+    id: '',
     edited_by: username,
   });
 
@@ -52,7 +54,7 @@ function Edit() {
             ),
             author: responseData.selectedArticle.author,
             main_image: responseData.selectedArticle.main_image,
-            _id: responseData.selectedArticle._id,
+            id: responseData.selectedArticle.id,
           });
         }
       } catch (error) {
@@ -104,7 +106,7 @@ function Edit() {
   function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('_id', article._id);
+    formData.append('id', article.id);
     formData.append('edited_by', article.edited_by);
     formData.append('article_title', article.article_title);
     formData.append('article_summary', article.article_summary);
@@ -116,7 +118,16 @@ function Edit() {
 
   return (
     <>
-      <h1 className='title text-4xl text-cust-silver'>Edit Article</h1>
+      <div className='mt-0 pt-4 w-full flex items-center justify-between sticky top-0 bg-cust-slate-gray z-20'>
+        <h1 className='title text-4xl text-cust-silver'>Edit Article</h1>
+        <div className='flex gap-12 mr-8'>
+          <Link to={-1} className='group relative'>
+            Back
+            <LinkUnderline
+              color={'bg-cust-pumpkin'} />
+          </Link>
+        </div>
+      </div>
       <form
         className='mx-auto mt-12 flex max-h-fit w-4/6 flex-col justify-start space-y-8 bg-slate-100 
           p-8 text-black'
