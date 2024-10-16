@@ -239,9 +239,9 @@ exports.admin_articles_put = [
 
 // Handle publish and unpublishing of articles
 exports.admin_articles_publish = asyncHandler(async (req, res, next) => {
-  const articlePublish = await prisma.article.update({
+  await prisma.article.update({
     where: {
-      id: req.body.id,
+      id: parseInt(req.body.id),
     },
     data: {
       isPublished: req.body.isPublished,
@@ -257,7 +257,7 @@ exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
   // const articleToDelete = await Article.findById(req.body.id).exec();
   const articleToDelete = await prisma.article.findUnique({
     where: {
-      id: req.body.id,
+      id: parseInt(req.body.id),
     },
   });
 

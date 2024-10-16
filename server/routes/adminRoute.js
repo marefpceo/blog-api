@@ -61,8 +61,8 @@ router.post(
 // Admin article image upload
 router.post(
   '/articles/upload',
-  verifyRole,
-  upload.single('articleTextImageUpload'),
+  [verifyRole,
+  upload.single('articleTextImageUpload')],
   admin_controller.admin_article_image_upload,
 );
 
