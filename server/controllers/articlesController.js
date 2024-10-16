@@ -2,6 +2,25 @@ const asyncHandler = require('express-async-handler');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+// Handle site visit count
+exports.articles_site_count = asyncHandler(async (req, res, next) => {
+  const storedTotal = await prisma.count.findUnique({
+    where: {
+      id: process.env.SITE_COUNT_ID,
+    }
+  });
+
+  await prisma.count.update({
+    where: {
+      id: process.env.SITE_COUNT_ID,
+    }, 
+    data: {
+      count_total: parseInt(storedTotal.count_total) + 1
+    }
+  });
+  res.json(storedTotal);
+});
+
 // Display article listing
 exports.articles_list_get = asyncHandler(async (req, res, next) => {
   const articles = await prisma.article.findMany({
