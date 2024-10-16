@@ -40,7 +40,7 @@ function All() {
     e.preventDefault();
     const id = e.target.id;
     const name = e.target.name;
-    const status = name === 'notPublished' ? 'true' : 'false';
+    const status = name === 'notPublished' ? true : false;
 
     publishArticle(id, status);
   }
