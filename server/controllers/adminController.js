@@ -254,18 +254,20 @@ exports.admin_articles_publish = asyncHandler(async (req, res, next) => {
 
 // Handle DELETE to delete selected article
 exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
-  // const articleToDelete = await Article.findById(req.body.id).exec();
   const articleToDelete = await prisma.article.findUnique({
     where: {
-      id: parseInt(req.body.id),
+      id: parseInt(req.params.id),
     },
   });
 
   if (!articleToDelete) {
     res.sendStatus(404);
   } else {
-    prisma.article.delete;
-    // await Article.findByIdAndDelete(articleToDelete._id).exec();
+    await prisma.article.delete({
+      where: {
+        id: parseInt(req.params.id)
+      }
+    });
     res.json({
       message: `${articleToDelete.article_title} DELETED`,
     });
