@@ -140,24 +140,23 @@ exports.admin_articles_post = [
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    // const article = {
-    //   article_title: req.body.article_title,
-    //   article_summary: req.body.article_summary,
-    //   author: req.body.author,
-    //   article_text: req.body.article_text,
-    //   isPublished: req.body.isPublished,
-    //   main_image: req.file.filename,
-    // };
-    console.log(req.body);
+    const article = {
+      article_title: req.body.article_title,
+      article_summary: req.body.article_summary,
+      author: req.body.author,
+      article_text: req.body.article_text,
+      isPublished: req.body.isPublished,
+      main_image: req.file.filename,
+    };
+
     if (!errors.isEmpty()) {
       res.json({
         message: 'Validation errors',
-        // article,
+        article,
         errors: errors.array(),
       });
       return;
     } else {
-      // await article.save();
       await prisma.article.create({
         data: {
           article_title: req.body.article_title,
