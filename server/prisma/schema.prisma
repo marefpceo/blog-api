@@ -50,7 +50,7 @@ model Article {
 }
 
 model Count {
-  id                      Int       @id @default(autoincrement())
+  id                      String    @id
   count_total             Int
   weekly_count            Int
   weekly_user_count       Int
