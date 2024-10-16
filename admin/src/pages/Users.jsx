@@ -25,7 +25,7 @@ function Users() {
 
   function handleUserClick(userId) {
     const user = userList.find((user) => {
-      return user._id === userId;
+      return user.id === userId;
     });
     setCurrentUser(user);
   }
@@ -45,10 +45,10 @@ function Users() {
             <ul className='w-full'>
               {userList.map((user) => (
                 <li
-                  className={`${currentUser._id === user._id ? 'bg-cust-english-violet/20' : ''} 
+                  className={`${currentUser.id === user.id ? 'bg-cust-english-violet/20' : ''} 
                     cursor-pointer px-4 py-2 text-cust-beige hover:bg-cust-english-violet/20`}
-                  key={user._id}
-                  onClick={() => handleUserClick(user._id)}
+                  key={user.id}
+                  onClick={() => handleUserClick(user.id)}
                 >
                   {user.last_name}, {user.first_name}
                 </li>

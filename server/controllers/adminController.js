@@ -276,9 +276,7 @@ exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
 
 // Get Users List
 exports.admin_user_list = asyncHandler(async (req, res, next) => {
-  const userList = await User.find({}, { password: 0 })
-    .sort({ last_name: 1 })
-    .exec();
+  const userList = await prisma.user.findMany();
 
   if (!userList) {
     res.sendStatus(404);
