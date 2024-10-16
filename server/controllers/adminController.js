@@ -209,6 +209,7 @@ exports.admin_articles_put = [
       id: req.body.id,
     };
 
+    console.log(article);
     if (!errors.isEmpty()) {
       res.json({
         article,
@@ -219,7 +220,7 @@ exports.admin_articles_put = [
       const updatedArticle = article;
       await prisma.article.update({
         where: {
-          id: req.body.id,
+          id: parseInt(req.body.id),
         },
         data: {
           article_title: updatedArticle.article_title,

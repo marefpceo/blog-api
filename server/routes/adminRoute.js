@@ -69,8 +69,8 @@ router.post(
 // Admin article update
 router.put(
   '/articles/:id',
-  verifyRole,
-  upload.single('articleTextImageUpload'),
+  [verifyRole,
+  upload.single('articleTextImageUpload')],
   admin_controller.admin_articles_put,
 );
 
