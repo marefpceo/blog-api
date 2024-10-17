@@ -30,8 +30,6 @@ function Users() {
     setCurrentUser(user);
   }
 
-  console.log(userList);
-
   return (
     <>
       <h1 className='text-4xl text-cust-silver'>Users</h1>
