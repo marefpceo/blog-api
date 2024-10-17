@@ -3,7 +3,7 @@ const custom_image_upload_handler = (blobInfo, progress) =>
     const token = localStorage.getItem('token');
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
-    xhr.open('POST', 'http://localhost:3000/admin/articles/upload');
+    xhr.open('POST', `${import.meta.env.VITE_BASE_URL}/admin/articles/upload`);
     xhr.setRequestHeader('Authorization', `Bearer ${token}`);
 
     xhr.upload.onprogress = (e) => {
@@ -70,7 +70,7 @@ const classicEditor = {
   content_style:
     'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
   images_upload_handler: custom_image_upload_handler,
-  image_prepend_url: 'http://localhost:3000/uploads/',
+  image_prepend_url: `${import.meta.env.VITE_BASE_URL}/uploads/`,
 };
 
 const inlineEditor = {

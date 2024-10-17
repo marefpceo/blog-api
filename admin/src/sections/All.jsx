@@ -12,7 +12,7 @@ function All() {
   async function publishArticle(id, status) {
     try {
       const response = await fetch(
-        `http://localhost:3000/admin/articles/${id}/publish`,
+        `${import.meta.env.VITE_BASE_URL}/admin/articles/${id}/publish`,
         {
           method: 'PUT',
           headers: {

@@ -16,7 +16,7 @@ function CommentsModal({ handleCloseModal, className, comments, setReloadData })
     async function deleteComment() {
       if(commentId === undefined) { return };
       try {
-        const response = await fetch(`http://localhost:3000/articles/${id}/comments/${commentId}`, {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/articles/${id}/comments/${commentId}`, {
           method: 'DELETE',
           headers: { Authorization: `Bearer ${token}`},
         });

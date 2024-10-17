@@ -27,7 +27,7 @@ function Create() {
 
   async function createArticle(formData) {
     try {
-      const response = await fetch('http://localhost:3000/admin/articles', {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/articles`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

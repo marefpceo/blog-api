@@ -9,7 +9,7 @@ function Users() {
   useEffect(() => {
     async function getUserList() {
       try {
-        const response = await fetch('http://localhost:3000/admin/users', {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/users`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

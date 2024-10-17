@@ -34,7 +34,7 @@ function Edit() {
     async function getArticle() {
       try {
         const response = await fetch(
-          `http://localhost:3000/admin/articles/${linkId}`,
+          `${import.meta.env.VITE_BASE_URL}/admin/articles/${linkId}`,
           {
             method: 'GET',
             headers: {
@@ -67,7 +67,7 @@ function Edit() {
   async function editArticle(formData) {
     try {
       const response = await fetch(
-        `http://localhost:3000/admin/articles/${linkId}`,
+        `${import.meta.env.VITE_BASE_URL}/admin/articles/${linkId}`,
         {
           method: 'PUT',
           headers: {
@@ -139,7 +139,7 @@ function Edit() {
           <img
             src={
               file === undefined
-                ? `http://localhost:3000/uploads/${article.main_image}`
+                ? `${import.meta.env.VITE_BASE_URL}/uploads/${article.main_image}`
                 : file
             }
             alt='Main image'

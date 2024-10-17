@@ -22,10 +22,10 @@ function ViewArticle() {
     async function getArticle() {
       try {
         const [articleResponse, commentsResponse] = await Promise.all([
-          fetch(`http://localhost:3000/admin/articles/${id}`, {
+          fetch(`${import.meta.env.VITE_BASE_URL}/admin/articles/${id}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`http://localhost:3000/articles/${id}/comments`),
+          fetch(`${import.meta.env.VITE_BASE_URL}/articles/${id}/comments`),
         ]);
 
         let articleResponseData = await articleResponse.json();
@@ -58,7 +58,7 @@ function ViewArticle() {
     if (adminArticleDelete === false){ return };
     async function deleteArticle() {
       try {
-        const deleteResponse = await fetch(`http://localhost:3000/admin/articles/${id}`,{
+        const deleteResponse = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/articles/${id}`,{
           method: 'DELETE',
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -139,7 +139,7 @@ function ViewArticle() {
           text-cust-english-violet bg-slate-50 relative'>
             <div className='mt-8 mb-16 flex flex-col items-center'>
                 <img
-                  src={`http://localhost:3000/uploads/${article.main_image}`}
+                  src={`${import.meta.env.VITE_BASE_URL}/uploads/${article.main_image}`}
                   alt=''
                   width={300}
                 />

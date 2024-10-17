@@ -18,7 +18,7 @@ function Dashboard() {
   useEffect(() => {
     async function getDashboardInfo() {
       try {
-        const response = await fetch('http://localhost:3000/admin', {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/admin`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
