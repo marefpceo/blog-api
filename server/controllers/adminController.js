@@ -5,31 +5,11 @@ const { body, validationResult } = require('express-validator');
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { DateTime } = require('luxon');
+const cloudinary = require('cloudinary').v2;
 
-// Required models
-// const Article = require('../models/articleModel');
-// const Comment = require('../models/commentModel');
-// const User = require('../models/userModel');
-// const SiteCount = require('../models/siteCount');
-
-// Schedule to reset weekly count every Sunday at midnight PST
-// const cron = require('node-cron');
-
-// cron.schedule('0 0 * * 0', async () => {
-//   const countTemp = await SiteCount.findById(
-//     `${process.env.SITE_COUNT_ID}`,
-//     'weekly_count',
-//   ).exec();
-//   SiteCount.findByIdAndUpdate(`${process.env.SITE_COUNT_ID}`, {
-//     weekly_count: 0,
-//     previous_weekly_count: countTemp.weekly_count,
-//   }).exec(),
-//     console.log('Weekly count reset', countTemp.weekly_count);
-// });
 
 // Handle GET admin dashboard
 exports.admin_get = asyncHandler(async (req, res, next) => {
-
   const totalArticles = await prisma.article.count();
   const publishedArticles = await prisma.article.count({
     where: {
@@ -157,6 +137,18 @@ exports.admin_articles_post = [
       });
       return;
     } else {
+      const uploadResult = await new Promise((resolve) => {
+        cloudinary.uploader.upload_stream({
+          unique_filename: true,
+          asset_folder: `blog_api/${req.user.id}`
+        }, (error, uploadResult) => {
+          if(error) {
+            next(error);
+          }
+          return resolve(uploadResult);
+        }).end(req.file.buffer);
+      });
+
       await prisma.article.create({
         data: {
           article_title: req.body.article_title,
@@ -164,7 +156,7 @@ exports.admin_articles_post = [
           article_summary: req.body.article_summary,
           article_text: req.body.article_text,
           isPublished: req.body.isPublished,
-          main_image: req.file.filename,
+          main_image: uploadResult.secure_url,
         },
       });
       res.json({
@@ -176,8 +168,20 @@ exports.admin_articles_post = [
 
 // Handle article body image upload and returns file name
 exports.admin_article_image_upload = asyncHandler(async (req, res, next) => {
+  const uploadResult = await new Promise((resolve) => {
+        cloudinary.uploader.upload_stream({
+          unique_filename: true,
+          asset_folder: `blog_api/${req.user.id}`
+        }, (error, uploadResult) => {
+          if(error) {
+            next(error);
+          }
+          return resolve(uploadResult);
+        }).end(req.file.buffer);
+      });
+
   res.json({
-    location: req.file.filename,
+    location: uploadResult.secure_url,
   });
 });
 
@@ -209,7 +213,6 @@ exports.admin_articles_put = [
       id: req.body.id,
     };
 
-    console.log(article);
     if (!errors.isEmpty()) {
       res.json({
         article,
