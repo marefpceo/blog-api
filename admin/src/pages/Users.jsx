@@ -19,6 +19,7 @@ function Users() {
       } catch (error) {
         console.error(error);
       }
+      console.log(currentUser);
     }
     getUserList();
   }, []);
@@ -93,7 +94,13 @@ function Users() {
                 <p>
                   <strong>User Since:</strong>
                 </p>
-                <p>{DateTime.fromISO(currentUser.created).toFormat('DDD')}</p>
+                <p>{DateTime.fromISO(currentUser.createdAt).toLocaleString(DateTime.DATE_FULL)}</p>
+              </div>
+              <div className='signup-date flex gap-4'>
+                <p>
+                  <strong>Last Updated:</strong>
+                </p>
+                <p>{DateTime.fromISO(currentUser.updatedAt).toLocaleString(DateTime.DATE_FULL)}</p>
               </div>
             </div>
           </div>
