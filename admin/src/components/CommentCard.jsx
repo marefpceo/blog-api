@@ -5,7 +5,7 @@ import { faUser, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 function CommentCard({ comment, setCommentId, setShowDialog }) {
 
   function handleClick() {
-    setCommentId(comment._id);
+    setCommentId(comment.id);
     setShowDialog(true);
   }
 

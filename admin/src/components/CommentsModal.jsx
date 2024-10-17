@@ -1,12 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import CommentCard from './CommentCard';
 import DialogModal from './DialogModal';
 
 function CommentsModal({ handleCloseModal, className, comments, setReloadData }) {
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
   const { id } = useParams();
   const [commentId, setCommentId] = useState();
   const [readyToDelete, setReadyToDelete] = useState(false);
@@ -25,6 +26,7 @@ function CommentsModal({ handleCloseModal, className, comments, setReloadData })
           let responseData = await response.json();
           setReadyToDelete(false);
           setReloadData(true);
+          navigate('/articles');
         }
       } catch (error) {
         console.log(error);
@@ -55,7 +57,7 @@ function CommentsModal({ handleCloseModal, className, comments, setReloadData })
         {
           comments.map((comment) => (
             <CommentCard 
-              key={comment._id} 
+              key={comment.id} 
               comment={comment} 
               setReadyToDelete={setReadyToDelete}
               setCommentId={setCommentId}
