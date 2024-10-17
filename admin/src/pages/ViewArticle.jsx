@@ -89,13 +89,19 @@ function ViewArticle() {
     <section className='relative'>
       <div className='mt-0 pt-4 w-full flex items-center justify-between sticky top-0 bg-cust-slate-gray z-20'>
         <h1 className='title text-4xl text-cust-silver'>View Article</h1>
-        <Button
-          text={'Delete'}
-          className={'h-10 w-32 rounded-md bg-red-600 shadow-md shadow-cust-english-violet'}
-          onClick={handleClick}
-          id={'deleteBtn'}
-          name={'deleteArticle'}
-        />
+        <>
+          {
+            showModal === true ? '' : (
+              <Button
+                text={'Delete'}
+                className={'h-10 w-32 rounded-md bg-red-600 shadow-md shadow-cust-english-violet'}
+                onClick={handleClick}
+                id={'deleteBtn'}
+                name={'deleteArticle'}
+              />
+            )
+          }
+        </>
         <div className='flex gap-12 mr-8'>
           
           {
