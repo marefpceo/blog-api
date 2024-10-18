@@ -157,7 +157,7 @@ function ViewArticle() {
                   <p>Written By: {article.author}</p>
                   <p>Published: {article.date_published}</p>
                 </div>
-                <div className='article-text mt-12 w-full'>
+                <div className='article-text my-12 w-full'>
                   <p
                     className='text-left'
                     dangerouslySetInnerHTML={articleText}

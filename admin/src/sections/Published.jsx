@@ -67,7 +67,7 @@ function Published() {
             'content-type': 'application/json',
           },
           body: JSON.stringify({
-            _id: id,
+            id: id,
             isPublished: status,
           }),
         },
