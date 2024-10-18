@@ -4,10 +4,8 @@ const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
-const { DateTime } = require('luxon');
 const cloudinary = require('cloudinary').v2;
 const helpers = require('../public/javascripts/helpers');
-
 
 // Handle GET admin dashboard
 exports.admin_get = asyncHandler(async (req, res, next) => {
@@ -46,7 +44,7 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
   const siteVisits = await prisma.count.findUnique({
     where: {
       id: process.env.SITE_COUNT_ID,
-    }
+    },
   });
 
   const articleInfo = {
@@ -139,15 +137,20 @@ exports.admin_articles_post = [
       return;
     } else {
       const uploadResult = await new Promise((resolve) => {
-        cloudinary.uploader.upload_stream({
-          unique_filename: true,
-          asset_folder: `blog_api/${req.user.id}`
-        }, (error, uploadResult) => {
-          if(error) {
-            next(error);
-          }
-          return resolve(uploadResult);
-        }).end(req.file.buffer);
+        cloudinary.uploader
+          .upload_stream(
+            {
+              unique_filename: true,
+              asset_folder: `blog_api/${req.user.id}`,
+            },
+            (error, uploadResult) => {
+              if (error) {
+                next(error);
+              }
+              return resolve(uploadResult);
+            },
+          )
+          .end(req.file.buffer);
       });
 
       await prisma.article.create({
@@ -170,16 +173,21 @@ exports.admin_articles_post = [
 // Handle article body image upload and returns file name
 exports.admin_article_image_upload = asyncHandler(async (req, res, next) => {
   const uploadResult = await new Promise((resolve) => {
-        cloudinary.uploader.upload_stream({
+    cloudinary.uploader
+      .upload_stream(
+        {
           unique_filename: true,
-          asset_folder: `blog_api/${req.user.id}`
-        }, (error, uploadResult) => {
-          if(error) {
+          asset_folder: `blog_api/${req.user.id}`,
+        },
+        (error, uploadResult) => {
+          if (error) {
             next(error);
           }
           return resolve(uploadResult);
-        }).end(req.file.buffer);
-      });
+        },
+      )
+      .end(req.file.buffer);
+  });
 
   res.json({
     location: uploadResult.secure_url,
@@ -221,7 +229,7 @@ exports.admin_articles_put = [
     };
 
     const articleImages = helpers.getImageLink(articleToDelete.article_text);
- 
+
     if (!errors.isEmpty()) {
       res.json({
         article,
@@ -230,16 +238,25 @@ exports.admin_articles_put = [
       return;
     } else {
       const updatedArticle = article;
-      const updatedArticleImages = helpers.getImageLink(updatedArticle.article_text);
+      const updatedArticleImages = helpers.getImageLink(
+        updatedArticle.article_text,
+      );
 
-      if (articleToDelete.main_image !== (null | '' | updatedArticle.main_image)) {
+      if (
+        articleToDelete.main_image !==
+        (null | '' | updatedArticle.main_image)
+      ) {
         const temp = articleToDelete.main_image.split('/');
         updatedArticleImages.push(temp[temp.length - 1].split('.')[0]);
       }
 
-      const difference = updatedArticleImages.filter(element => !articleImages.includes(element));
+      const difference = updatedArticleImages.filter(
+        (element) => !articleImages.includes(element),
+      );
 
-      await cloudinary.api.delete_resources(difference).then(result=>console.log(result));
+      await cloudinary.api
+        .delete_resources(difference)
+        .then((result) => console.log(result));
       await prisma.article.update({
         where: {
           id: parseInt(req.body.id),
@@ -283,7 +300,7 @@ exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
   });
 
   const articleImages = helpers.getImageLink(articleToDelete.article_text);
-  
+
   if (articleToDelete.main_image !== (null | '')) {
     const temp = articleToDelete.main_image.split('/');
     articleImages.push(temp[temp.length - 1].split('.')[0]);
@@ -292,11 +309,13 @@ exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
   if (!articleToDelete) {
     res.sendStatus(404);
   } else {
-    await cloudinary.api.delete_resources(articleImages).then(result=>console.log(result));
+    await cloudinary.api
+      .delete_resources(articleImages)
+      .then((result) => console.log(result));
     await prisma.article.delete({
       where: {
-        id: parseInt(req.params.id)
-      }
+        id: parseInt(req.params.id),
+      },
     });
     res.json({
       message: `${articleToDelete.article_title} DELETED`,

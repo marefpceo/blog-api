@@ -10,7 +10,6 @@ const passport = require('passport');
 const session = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('@prisma/client');
-// const MongoStore = require('connect-mongo');
 const debug = require('debug')('connection');
 
 const articlesRouter = require('./routes/articlesRoute');
@@ -19,17 +18,6 @@ const authRouter = require('./routes/authRoute');
 const adminRouter = require('./routes/adminRoute');
 
 const app = express();
-
-// Set up db connection
-const mongoose = require('mongoose');
-const mongoDB = process.env.MONGODB_URI;
-
-main().catch((err) => debug(`DB Connection error ${err}`));
-mongoose.set('strictQuery', false);
-
-async function main() {
-  await mongoose.connect(mongoDB);
-}
 
 app.use(cors());
 app.use(logger('dev'));

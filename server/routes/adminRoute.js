@@ -6,24 +6,6 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const storage = multer.memoryStorage();
 
-// const storage = multer.diskStorage({
-//   // Define destination to save the image file
-//   destination: function (req, file, cb) {
-//     cb(null, 'public/uploads/');
-//   },
-
-//   // Create a new file name with extension(nameSplit[1]) and unique identififer (uniqueSuffix).
-//   // All spaces are also replaced with an underscore '_'
-//   filename: function (req, file, cb) {
-//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-//     const nameSplit = file.originalname
-//       .toLowerCase()
-//       .replace(/ /g, '_')
-//       .split('.');
-//     cb(null, nameSplit[0] + '-' + uniqueSuffix + '.' + nameSplit[1]);
-//   },
-// });
-
 const upload = multer({ storage: storage });
 
 // Required controller(s)
@@ -62,16 +44,14 @@ router.post(
 // Admin article image upload
 router.post(
   '/articles/upload',
-  [verifyRole,
-  upload.single('articleTextImageUpload')],
+  [verifyRole, upload.single('articleTextImageUpload')],
   admin_controller.admin_article_image_upload,
 );
 
 // Admin article update
 router.put(
   '/articles/:id',
-  [verifyRole,
-  upload.single('articleTextImageUpload')],
+  [verifyRole, upload.single('articleTextImageUpload')],
   admin_controller.admin_articles_put,
 );
 
