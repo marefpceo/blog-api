@@ -10,7 +10,7 @@ function CommentSection({ articleComments }) {
   const { isAuthenticated } = useOutletContext();
 
   return (
-    <section className='comments mb-8'>
+    <section className='comments mb-8 flex flex-col'>
       <div className='comment-section-header mx-auto mb-8 flex w-4/6 items-center justify-between'>
         <h2>Comments</h2>
         {isAuthenticated === false ? (
@@ -57,7 +57,7 @@ function CommentSection({ articleComments }) {
         <CommentCard key={comment.id} comment={comment} />
       ))}
 
-      <Link to={`/article/${id}/comments`}>
+      <Link to={`/article/${id}/comments`} className='mt-8 self-center'>
         <Button
           className={
             'flex flex-col bg-slate-50 shadow-md hover:shadow-cust-pumpkin/30'

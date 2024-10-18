@@ -17,8 +17,8 @@ function Article() {
     async function getSelectedArticle() {
       try {
         const [articleResponse, commentsResponse] = await Promise.all([
-          fetch(`http://localhost:3000/articles/${id}`),
-          fetch(`http://localhost:3000/articles/${id}/comments`),
+          fetch(`${import.meta.env.VITE_BASE_URL}/articles/${id}`),
+          fetch(`${import.meta.env.VITE_BASE_URL}/articles/${id}/comments`),
         ]);
 
         if (!articleResponse.ok || !commentsResponse.ok) {

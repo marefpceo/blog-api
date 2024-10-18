@@ -11,7 +11,9 @@ function Home() {
   useEffect(() => {
     async function visitCount() {
       try {
-        const response = await fetch('http://localhost:3000/articles/count');
+        const response = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/articles/count`,
+        );
         if (response.ok) {
           const responseData = await response.json();
         }
