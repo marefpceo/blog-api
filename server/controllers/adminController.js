@@ -6,6 +6,7 @@ const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { DateTime } = require('luxon');
 const cloudinary = require('cloudinary').v2;
+const helpers = require('../public/javascripts/helpers');
 
 
 // Handle GET admin dashboard
@@ -263,9 +264,19 @@ exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
     },
   });
 
+  const articleImages = helpers.getImageLink(articleToDelete.article_text);
+  
+  if (articleToDelete.main_image !== (null | '')) {
+    const temp = articleToDelete.main_image.split('/');
+    articleImages.push(temp[temp.length - 1].split('.')[0]);
+  }
+
   if (!articleToDelete) {
     res.sendStatus(404);
   } else {
+    console.log(articleImages);
+    await cloudinary.api.delete_resources(articleImages).then(result=>console.log(result));
+
     await prisma.article.delete({
       where: {
         id: parseInt(req.params.id)
