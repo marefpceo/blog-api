@@ -27,7 +27,7 @@ function LeaveComment() {
   async function postComment() {
     try {
       const response = await fetch(
-        `http://localhost:3000/articles/${id}/comment_post`,
+        `${import.meta.env.VITE_BASE_URL}/articles/${id}/comment_post`,
         {
           method: 'POST',
           headers: new Headers({

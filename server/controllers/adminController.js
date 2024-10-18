@@ -2,52 +2,50 @@ require('dotenv').config();
 
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
-const { DateTime } = require('luxon');
-
-// Required models
-const Article = require('../models/articleModel');
-const Comment = require('../models/commentModel');
-const User = require('../models/userModel');
-const SiteCount = require('../models/siteCount');
-
-// Schedule to reset weekly count every Sunday at midnight PST
-const cron = require('node-cron');
-
-cron.schedule('0 0 * * 0', async () => {
-  const countTemp = await SiteCount.findById(
-    `${process.env.SITE_COUNT_ID}`,
-    'weekly_count',
-  ).exec();
-  SiteCount.findByIdAndUpdate(`${process.env.SITE_COUNT_ID}`, {
-    weekly_count: 0,
-    previous_weekly_count: countTemp.weekly_count,
-  }).exec(),
-    console.log('Weekly count reset', countTemp.weekly_count);
-});
+const { PrismaClient, Prisma } = require('@prisma/client');
+const prisma = new PrismaClient();
+const cloudinary = require('cloudinary').v2;
+const helpers = require('../public/javascripts/helpers');
 
 // Handle GET admin dashboard
 exports.admin_get = asyncHandler(async (req, res, next) => {
-  const [
-    totalArticles,
-    publishedArticles,
-    nonpublishedArticles,
-    edit_required,
-    totalUsers,
-    totalAdmins,
-    totalEditors,
-    regularUsers,
-    siteVisits,
-  ] = await Promise.all([
-    Article.countDocuments().exec(),
-    Article.countDocuments({ isPublished: true }).exec(),
-    Article.countDocuments({ isPublished: false }).exec(),
-    Article.countDocuments({ edit_required: true }).exec(),
-    User.countDocuments().exec(),
-    User.countDocuments({ role: 'admin' }).exec(),
-    User.countDocuments({ role: 'editor' }).exec(),
-    User.countDocuments({ role: 'user' }).exec(),
-    SiteCount.findById(process.env.SITE_COUNT_ID).exec(),
-  ]);
+  const totalArticles = await prisma.article.count();
+  const publishedArticles = await prisma.article.count({
+    where: {
+      isPublished: true,
+    },
+  });
+  const nonpublishedArticles = await prisma.article.count({
+    where: {
+      isPublished: false,
+    },
+  });
+  const edit_required = await prisma.article.count({
+    where: {
+      edit_required: true,
+    },
+  });
+  const totalUsers = await prisma.user.count();
+  const totalAdmins = await prisma.user.count({
+    where: {
+      role: 'admin',
+    },
+  });
+  const totalEditors = await prisma.user.count({
+    where: {
+      role: 'editor',
+    },
+  });
+  const regularUsers = await prisma.user.count({
+    where: {
+      role: 'user',
+    },
+  });
+  const siteVisits = await prisma.count.findUnique({
+    where: {
+      id: process.env.SITE_COUNT_ID,
+    },
+  });
 
   const articleInfo = {
     totalArticles: totalArticles,
@@ -81,7 +79,7 @@ exports.admin_get = asyncHandler(async (req, res, next) => {
 
 // Handle GET article list for ADMIN. (Published and Unpublished)
 exports.admin_articles_list_get = asyncHandler(async (req, res, next) => {
-  const articlesList = await Article.find().sort({ timestamp: 1 }).exec();
+  const articlesList = await prisma.article.findMany();
   res.json({
     message: 'ADMIN: Article List',
     articlesList,
@@ -90,7 +88,11 @@ exports.admin_articles_list_get = asyncHandler(async (req, res, next) => {
 
 // Handle GET article by ID for ADMIN
 exports.admin_articles_get = asyncHandler(async (req, res, next) => {
-  const selectedArticle = await Article.findById(req.params.id).exec();
+  const selectedArticle = await prisma.article.findUnique({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
   res.json({
     selectedArticle,
   });
@@ -117,14 +119,14 @@ exports.admin_articles_post = [
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    const article = new Article({
+    const article = {
       article_title: req.body.article_title,
       article_summary: req.body.article_summary,
       author: req.body.author,
       article_text: req.body.article_text,
       isPublished: req.body.isPublished,
       main_image: req.file.filename,
-    });
+    };
 
     if (!errors.isEmpty()) {
       res.json({
@@ -134,9 +136,35 @@ exports.admin_articles_post = [
       });
       return;
     } else {
-      await article.save();
+      const uploadResult = await new Promise((resolve) => {
+        cloudinary.uploader
+          .upload_stream(
+            {
+              unique_filename: true,
+              asset_folder: `blog_api/${req.user.id}`,
+            },
+            (error, uploadResult) => {
+              if (error) {
+                next(error);
+              }
+              return resolve(uploadResult);
+            },
+          )
+          .end(req.file.buffer);
+      });
+
+      await prisma.article.create({
+        data: {
+          article_title: req.body.article_title,
+          author: req.body.author,
+          article_summary: req.body.article_summary,
+          article_text: req.body.article_text,
+          isPublished: req.body.isPublished,
+          main_image: uploadResult.secure_url,
+        },
+      });
       res.json({
-        message: `${article.article_title} was created`,
+        message: `${req.body.article_title} was created`,
       });
     }
   }),
@@ -144,8 +172,25 @@ exports.admin_articles_post = [
 
 // Handle article body image upload and returns file name
 exports.admin_article_image_upload = asyncHandler(async (req, res, next) => {
+  const uploadResult = await new Promise((resolve) => {
+    cloudinary.uploader
+      .upload_stream(
+        {
+          unique_filename: true,
+          asset_folder: `blog_api/${req.user.id}`,
+        },
+        (error, uploadResult) => {
+          if (error) {
+            next(error);
+          }
+          return resolve(uploadResult);
+        },
+      )
+      .end(req.file.buffer);
+  });
+
   res.json({
-    location: req.file.filename,
+    location: uploadResult.secure_url,
   });
 });
 
@@ -168,14 +213,22 @@ exports.admin_articles_put = [
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    const article = new Article({
+    const articleToDelete = await prisma.article.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+
+    const article = {
       article_title: req.body.article_title,
       article_text: req.body.article_text,
       article_summary: req.body.article_summary,
       edited_by: req.body.edited_by,
       main_image: req.body.main_image,
-      _id: req.body._id,
-    });
+      id: req.body.id,
+    };
+
+    const articleImages = helpers.getImageLink(articleToDelete.article_text);
 
     if (!errors.isEmpty()) {
       res.json({
@@ -185,7 +238,37 @@ exports.admin_articles_put = [
       return;
     } else {
       const updatedArticle = article;
-      await Article.findByIdAndUpdate(updatedArticle._id, updatedArticle);
+      const updatedArticleImages = helpers.getImageLink(
+        updatedArticle.article_text,
+      );
+
+      if (
+        articleToDelete.main_image !==
+        (null | '' | updatedArticle.main_image)
+      ) {
+        const temp = articleToDelete.main_image.split('/');
+        updatedArticleImages.push(temp[temp.length - 1].split('.')[0]);
+      }
+
+      const difference = updatedArticleImages.filter(
+        (element) => !articleImages.includes(element),
+      );
+
+      await cloudinary.api
+        .delete_resources(difference)
+        .then((result) => console.log(result));
+      await prisma.article.update({
+        where: {
+          id: parseInt(req.body.id),
+        },
+        data: {
+          article_title: updatedArticle.article_title,
+          article_text: updatedArticle.article_text,
+          article_summary: updatedArticle.article_summary,
+          edited_by: updatedArticle.edited_by,
+          main_image: updatedArticle.main_image,
+        },
+      });
       res.json({
         message: 'ADMIN: Edit article',
       });
@@ -195,22 +278,45 @@ exports.admin_articles_put = [
 
 // Handle publish and unpublishing of articles
 exports.admin_articles_publish = asyncHandler(async (req, res, next) => {
-  await Article.findByIdAndUpdate(req.body._id, {
-    isPublished: req.body.isPublished,
-  }).exec();
+  await prisma.article.update({
+    where: {
+      id: parseInt(req.body.id),
+    },
+    data: {
+      isPublished: req.body.isPublished,
+    },
+  });
   res.json({
-    message: req.body._id,
+    message: 'Article publishing updated',
   });
 });
 
 // Handle DELETE to delete selected article
 exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
-  const articleToDelete = await Article.findById(req.body.id).exec();
+  const articleToDelete = await prisma.article.findUnique({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+
+  const articleImages = helpers.getImageLink(articleToDelete.article_text);
+
+  if (articleToDelete.main_image !== (null | '')) {
+    const temp = articleToDelete.main_image.split('/');
+    articleImages.push(temp[temp.length - 1].split('.')[0]);
+  }
 
   if (!articleToDelete) {
     res.sendStatus(404);
   } else {
-    await Article.findByIdAndDelete(articleToDelete._id).exec();
+    await cloudinary.api
+      .delete_resources(articleImages)
+      .then((result) => console.log(result));
+    await prisma.article.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
     res.json({
       message: `${articleToDelete.article_title} DELETED`,
     });
@@ -219,9 +325,7 @@ exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
 
 // Get Users List
 exports.admin_user_list = asyncHandler(async (req, res, next) => {
-  const userList = await User.find({}, { password: 0 })
-    .sort({ last_name: 1 })
-    .exec();
+  const userList = await prisma.user.findMany();
 
   if (!userList) {
     res.sendStatus(404);

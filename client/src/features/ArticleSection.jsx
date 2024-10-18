@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import convertEscape from '../utilities/helpers';
 
 function ArticleSection() {
-  const { selectedArticle, articleComments } = useOutletContext([]);
+  const { selectedArticle } = useOutletContext({});
+  const { articleComments } = useOutletContext([]);
   const [articleText, setArticleText] = useState();
 
   useEffect(() => {
@@ -18,11 +19,7 @@ function ArticleSection() {
     <>
       <section className='article mx-auto mb-32 flex w-4/6 flex-1 flex-col items-center'>
         <div className='mb-16 flex flex-col items-center'>
-          <img
-            src={`http://localhost:3000/uploads/${selectedArticle.main_image}`}
-            alt=''
-            width={300}
-          />
+          <img src={`${selectedArticle.main_image}`} alt='' width={300} />
         </div>
         {selectedArticle && (
           <>

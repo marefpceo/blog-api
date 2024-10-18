@@ -18,7 +18,7 @@ function Dashboard() {
   useEffect(() => {
     async function getDashboardInfo() {
       try {
-        const response = await fetch('http://localhost:3000/admin', {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/admin`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -73,7 +73,7 @@ function Dashboard() {
           <StatusCardSmall title={'Total Users'} count={userInfo.totalUsers} />
           <StatusCardLarge
             title={'Users Details'}
-            statusText1={'Total'}
+            statusText1={'Non-Admin'}
             statusValue1={userInfo.regularUsers}
             statusText2={'Weekly Signups'}
             statusValue2={0}

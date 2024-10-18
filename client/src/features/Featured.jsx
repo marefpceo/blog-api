@@ -5,7 +5,7 @@ function Featured({ featuredArticle }) {
   return (
     <>
       {featuredArticle && (
-        <Link to={`/article/${featuredArticle._id}`}>
+        <Link to={`/article/${featuredArticle.id}`}>
           <section className='my-5 flex justify-between border-b-2 border-cust-pumpkin pb-8'>
             <img
               src={featuredImg}

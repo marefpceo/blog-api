@@ -12,7 +12,7 @@ function All() {
   async function publishArticle(id, status) {
     try {
       const response = await fetch(
-        `http://localhost:3000/admin/articles/${id}/publish`,
+        `${import.meta.env.VITE_BASE_URL}/admin/articles/${id}/publish`,
         {
           method: 'PUT',
           headers: {
@@ -20,7 +20,7 @@ function All() {
             'content-type': 'application/json',
           },
           body: JSON.stringify({
-            _id: id,
+            id: id,
             isPublished: status,
           }),
         },
@@ -40,7 +40,7 @@ function All() {
     e.preventDefault();
     const id = e.target.id;
     const name = e.target.name;
-    const status = name === 'notPublished' ? 'true' : 'false';
+    const status = name === 'notPublished' ? true : false;
 
     publishArticle(id, status);
   }
@@ -52,7 +52,7 @@ function All() {
       <div className='list-div m-8'>
         {allArticles.map((article) => (
           <div
-            key={article._id}
+            key={article.id}
             className='article-list-item my-8 flex justify-between'
           >
             <div
@@ -60,7 +60,7 @@ function All() {
               rounded-md bg-cust-silver p-4 text-cust-english-violet shadow-md
               shadow-cust-english-violet'
             >
-              <Link to={`/article/${article._id}`} state={{ id: article._id }}>
+              <Link to={`/article/${article.id}`} state={{ id: article.id }}>
                 <div className='relative mb-4 grid w-full grid-cols-3 grid-rows-1'>
                   <h2 className='text-xl'>{article.article_title}</h2>
                   <p className='absolute left-1/2 top-0'>
@@ -95,7 +95,7 @@ function All() {
                     className={
                       'h-10 w-24 rounded-md bg-green-600 shadow-md shadow-cust-english-violet'
                     }
-                    id={article._id}
+                    id={article.id}
                     name={'published'}
                     onClick={handleClick}
                   />
@@ -108,7 +108,7 @@ function All() {
                     className={
                       'h-10 w-32 rounded-md bg-red-600 shadow-md shadow-cust-english-violet'
                     }
-                    id={article._id}
+                    id={article.id}
                     name={'notPublished'}
                     onClick={handleClick}
                   />

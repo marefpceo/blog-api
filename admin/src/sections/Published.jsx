@@ -12,7 +12,7 @@ function Published() {
   useEffect(() => {
     async function getArticles() {
       try {
-        const response = await fetch('http://localhost:3000/admin/articles', {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/articles`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -59,7 +59,7 @@ function Published() {
   async function publishArticle(id, status) {
     try {
       const response = await fetch(
-        `http://localhost:3000/admin/articles/${id}/publish`,
+        `${import.meta.env.VITE_BASE_URL}/admin/articles/${id}/publish`,
         {
           method: 'PUT',
           headers: {
@@ -67,7 +67,7 @@ function Published() {
             'content-type': 'application/json',
           },
           body: JSON.stringify({
-            _id: id,
+            id: id,
             isPublished: status,
           }),
         },

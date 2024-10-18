@@ -9,7 +9,7 @@ function Users() {
   useEffect(() => {
     async function getUserList() {
       try {
-        const response = await fetch('http://localhost:3000/admin/users', {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/users`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -25,12 +25,10 @@ function Users() {
 
   function handleUserClick(userId) {
     const user = userList.find((user) => {
-      return user._id === userId;
+      return user.id === userId;
     });
     setCurrentUser(user);
   }
-
-  console.log(userList);
 
   return (
     <>
@@ -45,10 +43,10 @@ function Users() {
             <ul className='w-full'>
               {userList.map((user) => (
                 <li
-                  className={`${currentUser._id === user._id ? 'bg-cust-english-violet/20' : ''} 
+                  className={`${currentUser.id === user.id ? 'bg-cust-english-violet/20' : ''} 
                     cursor-pointer px-4 py-2 text-cust-beige hover:bg-cust-english-violet/20`}
-                  key={user._id}
-                  onClick={() => handleUserClick(user._id)}
+                  key={user.id}
+                  onClick={() => handleUserClick(user.id)}
                 >
                   {user.last_name}, {user.first_name}
                 </li>
@@ -95,7 +93,13 @@ function Users() {
                 <p>
                   <strong>User Since:</strong>
                 </p>
-                <p>{DateTime.fromISO(currentUser.created).toFormat('DDD')}</p>
+                <p>{DateTime.fromISO(currentUser.createdAt).toLocaleString(DateTime.DATE_FULL)}</p>
+              </div>
+              <div className='signup-date flex gap-4'>
+                <p>
+                  <strong>Last Updated:</strong>
+                </p>
+                <p>{DateTime.fromISO(currentUser.updatedAt).toLocaleString(DateTime.DATE_FULL)}</p>
               </div>
             </div>
           </div>

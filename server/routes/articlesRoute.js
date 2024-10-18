@@ -3,26 +3,11 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 
-// Required models
-const SiteCount = require('../models/siteCount');
-
 // Required controller(s)
 const articles_controller = require('../controllers/articlesController');
 
-// Site count function
-function siteCountUp(req, res) {
-  SiteCount.findByIdAndUpdate(
-    `${process.env.SITE_COUNT_ID}`,
-    { $inc: { count_total: 1, weekly_count: 1 } },
-    { new: true },
-  ).exec();
-  res.json({
-    message: 'Count added'
-  });
-}
-
-// GET site visitor count
-router.get('/count', siteCountUp);
+// GET site count
+router.get('/count', articles_controller.articles_site_count);
 
 // GET article listing
 router.get('/', articles_controller.articles_list_get);

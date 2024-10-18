@@ -2,15 +2,19 @@ require('dotenv').config();
 const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
-
-// Required models
-const Comment = require('../models/commentModel');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 // Display Article comments
 exports.article_comments_get = asyncHandler(async (req, res, next) => {
-  const comments = await Comment.find({ comment_article: req.params.id })
-    .populate('comment_user')
-    .sort({ timestamp: 1 });
+  const comments = await prisma.comment.findMany({
+    where: {
+      articleId: parseInt(req.params.id),
+    },
+    include: {
+      comment_user: true,
+    },
+  });
   if (!comments) {
     res.status = 404;
   } else {
@@ -23,10 +27,14 @@ exports.article_comments_get = asyncHandler(async (req, res, next) => {
 
 // View single comment
 exports.comment_get = asyncHandler(async (req, res, next) => {
-  const selectedComment = await Comment.findById(req.params.commentId).populate(
-    'comment_user',
-    'username',
-  );
+  const selectedComment = await prisma.comment.findUnique({
+    where: {
+      id: parseInt(req.params.commentId),
+    },
+    include: {
+      comment_user: true,
+    },
+  });
   if (!selectedComment) {
     res.status = 404;
   } else {
@@ -38,12 +46,19 @@ exports.comment_get = asyncHandler(async (req, res, next) => {
 
 // Delete single comment
 exports.comment_delete = asyncHandler(async (req, res, next) => {
-  const deleteArticleId = await Comment.findById(req.params.commentId);
-
+  const deleteArticleId = await prisma.comment.findUnique({
+    where: {
+      id: parseInt(req.params.commentId),
+    },
+  });
   if (!deleteArticleId) {
     res.status = 404;
   } else {
-    await Comment.findByIdAndDelete(req.params.commentId);
+    await prisma.comment.delete({
+      where: {
+        id: parseInt(req.params.commentId),
+      },
+    });
     res.json({
       message: 'Comment Deleted',
     });
@@ -63,12 +78,7 @@ exports.comment_post = [
     const userId = jwt.verify(
       req.headers['authorization'].split(' ')[1],
       process.env.SECRET,
-    )._id;
-    const comment = new Comment({
-      comment_text: req.body.comment_text,
-      comment_article: req.body.comment_article,
-      comment_user: userId,
-    });
+    ).id;
 
     if (!errors.isEmpty()) {
       res.json({
@@ -76,7 +86,13 @@ exports.comment_post = [
       });
       return;
     } else {
-      await comment.save();
+      await prisma.comment.create({
+        data: {
+          comment_text: req.body.comment_text,
+          articleId: parseInt(req.body.comment_article),
+          userId: parseInt(userId),
+        },
+      });
       res.json({
         status: 201,
       });

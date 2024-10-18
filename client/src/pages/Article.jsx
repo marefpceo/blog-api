@@ -17,8 +17,8 @@ function Article() {
     async function getSelectedArticle() {
       try {
         const [articleResponse, commentsResponse] = await Promise.all([
-          fetch(`http://localhost:3000/articles/${id}`),
-          fetch(`http://localhost:3000/articles/${id}/comments`),
+          fetch(`${import.meta.env.VITE_BASE_URL}/articles/${id}`),
+          fetch(`${import.meta.env.VITE_BASE_URL}/articles/${id}/comments`),
         ]);
 
         if (!articleResponse.ok || !commentsResponse.ok) {
@@ -49,7 +49,7 @@ function Article() {
           let commentsResponseData = await commentsResponse.json();
 
           setSelectedArticle(articleResponseData);
-          setArticleComments(commentsResponseData);
+          setArticleComments(commentsResponseData.comments);
         }
       } catch (error) {
         console.error(error, error.status);

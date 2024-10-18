@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Article" ALTER COLUMN "edited_by" DROP NOT NULL,
+ALTER COLUMN "main_image" DROP NOT NULL,
+ALTER COLUMN "date_published" DROP NOT NULL,
+ALTER COLUMN "date_updated" DROP NOT NULL,
+ALTER COLUMN "likes" DROP NOT NULL;
