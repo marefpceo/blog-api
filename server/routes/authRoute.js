@@ -13,9 +13,6 @@ const prisma = new PrismaClient();
 
 const auth_controller = require('../controllers/authController');
 
-// Required model(s)
-const User = require('../models/userModel');
-
 // Passport-JWT strategy configuration
 passport.use(
   new JWTstrategy(
