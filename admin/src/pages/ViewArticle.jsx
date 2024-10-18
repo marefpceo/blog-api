@@ -145,7 +145,7 @@ function ViewArticle() {
           text-cust-english-violet bg-slate-50 relative'>
             <div className='mt-8 mb-16 flex flex-col items-center'>
                 <img
-                  src={`${import.meta.env.VITE_BASE_URL}/uploads/${article.main_image}`}
+                  src={`${article.main_image}`}
                   alt=''
                   width={300}
                 />

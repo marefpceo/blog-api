@@ -139,7 +139,7 @@ function Edit() {
           <img
             src={
               file === undefined
-                ? `${import.meta.env.VITE_BASE_URL}/uploads/${article.main_image}`
+                ? `${article.main_image}`
                 : file
             }
             alt='Main image'
