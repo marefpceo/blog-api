@@ -10,7 +10,17 @@ const passport = require('passport');
 const session = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('@prisma/client');
+const compression = require('compression');
 const debug = require('debug')('connection');
+const helmet = require('helmet');
+const { rateLimit } = require('express-rate-limit');
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
 
 const articlesRouter = require('./routes/articlesRoute');
 const commentsRouter = require('./routes/commentsRoute');
@@ -21,7 +31,11 @@ const app = express();
 
 app.use(cors());
 app.use(logger('dev'));
+app.use(compression());
 app.use(express.json());
+app.use(helmet());
+app.use(debug());
+app.use(limiter());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
