@@ -205,6 +205,12 @@ exports.admin_articles_put = [
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
+    const articleToDelete = await prisma.article.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+
     const article = {
       article_title: req.body.article_title,
       article_text: req.body.article_text,
@@ -214,6 +220,8 @@ exports.admin_articles_put = [
       id: req.body.id,
     };
 
+    const articleImages = helpers.getImageLink(articleToDelete.article_text);
+ 
     if (!errors.isEmpty()) {
       res.json({
         article,
@@ -222,6 +230,16 @@ exports.admin_articles_put = [
       return;
     } else {
       const updatedArticle = article;
+      const updatedArticleImages = helpers.getImageLink(updatedArticle.article_text);
+
+      if (articleToDelete.main_image !== (null | '' | updatedArticle.main_image)) {
+        const temp = articleToDelete.main_image.split('/');
+        updatedArticleImages.push(temp[temp.length - 1].split('.')[0]);
+      }
+
+      const difference = updatedArticleImages.filter(element => !articleImages.includes(element));
+
+      await cloudinary.api.delete_resources(difference).then(result=>console.log(result));
       await prisma.article.update({
         where: {
           id: parseInt(req.body.id),
@@ -274,9 +292,7 @@ exports.admin_articles_delete = asyncHandler(async (req, res, next) => {
   if (!articleToDelete) {
     res.sendStatus(404);
   } else {
-    console.log(articleImages);
     await cloudinary.api.delete_resources(articleImages).then(result=>console.log(result));
-
     await prisma.article.delete({
       where: {
         id: parseInt(req.params.id)
