@@ -16,7 +16,9 @@ function App() {
   useEffect(() => {
     async function getArticles() {
       try {
-        const response = await fetch('http://localhost:3000/articles');
+        const response = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/articles`,
+        );
 
         if (!response.ok) {
           const error = new Error();

@@ -12,7 +12,7 @@ function CommentSection({ articleComments }) {
   return (
     <section className='comments mb-8'>
       <div className='comment-section-header mx-auto mb-8 flex w-4/6 items-center justify-between'>
-        <h2>Top Comments</h2>
+        <h2>Comments</h2>
         {isAuthenticated === false ? (
           <div className='p-1'>
             <Link to='/Login' className='group relative'>
@@ -54,8 +54,8 @@ function CommentSection({ articleComments }) {
       </div>
 
       {articleComments.map((comment) => (
-          <CommentCard key={comment.id} comment={comment} />
-        ))}
+        <CommentCard key={comment.id} comment={comment} />
+      ))}
 
       <Link to={`/article/${id}/comments`}>
         <Button

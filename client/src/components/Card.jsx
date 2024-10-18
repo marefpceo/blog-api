@@ -1,14 +1,14 @@
 import blogImgPlaceholder from '../assets/images/blog-img-placeholder.png';
 import { Link } from 'react-router-dom';
 
-function Card({ article, className }) {
+function Card({ article, className, articleImg }) {
   return (
     <Link to={`/article/${article.id}`}>
       <div className={`card w-52 ${className}`}>
-        <img src={blogImgPlaceholder} />
+        <img src={articleImg === null ? blogImgPlaceholder : articleImg} />
         <div className='card-text mt-4 text-justify'>
-          <h3>{article.article_title}</h3>
-          <p>{article.article_summary}</p>
+          <h3 className='text-base font-bold'>{article.article_title}</h3>
+          <p className='mt-2 text-sm'>{article.article_summary}</p>
         </div>
       </div>
     </Link>
