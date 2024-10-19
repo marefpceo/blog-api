@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import LinkUnderline from '../utilities/LinkUnderline';
+import CommentCard from '../components/CommentCard';
 
 function CommentSection({ articleComments }) {
   const { id } = useParams();
   const { isAuthenticated } = useOutletContext();
 
   return (
-    <section className='comments mb-8'>
+    <section className='comments mb-8 flex flex-col'>
       <div className='comment-section-header mx-auto mb-8 flex w-4/6 items-center justify-between'>
-        <h2>Top Comments</h2>
+        <h2>Comments</h2>
         {isAuthenticated === false ? (
           <div className='p-1'>
             <Link to='/Login' className='group relative'>
@@ -52,12 +53,11 @@ function CommentSection({ articleComments }) {
         )}
       </div>
 
-      {!articleComments &&
-        articleComments.map((comment) => (
-          <CommentCard key={comment._id} comment={comment} />
-        ))}
+      {articleComments.map((comment) => (
+        <CommentCard key={comment.id} comment={comment} />
+      ))}
 
-      <Link to={`/article/${id}/comments`}>
+      <Link to={`/article/${id}/comments`} className='mt-8 self-center'>
         <Button
           className={
             'flex flex-col bg-slate-50 shadow-md hover:shadow-cust-pumpkin/30'

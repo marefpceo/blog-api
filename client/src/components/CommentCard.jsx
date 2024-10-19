@@ -9,7 +9,7 @@ function CommentCard({ comment }) {
       </div>
       <div className='comment-info w-full text-left'>
         <h3>
-          {comment.comment_user.username}{' '}
+          {comment.comment_user.username}
           {DateTime.fromISO(comment.createdAt).toFormat('DDD')}
         </h3>
         <p>{comment.comment_text}</p>

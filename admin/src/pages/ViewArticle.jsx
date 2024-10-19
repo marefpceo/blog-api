@@ -1,28 +1,31 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import convertEscape from '../utilites/helpers';
 import LinkUnderline from '../utilites/LinkUnderline';
 import CommentsModal from '../components/CommentsModal';
+import Button from '../components/Button';
 
 function ViewArticle() {
   const token = localStorage.getItem('token');
   const { id } = useParams();
+  const navigate = useNavigate();
   const [article, setArticle] = useState({});
   const [comments, setComment] = useState([]);
   const [articleText, setArticleText] = useState();
   const [dataSet, setDataSet] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [reloadData, setReloadData] = useState(false);
+  const [adminArticleDelete, setAdminArticleDelete] = useState(false);
 
   useEffect(() => {
     async function getArticle() {
       try {
         const [articleResponse, commentsResponse] = await Promise.all([
-          fetch(`http://localhost:3000/admin/articles/${id}`, {
+          fetch(`${import.meta.env.VITE_BASE_URL}/admin/articles/${id}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`http://localhost:3000/articles/${id}/comments`),
+          fetch(`${import.meta.env.VITE_BASE_URL}/articles/${id}/comments`),
         ]);
 
         let articleResponseData = await articleResponse.json();
@@ -51,6 +54,25 @@ function ViewArticle() {
     }
   }, [dataSet]);
 
+  useEffect(() => {
+    if (adminArticleDelete === false){ return };
+    async function deleteArticle() {
+      try {
+        const deleteResponse = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/articles/${id}`,{
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (deleteResponse.ok) {
+          setAdminArticleDelete(false);
+          navigate('/articles');
+        }
+      } catch (error) {
+        console.error(error, error.status);
+      }
+    }
+    deleteArticle();
+  }, [adminArticleDelete]);
+
   function handleOpenModal() {
     setShowModal(true);
   }
@@ -59,10 +81,27 @@ function ViewArticle() {
     setShowModal(false);
   }
 
+  function handleClick() {
+    setAdminArticleDelete(true);
+  }
+
   return (
     <section className='relative'>
       <div className='mt-0 pt-4 w-full flex items-center justify-between sticky top-0 bg-cust-slate-gray z-20'>
         <h1 className='title text-4xl text-cust-silver'>View Article</h1>
+        <>
+          {
+            showModal === true ? '' : (
+              <Button
+                text={'Delete'}
+                className={'h-10 w-32 rounded-md bg-red-600 shadow-md shadow-cust-english-violet'}
+                onClick={handleClick}
+                id={'deleteBtn'}
+                name={'deleteArticle'}
+              />
+            )
+          }
+        </>
         <div className='flex gap-12 mr-8'>
           
           {
@@ -85,7 +124,8 @@ function ViewArticle() {
                   Back
                   <LinkUnderline
                     color={'bg-cust-pumpkin'} />
-                </Link></>
+                </Link>
+              </>
             )
           }
         </div>
@@ -105,7 +145,7 @@ function ViewArticle() {
           text-cust-english-violet bg-slate-50 relative'>
             <div className='mt-8 mb-16 flex flex-col items-center'>
                 <img
-                  src={`http://localhost:3000/uploads/${article.main_image}`}
+                  src={`${article.main_image}`}
                   alt=''
                   width={300}
                 />
@@ -117,7 +157,7 @@ function ViewArticle() {
                   <p>Written By: {article.author}</p>
                   <p>Published: {article.date_published}</p>
                 </div>
-                <div className='article-text mt-12 w-full'>
+                <div className='article-text my-12 w-full'>
                   <p
                     className='text-left'
                     dangerouslySetInnerHTML={articleText}
